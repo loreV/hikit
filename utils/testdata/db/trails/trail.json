@@ -1,0 +1,90 @@
+{
+  "name": "CAI BO 209",
+  "description": "A CAI Hike from Zola Predosa to Vedegeto",
+  "code": "BO209",
+  "startPos": {
+    "coord": {
+      "longitude": 11.221117799741076,
+      "latitude": 44.4900331990856
+    },
+    "alt": 50,
+    "name": "Centro Zola Predosa",
+    "description": "A description",
+    "area": "Italy",
+    "county": "Emilia-Romagna",
+    "city": "Zola Predosa",
+    "postCode": "40069"
+  },
+  "finalPos": {
+    "coord": {
+      "longitude": 11.286735534667969,
+      "latitude": 44.45436907523842
+    },
+    "alt": 7,
+    "name": "Vedegheto",
+    "description": "Vedegheto City",
+    "area": "Italy",
+    "county": "Emilia-Romagna",
+    "city": "Vedegheto",
+    "postCode": "40060"
+  },
+  "geo": {},
+  "reportedDifficulty": 1.5,
+  "calculatedDifficulty": 1.5,
+  "suggestedTimeOfYear": [
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September"
+  ],
+  "trackLength": 30.8,
+  "eta": 8,
+  "connectingTrails": [
+    {
+      "code": "BO205",
+      "connectingFrom": {
+        "coord": {
+          "longitude": 11.1588788996965,
+          "latitude": 44.4651564993083
+        },
+        "alt": 70,
+        "name": "Monteveglio",
+        "description": "A crossing in Monteveglio",
+        "area": "Italy",
+        "county": "Emilia-Romagna",
+        "city": "Monteveglio",
+        "postCode": "40050"
+      },
+      "connectingTo": {
+        "coord": {
+          "longitude": 11.159017,
+          "latitude": 44.465143
+        },
+        "alt": 5,
+        "name": "Ca' Bianca",
+        "description": "Localita' nei pressi di San Lorenzo in collina",
+        "area": "Italy",
+        "county": "San Lorenzo in Collina",
+        "city": "Ca' Bianca",
+        "postCode": "40055"
+      },
+      "connectingPosition": {
+        "coord": {
+          "longitude": 11.159017,
+          "latitude": 44.465143
+        },
+        "alt": 5,
+        "name": "Ca' Bianca",
+        "description": "Localita' nei pressi di San Lorenzo in collina",
+        "area": "Italy",
+        "county": "Emilia-Romagna",
+        "city": "San Lorenzo in Collina",
+        "postCode": "40055"
+      }
+    }
+  ],
+  "officialDifficulty": "E",
+  "poi": []
+}
