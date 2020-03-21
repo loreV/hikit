@@ -32,13 +32,6 @@
             <version>${kotlin.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>${mongo.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
