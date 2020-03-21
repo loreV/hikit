@@ -1,9 +1,7 @@
 package org.ltrails.web
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
+import io.mockk.mockkClass
 import mil.nga.sf.geojson.GeoJsonObject
 import org.junit.Test
 import org.ltrails.common.data.*
@@ -19,54 +17,56 @@ class TrailsPathSolutionExplorerTest {
      */
     @Test
     fun `in simple hike with only one solution explore path solution`() {
-        val mockTrailDao: TrailDAO = mock()
-        val mockPositionHelper: PositionHelper = mock()
-        val mockCache: GeoTrailCache = mock()
+        val mockTrailDao = mockkClass(TrailDAO::class)
+        val mockPositionHelper = mockkClass(PositionHelper::class)
+        val mockCache = mockkClass(GeoTrailCache::class)
 
-        val startingTrail: Trail = mock()
+        val startingTrail = mockkClass(Trail::class)
 
         val anyPostcode = "anyPostcode"
         val anyTrailCode = "anyTrailCode"
 
-        val mockStartPosition: Position = mock()
-        val mockStartCoords: Coordinates = mock()
-        whenever(mockStartCoords.latitude).thenReturn(44.491423646640975)
-        whenever(mockStartCoords.longitude).thenReturn(11.245107650756836)
-        whenever(mockStartPosition.coords).thenReturn(mockStartCoords)
+        val mockStartPosition = mockkClass(Position::class)
+        val mockStartCoords = mockkClass(Coordinates::class)
+        every { mockStartCoords.latitude } returns 44.491423646640975
+        every { mockStartCoords.longitude } returns 11.245107650756836
+        every { mockStartPosition.coords } returns mockStartCoords
 
-        val mockFinalPosition: Position = mock()
-        val mockFinalCoords: Coordinates = mock()
+        val mockFinalPosition = mockkClass(Position::class)
+        val mockFinalCoords = mockkClass(Coordinates::class)
 
-        whenever(mockFinalCoords.latitude).thenReturn(44.4890050991292)
-        whenever(mockFinalCoords.longitude).thenReturn(11.251587867736815)
-        whenever(mockFinalPosition.coords).thenReturn(mockFinalCoords)
-        whenever(mockFinalPosition.postCode).thenReturn(anyPostcode)
+        every { mockFinalCoords.latitude } returns 44.4890050991292
+        every { mockFinalCoords.longitude } returns 11.251587867736815
+        every { mockFinalPosition.coords } returns mockFinalCoords
+        every { mockFinalPosition.postCode } returns anyPostcode
 
-        whenever(startingTrail.postCode).thenReturn(anyPostcode)
-        whenever(startingTrail.code).thenReturn(anyTrailCode)
-        whenever(startingTrail.startPos).thenReturn(mockStartPosition)
+        every { startingTrail.postCode } returns anyPostcode
+        every { startingTrail.code } returns anyTrailCode
+        every { startingTrail.startPos } returns mockStartPosition
 
         // Only one way to go
-        val mockConnectingWayPoint: ConnectingWayPoint = mock()
-        whenever(mockConnectingWayPoint.position).thenReturn(mockFinalPosition)
+        val mockConnectingWayPoint = mockkClass(ConnectingWayPoint::class)
+        every { mockConnectingWayPoint.position } returns mockFinalPosition
         val onlyOneConnectingWayPoint = mutableListOf(mockConnectingWayPoint)
 
-        val geoTrail: GeoJsonObject = mock()
-        whenever(mockCache.getElement(anyPostcode, anyTrailCode)).thenReturn(geoTrail)
+        val geoTrail: GeoJsonObject = mockkClass(GeoJsonObject::class)
+        every { mockCache.getElement(anyPostcode, anyTrailCode) } returns (geoTrail)
 
-        whenever(mockPositionHelper
-                .getDistanceBetweenPointsOnTrailInM(geoTrail,
-                        mockStartPosition,
-                        mockFinalPosition)).thenReturn(580.78)
+        every {
+            mockPositionHelper
+                    .getDistanceBetweenPointsOnTrailInM(geoTrail,
+                            mockStartPosition,
+                            mockFinalPosition)
+        } returns (580.78)
 
 
-        whenever(startingTrail.connectingWayPoints).thenReturn(onlyOneConnectingWayPoint)
+        every { startingTrail.connectingWayPoints } returns (onlyOneConnectingWayPoint)
 
         val trailsPathSolutionExplorer = TrailsPathSolutionExplorer(mockTrailDao, mockPositionHelper, mockCache)
+//        verify { mockCache.xaddElementUnlessExists(anyPostcode, anyTrailCode, startingTrail) }
 
         trailsPathSolutionExplorer.explorePathsSolutions(startingTrail, mockFinalPosition)
 
-        verify(mockCache, times(1)).addElementUnlessExists(anyPostcode, anyTrailCode, startingTrail)
     }
 
 
