@@ -3,17 +3,13 @@ package org.ltrails.web
 import mil.nga.sf.LineString
 import mil.nga.sf.geojson.FeatureConverter
 import mil.nga.sf.geojson.GeoJsonObject
+import org.ltrails.common.data.ConnectingWayPoint
 import org.ltrails.common.data.Position
+import org.ltrails.common.data.Trail
 
 class PositionHelper {
 
     private val halfKmInKm = 500
-
-    fun isDestinationWithinHalfKm(position: Position, position2: Position) =
-            (PositionProcessor.getRadialDistance(position.coords.latitude,
-                    position.coords.longitude,
-                    position2.coords.latitude,
-                    position.coords.longitude) < halfKmInKm)
 
     fun getDistanceBetweenPointsOnTrailInM(trail: GeoJsonObject, startingPosition: Position, connectingPosition: Position): Double {
         val featureCollection = FeatureConverter.toFeatureCollection(trail)
@@ -34,6 +30,11 @@ class PositionHelper {
         return distance
     }
 
+    // TODO improve this to take into account more details
+    fun isGoalOnTrail(trail1: ConnectingWayPoint, trail: Trail, destination: Position): Boolean {
+        return isDestinationWithinHalfKm(trail1.position, destination)
+    }
+
     private fun getPositionIndex(positions: List<Position>, position: Position): Int {
         // Could start looping with offset > than starting pos?
         for (t in positions.indices) {
@@ -44,4 +45,9 @@ class PositionHelper {
         throw IllegalStateException("Cannot find given position index")
     }
 
+    private fun isDestinationWithinHalfKm(position: Position, position2: Position) =
+            (PositionProcessor.getRadialDistance(position.coords.latitude,
+                    position.coords.longitude,
+                    position2.coords.latitude,
+                    position.coords.longitude) < halfKmInKm)
 }

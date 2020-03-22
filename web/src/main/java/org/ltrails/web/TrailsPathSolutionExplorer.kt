@@ -7,7 +7,7 @@ import org.ltrails.common.data.Position
 import org.ltrails.common.data.Trail
 import org.ltrails.common.data.TrailDAO
 import org.ltrails.web.data.OrderedSolution
-import org.ltrails.web.data.SuccessorPosition
+import org.ltrails.web.data.PositionNode
 import java.util.*
 
 class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: TrailDAO,
@@ -22,7 +22,7 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
         val closedList = TreeSet<OrderedSolution>()
 
         // Add first successor 'S'
-        val startingSuccessor = SuccessorPosition(0.0,
+        val startingSuccessor = PositionNode(0.0,
                 getManhattanDistanceFromTrailsPoints(startingTrail.startPos, destination),
                 startingTrail.startPos,
                 startingTrail,
@@ -38,49 +38,46 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
             val processed: OrderedSolution = openList.pollFirst()!!
 
             // Generate the successors
-            val connectingSuccessors = processed.trailPositionPath.trail.connectingWayPoints
+            val connectingSuccessors = processed.trailPositionNodePath.trail.connectingWayPoints
 
             // Calculate each distance
             // Currently we only consider endingPositions
             connectingSuccessors.forEach {
-                val costToNextPoint = calculateDistanceBetweenParentAndSuccessor(processed.getParentNode(), it)
+                val parentNode = processed.trailPositionNodePath
+                val costToNextPoint = calculateDistanceBetweenParentAndSuccessor(parentNode, it)
                 val heuristicValue = getManhattanDistanceFromTrailsPoints(it.position, destination)
-                val successor = SuccessorPosition(
+                val trail = getSuccessorTrailFromMemory(it)
+
+                val successor = PositionNode(
                         costToNextPoint,
                         heuristicValue,
                         it.position,
-                        getSuccessorTrailFromMemory(it),
-                        processed.getParentNode())
+                        trail,
+                        parentNode)
 
                 val newSolution = OrderedSolution(successor)
                 // Check if goal -> final Pos
-                if (isGoal(getSuccessorTrailFromMemory(it).finalPos, destination))
+                if (positionHelper.isGoalOnTrail(it, trail, destination))
                     closedList.add(newSolution) else openList.add(newSolution)
             }
         }
         return closedList.toTypedArray()
     }
 
-    private fun calculateDistanceBetweenParentAndSuccessor(previousPosition: SuccessorPosition, it: ConnectingWayPoint): Double {
-        val trailPostcode = previousPosition.trail.postCode
-        val trailCode = previousPosition.trail.code
-        geoTrailCache.addElementUnlessExists(trailPostcode, trailCode, previousPosition.trail)
+    private fun calculateDistanceBetweenParentAndSuccessor(previousPositionNode: PositionNode, it: ConnectingWayPoint): Double {
+        val trailPostcode = previousPositionNode.trail.postCode
+        val trailCode = previousPositionNode.trail.code
+        geoTrailCache.addElementUnlessExists(trailPostcode, trailCode, previousPositionNode.trail)
         val trailGeoObject: GeoJsonObject = geoTrailCache.getElement(trailPostcode, trailCode)
-        return previousPosition.costSoFar + positionHelper.getDistanceBetweenPointsOnTrailInM(trailGeoObject, previousPosition.position, it.position)
+        return previousPositionNode.costSoFar + positionHelper.getDistanceBetweenPointsOnTrailInM(trailGeoObject, previousPositionNode.position, it.position)
     }
 
     fun getDirectTrails(startingTrailsWithinRange: List<Trail>, trailsWithRequestedDestination: Set<Trail>) =
             startingTrailsWithinRange.intersect(trailsWithRequestedDestination).toList()
 
-    private fun isGoal(it: Position, destination: Position) = positionHelper.isDestinationWithinHalfKm(it, destination)
-
     private fun getSuccessorTrailFromMemory(connectingWayPoint: ConnectingWayPoint) =
-            trailDao.getTrailsByCodeAndPostcode(connectingWayPoint.connectingTo.code, connectingWayPoint.connectingTo.postcode)
+            trailDao.getTrailsByCodeAndPostcode(connectingWayPoint.connectingTo.postcode, connectingWayPoint.connectingTo.code)
 
 
-    private fun getManhattanDistanceFromTrailsPoints(position: Position, positionTo: Position) = getManhattanDistanceFrom(position.coords.latitude,
-            position.coords.longitude, positionTo.coords.latitude, positionTo.coords.longitude)
-
-    private fun getManhattanDistanceFrom(latY: Double, longX: Double, destLatY: Double, destLongX: Double) =
-            kotlin.math.abs(destLongX - longX) + kotlin.math.abs(destLatY - latY)
+    private fun getManhattanDistanceFromTrailsPoints(position: Position, positionTo: Position) = PositionProcessor.distanceBetweenPoint(position, positionTo)
 }
