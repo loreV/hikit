@@ -47,8 +47,8 @@ public class TrailDAO implements TrailsDao {
         return toTrailsList(collection.find(new Document()));
     }
 
-    public Trail getTrailsByCodeAndPostcode(final String code, final String postcode) {
-        final FindIterable<Document> documents = collection.find(new Document(Trail.POST_CODE, postcode).append(Trail.CODE, code));
+    public Trail getTrailsByCodeAndPostcode(final String postcode, final String trailCode) {
+        final FindIterable<Document> documents = collection.find(new Document(Trail.POST_CODE, postcode).append(Trail.CODE, trailCode));
         return toTrailsList(documents).stream().findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
