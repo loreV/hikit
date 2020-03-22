@@ -16,6 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler.version>8</maven-compiler.version>
         <!-- Dependency versions -->
         <javaruntime.version>1.8</javaruntime.version>
         <spark.version>2.7.2</spark.version>

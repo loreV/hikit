@@ -75,8 +75,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>${maven-compiler.version}</source>
+                    <target>${maven-compiler.version}</target>
                 </configuration>
             </plugin>
         </plugins>
