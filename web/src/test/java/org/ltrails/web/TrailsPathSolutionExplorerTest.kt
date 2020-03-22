@@ -2,25 +2,25 @@ package org.ltrails.web
 
 import io.mockk.every
 import io.mockk.mockkClass
+import io.mockk.mockkObject
+import junit.framework.Assert.assertEquals
 import mil.nga.sf.geojson.GeoJsonObject
 import org.junit.Test
 import org.ltrails.common.data.*
 
 class TrailsPathSolutionExplorerTest {
 
-    val twoPointsGeo = "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[11.245107650756836,44.491423646640975,0],[11.251587867736815,44.4890050991292,0]]}}]}"
-
     /**
      * Two point path:
-     * A (start) -> B (end)
+     * S (start trail) -> x -> B (end trail) -> x (end)
      * GEO - 2 points.
      */
     @Test
     fun `in simple hike with only one solution explore path solution`() {
+
         val mockTrailDao = mockkClass(TrailDAO::class)
         val mockPositionHelper = mockkClass(PositionHelper::class)
         val mockCache = mockkClass(GeoTrailCache::class)
-
         val startingTrail = mockkClass(Trail::class)
 
         val anyPostcode = "anyPostcode"
@@ -44,30 +44,83 @@ class TrailsPathSolutionExplorerTest {
         every { startingTrail.code } returns anyTrailCode
         every { startingTrail.startPos } returns mockStartPosition
 
+        val mockTrailReference = mockkClass(TrailReference::class)
+        every { mockTrailReference.code } returns anyTrailCode
+        every { mockTrailReference.postcode } returns anyPostcode
+
         // Only one way to go
         val mockConnectingWayPoint = mockkClass(ConnectingWayPoint::class)
         every { mockConnectingWayPoint.position } returns mockFinalPosition
+        every { mockConnectingWayPoint.connectingTo } returns mockTrailReference
+
         val onlyOneConnectingWayPoint = mutableListOf(mockConnectingWayPoint)
 
-        val geoTrail: GeoJsonObject = mockkClass(GeoJsonObject::class)
-        every { mockCache.getElement(anyPostcode, anyTrailCode) } returns (geoTrail)
+        val mockGeoTrail: GeoJsonObject = mockkClass(GeoJsonObject::class)
+        every { mockCache.addElementUnlessExists(anyPostcode, anyTrailCode, startingTrail) } returns Unit
+        every { mockCache.getElement(anyPostcode, anyTrailCode) } returns (mockGeoTrail)
+
+        mockkObject(PositionProcessor)
+        // Starting
+        every { PositionProcessor.distanceBetweenPoint(mockStartPosition, mockFinalPosition) } returns 20.0
+        // With the following trail
+        every { PositionProcessor.distanceBetweenPoint(mockFinalPosition, mockFinalPosition) } returns 0.0
 
         every {
-            mockPositionHelper
-                    .getDistanceBetweenPointsOnTrailInM(geoTrail,
-                            mockStartPosition,
-                            mockFinalPosition)
-        } returns (580.78)
+            mockPositionHelper.getDistanceBetweenPointsOnTrailInM(mockGeoTrail,
+                    mockStartPosition,
+                    mockFinalPosition)
+        } returns 580.78
 
 
         every { startingTrail.connectingWayPoints } returns (onlyOneConnectingWayPoint)
 
+
+        val mockConnectingTrail = mockkClass(Trail::class)
+        every { mockTrailDao.getTrailsByCodeAndPostcode(anyPostcode, anyTrailCode) } returns mockConnectingTrail
+
+        every { mockPositionHelper.isGoalOnTrail(mockConnectingWayPoint, mockConnectingTrail, mockFinalPosition) } returns true
+
+        // Calls
         val trailsPathSolutionExplorer = TrailsPathSolutionExplorer(mockTrailDao, mockPositionHelper, mockCache)
-//        verify { mockCache.xaddElementUnlessExists(anyPostcode, anyTrailCode, startingTrail) }
+        val explorePathsSolutions = trailsPathSolutionExplorer.explorePathsSolutions(startingTrail, mockFinalPosition)
 
-        trailsPathSolutionExplorer.explorePathsSolutions(startingTrail, mockFinalPosition)
 
+        val solution = explorePathsSolutions.first()
+        assertEquals(2, solution.size())
+        assertEquals(mockStartPosition, solution.trailPositionNodePath.parent!!.position)
+        assertEquals(20.0, solution.trailPositionNodePath.parent!!.heuristicsCost)
+        assertEquals(mockFinalPosition, solution.trailPositionNodePath.position)
+        assertEquals(580.78, solution.trailPositionNodePath.costSoFar)
     }
 
 
+    /**
+     * Many points path
+     *
+     * Trail#  1        2
+     * Length  1        5
+     *      S -- B -------------- F (destination)
+     *            \              /
+     *             - - - E - - -
+     * Length       1       6
+     * Trail#       3       4
+     */
+    @Test
+    fun `many connections are longer than less connections`() {
+    }
+
+    /**
+     * Many points path
+     *
+     * Trail#  1    2    3    4
+     * Length  1    1    1    1
+     *      S -- B -- C -- D --- F (destination)
+     *            \              /
+     *             - - - E - - -
+     * Length       3       2
+     * Trail#       5       6
+     */
+    @Test
+    fun `many connections are shorter than less connections`() {
+    }
 }
