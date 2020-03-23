@@ -40,6 +40,10 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
             // Generate the successors
             val connectingSuccessors = processed.trailPositionNodePath.trail.connectingWayPoints
 
+            if (connectingSuccessors.isEmpty()) {
+                closedList.add(processed)
+                continue
+            }
             // Calculate each distance
             // Currently we only consider endingPositions
             connectingSuccessors.forEach {
