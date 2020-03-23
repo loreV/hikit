@@ -11,12 +11,12 @@ import org.ltrails.common.data.*
 class TrailsPathSolutionExplorerTest {
 
     /**
-     * Two point path:
-     * S (start trail) -> x -> B (end trail) -> x (end)
-     * GEO - 2 points.
+     * Trail#  1
+     * Length  -
+     *      S --- F
      */
     @Test
-    fun `in simple hike with only one solution explore path solution`() {
+    fun `one connecting point is the destination`() {
 
         val mockTrailDao = mockkClass(TrailDAO::class)
         val mockPositionHelper = mockkClass(PositionHelper::class)
@@ -93,10 +93,29 @@ class TrailsPathSolutionExplorerTest {
         assertEquals(580.78, solution.trailPositionNodePath.costSoFar)
     }
 
+    /**
+     * Trail#  1
+     * Length  1
+     *      S -- B               F (destination)
+     */
+    @Test
+    fun `no trail brings there`() {
+    }
 
     /**
-     * Many points path
-     *
+     * Trail#  1      2
+     * Length  1      2
+     *      S -- B  ---- C        F (destination)
+     *            \              /
+     *             - - - E - - -
+     * Length       4       7
+     * Trail#       3       4
+     */
+    @Test
+    fun `one longer trail brings there while shortest does not`() {
+    }
+
+    /**
      * Trail#  1        2
      * Length  1        5
      *      S -- B -------------- F (destination)
@@ -110,8 +129,6 @@ class TrailsPathSolutionExplorerTest {
     }
 
     /**
-     * Many points path
-     *
      * Trail#  1    2    3    4
      * Length  1    1    1    1
      *      S -- B -- C -- D --- F (destination)
