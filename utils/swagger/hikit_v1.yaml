@@ -1,0 +1,285 @@
+swagger: "2.0"
+info:
+  description: "An open API aimed at providing tools for hike planning and discovery."
+  version: "1.0.0"
+  title: "HiKit v1"
+  contact:
+    email: "dev.lore@hikit.it"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "hikit.com"
+basePath: "/api/v1"
+tags:
+  - name: "Trails"
+    description: "Allows to access trails data via convenient REST methods"
+  - name: "POI"
+    description: "Allows to access POI data via conveninet REST methods"
+  - name: "Route"
+    description: "Plan a trip based on starting and end point"
+schemes:
+  - "http"
+paths:
+  /trails:
+    get:
+      tags:
+        - "Trails"
+      summary: "Retrieves trails based on given conditions"
+      description: ""
+      operationId: "Retrieves"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "trailCode"
+          in: "query"
+          description: "Trail code (e.g: 101, 00GEA, ...)"
+          required: false
+          type: "string"
+          format: "String"
+        - name: "postCode"
+          in: "query"
+          description: "List of postcodes which the trail runs through (the search is done on its starting, ending and waypoints). (e.g: [001, 002])"
+          required: false
+          type: "array"
+          items:
+            type: "string"
+          format: "Array"
+        - name: "country"
+          in: "query"
+          description: "Country for which the trail should be retrieved"
+          required: false
+          type: "string"
+          format: "String"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/TrailResponse"
+  /trails/geo:
+    post:
+      tags:
+        - "Trails"
+      summary: "Retrieves trails within a specific distance by latitude and longitude"
+      description: "Retrieves trail(s) near the given coordinates (lat/long)"
+      operationId: "Retrieves trails based on coords"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Geo-coordinates trail request"
+          required: true
+          schema:
+            $ref: "#/definitions/GeoTrailRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/TrailResponse"
+        204:
+          description: "No trails found"
+          schema: {}
+  /poi:
+    get:
+      tags:
+        - "POI"
+      summary: "Retrieves POI based on given conditions"
+      description: ""
+      operationId: "Retrieves POI"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "trailCode"
+          in: "query"
+          description: "Trail code (e.g: 101, 00GEA, ...)"
+          required: false
+          type: "string"
+          format: "String"
+        - name: "postCode"
+          in: "query"
+          description: "List of postcodes which the trail runs through (the search is done on its starting, ending and waypoints). (e.g: [001, 002])"
+          required: false
+          type: "array"
+          items:
+            type: "string"
+          format: "Array"
+        - name: "country"
+          in: "query"
+          description: "Country for which the trail should be retrieved"
+          required: false
+          type: "string"
+          format: "String"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            # TODO
+            $ref: "#/definitions/TrailResponse"
+  /route/plan:
+    post:
+      tags:
+        - "Route"
+      summary: "Connects trails into a single route"
+      description: "Retrieves trail(s) near the given coordinates (lat/long)"
+      operationId: "Plan a route"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Geo-coordinates trail request"
+          required: true
+          schema:
+            $ref: "#/definitions/GeoTrailRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/RouteResponse"
+        204:
+          description: "No trails found"
+          schema: {}
+definitions:
+  Coords:
+    type: "object"
+    properties:
+      latitude:
+        type: "number"
+        format: "double"
+      longitude:
+        type: "number"
+        format: "double"
+  GeoTrailRequest:
+    type: "object"
+    properties:
+      coords:
+        type: "object"
+        format: "int64"
+        $ref: "#/definitions/Coords"
+      distance:
+        type: "integer"
+        format: "int64"
+      uom:
+        type: "string"
+        enum:
+          - "m"
+          - "km"
+  TrailResponse:
+    type: "object"
+    properties:
+      result:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/Trail"
+  Trail:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
+      code:
+        type: "string"
+        format: "string"
+      startPos:
+        type: "object"
+        $ref: "#/definitions/Position"
+      finalPos:
+        type: "object"
+        $ref: "#/definitions/Position"
+      postcodes:
+        type: "array"
+        items:
+          type: "string"
+          format: "string"
+      description:
+        type: "string"
+        format: "string"
+      geo:
+        description: "A geoJson object"
+        type: "object"
+        format: "json"
+      trackLength:
+        type: "number"
+        format: "number"
+      eta:
+        type: "number"
+        format: "number"
+      pois:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/POI"
+      wayPoints:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/Waypoint"
+      classification:
+        type: "string"
+        enum:
+          - "T"
+          - "E"
+          - "EE"
+          - "EEA"
+  #  TODO
+  POI:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
+  Waypoint:
+    type: "object"
+    properties:
+      position:
+        type: "object"
+        $ref: "#/definitions/Position"
+      connectingTrail:
+        type: "object"
+        $ref: "#/definitions/TrailReference"
+  TrailReference:
+    type: "object"
+    properties:
+      trailCode:
+        type: "string"
+        format: "string"
+      postCode:
+        type: "string"
+        format: "string"
+  Position:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
+      description:
+        type: "string"
+        format: "string"
+      tags:
+        type: "array"
+        items:
+          type: "string"
+          format: "string"
+      coordinates:
+        type: "object"
+        $ref: "#/definitions/Coords"
+      alt:
+        type: "number"
+        format: "number"
+      postCode:
+        type: "string"
+        format: "string"
+  RouteResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
