@@ -9,6 +9,5 @@
 - Npm v5.2-5.x
 
 ```bash
-# install dependencies
 $ mvn install
 ```
