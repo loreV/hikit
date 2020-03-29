@@ -59,7 +59,7 @@ paths:
     post:
       tags:
         - "Trails"
-      summary: "Retrieves trails within a specific distance by latitude and longitude"
+      summary: "Retrieves trails within a specified radial distance given latitude and longitude"
       description: "Retrieves trail(s) near the given coordinates (lat/long)"
       operationId: "Retrieves trails based on coords"
       produces:
@@ -97,24 +97,55 @@ paths:
           format: "String"
         - name: "postCode"
           in: "query"
-          description: "List of postcodes which the trail runs through (the search is done on its starting, ending and waypoints). (e.g: [001, 002])"
+          description: "List of postcodes which the POI is found at (the search is done on its starting, ending and waypoints). (e.g: [001, 002])"
           required: false
           type: "array"
           items:
             type: "string"
-          format: "Array"
+            format: "string"
+        - name: "types"
+          in: "query"
+          description: "Type of POI"
+          required: false
+          type: "array"
+          items:
+            type: "string"
+            format: "string"
         - name: "country"
           in: "query"
           description: "Country for which the trail should be retrieved"
           required: false
           type: "string"
-          format: "String"
+          format: "string"
       responses:
         200:
           description: "successful operation"
           schema:
-            # TODO
             $ref: "#/definitions/TrailResponse"
+  /poi/geo:
+    post:
+      tags:
+        - "POI"
+      summary: "Retrieves POIs within a radial distance given latitude and longitude"
+      description: "Retrieves trail(s) near the given coordinates (lat/long)"
+      operationId: "Retrieves POI based on coords"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Geo-coordinates trail request"
+          required: true
+          schema:
+            $ref: "#/definitions/GeoPOIRequest"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/POIResponse"
+        204:
+          description: "No POI found"
+          schema: {}
   /route/plan:
     post:
       tags:
@@ -130,14 +161,14 @@ paths:
           description: "Geo-coordinates trail request"
           required: true
           schema:
-            $ref: "#/definitions/GeoTrailRequest"
+            $ref: "#/definitions/RoutePlanRequest"
       responses:
         200:
           description: "Successful operation"
           schema:
             $ref: "#/definitions/RouteResponse"
         204:
-          description: "No trails found"
+          description: "No routes found"
           schema: {}
 definitions:
   Coords:
@@ -215,6 +246,18 @@ definitions:
         items:
           type: "object"
           $ref: "#/definitions/Waypoint"
+      totalLength:
+        type: "number"
+        format: "number"
+      totalElevationChange:
+        type: "number"
+        format: "number"
+      totalElevationDown:
+        type: "number"
+        format: "number"
+      totalElevationUp:
+        type: "number"
+        format: "number"
       classification:
         type: "string"
         enum:
@@ -222,13 +265,6 @@ definitions:
           - "E"
           - "EE"
           - "EEA"
-  #  TODO
-  POI:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-        format: "string"
   Waypoint:
     type: "object"
     properties:
@@ -238,6 +274,73 @@ definitions:
       connectingTrail:
         type: "object"
         $ref: "#/definitions/TrailReference"
+  POI:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
+      description:
+        type: "string"
+        format: "string"
+      externalLinks:
+        type: "array"
+        items:
+          type: "string"
+          format: "string"
+      position:
+        type: "object"
+        $ref: "#/definitions/Position"
+      trails:
+        type: "object"
+        $ref: "#/definitions/TrailReference"
+      type:
+        type: "array"
+        items:
+          type: "string"
+          format: "string"
+      otherNames:
+        type: "array"
+        items:
+          type: "string"
+          format: "string"
+      tags:
+        type: "array"
+        items:
+          type: "string"
+          format: "string"
+      resources:
+        type: "array"
+        items:
+          type: "string"
+          format: "url"
+  GeoPOIRequest:
+    type: "object"
+    properties:
+      coords:
+        type: "object"
+        format: "int64"
+        $ref: "#/definitions/Coords"
+      distance:
+        type: "integer"
+        format: "int64"
+      uom:
+        type: "string"
+        enum:
+          - "m"
+          - "km"
+      types:
+        type: "array"
+        items:
+          type: "string"
+  POIResponse:
+    type: "object"
+    properties:
+      routes:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/POI"
   TrailReference:
     type: "object"
     properties:
@@ -273,13 +376,73 @@ definitions:
   RouteResponse:
     type: "object"
     properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
+      routes:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/RouteSolution"
+  RoutePoint:
+    type: "object"
+    properties:
+      distanceSoFar:
+        type: "number"
+        format: "number"
+      position:
+        type: "object"
+        $ref: "#/definitions/Position"
+      trail:
+        type: "object"
+        $ref: "#/definitions/Trail"
+  RoutePlanRequest:
+    type: "object"
+    properties:
+      startPos:
+        type: "object"
+        $ref: "#/definitions/Position"
+      finalPos:
+        type: "object"
+        $ref: "#/definitions/Position"
+      distance:
+        type: "number"
+        format: "number"
+      uom:
         type: "string"
-      message:
+        enum:
+          - m
+          - km
+  RouteSolution:
+    type: "object"
+    properties:
+      points:
+        type: "array"
+        description: "Ordered set of RoutePoint connecting trails and POIs"
+        items:
+          type: "object"
+          $ref: "#/definitions/RoutePoint"
+      pois:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/POI"
+      totalLength:
+        type: "number"
+        format: "number"
+      totalElevationChange:
+        type: "number"
+        format: "number"
+      totalElevationDown:
+        type: "number"
+        format: "number"
+      totalElevationUp:
+        type: "number"
+        format: "number"
+      classification:
         type: "string"
+        enum:
+          - "T"
+          - "E"
+          - "EE"
+          - "EEA"
 externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+  description: "Find out more about HiKit"
+  url: "https://github.com/loreV/hikit"
