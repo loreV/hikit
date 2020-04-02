@@ -1,5 +1,5 @@
 package org.ltrails.common.data;
 
-public enum OfficialDifficulty {
+public enum TrailClassification {
     T, E, EE, EEA
 }

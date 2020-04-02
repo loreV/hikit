@@ -1,16 +1,20 @@
 package org.ltrails.common.data;
 
 public class TrailReference {
-    private String code;
+
+    public static String TRAIL_CODE = "trailCode";
+    public static String POSTCODE = "postCode";
+
+    private String trailCode;
     private String postcode;
 
-    public TrailReference(String code, String postcode) {
-        this.code = code;
+    public TrailReference(String trailCode, String postcode) {
+        this.trailCode = trailCode;
         this.postcode = postcode;
     }
 
-    public String getCode() {
-        return code;
+    public String getTrailCode() {
+        return trailCode;
     }
 
     public String getPostcode() {

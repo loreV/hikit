@@ -16,12 +16,9 @@ public class PositionMapper implements Mapper<Position> {
     @Override
     public Position mapToObject(Document document) {
         return Position.PositionBuilder.aPosition()
-                .withCoords(coordinatesMapper.mapToObject(document.get(Position.COORD, Document.class)))
+                .withCoords(coordinatesMapper.mapToObject(document.get(Position.COORDS, Document.class)))
                 .withAlt(document.getDouble(Position.ALTITUDE))
                 .withPostCode(document.getString(Position.POSTCODE))
-                .withCounty(document.getString(Position.COUNTY))
-                .withArea(document.getString(Position.AREA))
-                .withCity(document.getString(Position.CITY))
                 .build();
     }
 }

@@ -16,10 +16,13 @@ import spark.Request;
 import spark.Response;
 import spark.Spark;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static org.ltrails.common.configuration.ConfigurationProperties.API_PREFIX;
 import static org.ltrails.web.configuration.ConfigurationManager.ACCEPT_TYPE;
@@ -27,6 +30,10 @@ import static spark.Spark.post;
 
 
 public class TrailController {
+
+    public static String PARAM_TRAIL_CODE = "trailCode";
+    public static String PARAM_POST_CODE = "postCode";
+    public static String PARAM_COUNTRY = "country";
 
     private final Logger LOG = getLogger(TrailController.class.getName());
     private static final String PREFIX = API_PREFIX + "/trails";
@@ -52,9 +59,13 @@ public class TrailController {
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
         }
-        final List<Trail> trailsByTrailCode = trailManager.getByTrailPostCodeCountry(
-                trailRequestValidator.getParams(request),
-                request.queryMap().toMap());
+        final String code = request.queryMap().get(PARAM_TRAIL_CODE).toString();
+        final String postCodes = request.queryMap().get(PARAM_POST_CODE).toString();
+        final String country = request.queryMap().get(PARAM_COUNTRY).toString();
+
+        final List<Trail> trailsByTrailCode = trailManager.getByTrailPostCodeCountry(code,
+                isEmpty((postCodes)) ? Arrays.asList(postCodes.split(",")) : Collections.emptyList(),
+                country);
         return trailRestResponseBuilder(trailsByTrailCode);
     }
 
@@ -63,9 +74,10 @@ public class TrailController {
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
         }
-        final TrailsGeoRequest trailsGeoRequest = gsonBeanHelper.getGsonBuilder().fromJson(request.body(), TrailsGeoRequest.class);
+        final TrailsGeoRequest trailsGeoRequest = Objects.requireNonNull(gsonBeanHelper.getGsonBuilder())
+                .fromJson(request.body(), TrailsGeoRequest.class);
         final List<Trail> trailsNearby = trailManager.getByGeo(trailsGeoRequest.getCoords(),
-                trailsGeoRequest.getDistance(),
+                trailsGeoRequest.getDistance().intValue(),
                 trailsGeoRequest.getUom());
         return trailRestResponseBuilder(trailsNearby);
     }

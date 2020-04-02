@@ -1,9 +1,9 @@
 package org.ltrails.web.request;
 
 import org.ltrails.common.data.Position;
-import org.ltrails.common.data.mapper.UnitOfMeasurement;
+import org.ltrails.common.data.UnitOfMeasurement;
 
-public class PlanningRequest {
+public class PlanningRestRequest {
 
     private final Position startPos;
     private final String destination;
@@ -12,11 +12,11 @@ public class PlanningRequest {
     private final boolean isSearchDescription;
     private final boolean isDirectTrailsOnly;
 
-    public PlanningRequest(Position startPos, String destination,
-                           int distanceFromPosition,
-                           UnitOfMeasurement unitOfMeasurement,
-                           boolean isSearchDescription,
-                           boolean isDirectTrailsOnly) {
+    public PlanningRestRequest(final Position startPos, String destination,
+                               final int distanceFromPosition,
+                               final UnitOfMeasurement unitOfMeasurement,
+                               final boolean isSearchDescription,
+                               final boolean isDirectTrailsOnly) {
         this.startPos = startPos;
         this.destination = destination;
         this.distanceFromPosition = distanceFromPosition;

@@ -69,7 +69,7 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
     }
 
     private fun calculateDistanceBetweenParentAndSuccessor(previousPositionNode: PositionNode, it: ConnectingWayPoint): Double {
-        val trailPostcode = previousPositionNode.trail.postCode
+        val trailPostcode = previousPositionNode.trail.postCode.get(0) // TODO
         val trailCode = previousPositionNode.trail.code
         geoTrailCache.addElementUnlessExists(trailPostcode, trailCode, previousPositionNode.trail)
         val trailGeoObject: GeoJsonObject = geoTrailCache.getElement(trailPostcode, trailCode)
@@ -80,7 +80,7 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
             startingTrailsWithinRange.intersect(trailsWithRequestedDestination).toList()
 
     private fun getSuccessorTrailFromMemory(connectingWayPoint: ConnectingWayPoint) =
-            trailDao.getTrailsByCodeAndPostcode(connectingWayPoint.connectingTo.postcode, connectingWayPoint.connectingTo.code)
+            trailDao.getTrailByCodeAndPostcodeCountry(connectingWayPoint.connectingTo.postcode, connectingWayPoint.connectingTo.trailCode)
 
 
     private fun getManhattanDistanceFromTrailsPoints(position: Position, positionTo: Position) = PositionProcessor.distanceBetweenPoint(position, positionTo)

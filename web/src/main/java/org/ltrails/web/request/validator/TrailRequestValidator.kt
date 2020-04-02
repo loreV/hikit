@@ -1,12 +1,9 @@
 package org.ltrails.web.request.validator
 
+import org.ltrails.web.controller.TrailController.*
 import spark.Request
 
 class TrailRequestValidator : Validator<Request> {
-
-    val PARAM_TRAIL_CODE = "trailCode"
-    val PARAM_POST_CODE = "postCode"
-    val PARAM_COUNTRY = "country"
 
     private val allParams = listOf(PARAM_TRAIL_CODE, PARAM_POST_CODE, PARAM_COUNTRY)
 
@@ -16,6 +13,7 @@ class TrailRequestValidator : Validator<Request> {
         if (intersect.isEmpty()) {
             return listOf("No params specified.")
         }
+
         return emptyList()
     }
 

@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
 import org.ltrails.common.data.DataSource;
 import org.ltrails.web.controller.SystemController;
-import org.ltrails.web.controller.TrailsController;
+import org.ltrails.web.controller.TrailController;
 
 import javax.inject.Named;
 
@@ -27,17 +27,17 @@ public class ConfigurationManager {
     /**
      * Controllers
      */
-    private final TrailsController dataPointDAO;
+    private final TrailController dataPointDAO;
 
     @Inject
     public ConfigurationManager(final @Named(PORT_PROPERTY) String port,
-                                final TrailsController trailsController,
+                                final TrailController trailControllerController,
                                 final SystemController systemController,
                                 final DataSource dataSource) {
-        this.dataPointDAO = trailsController;
+        this.dataPointDAO = trailControllerController;
         this.systemController = systemController;
         this.dataSource = dataSource;
-        port(Integer.valueOf(port));
+        port(Integer.parseInt(port));
     }
 
     public void init() {

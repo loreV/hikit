@@ -7,7 +7,7 @@ public class Position {
     public static final String ALTITUDE = "alt";
     public static final String AREA = "area";
     public static final String POSTCODE = "postCode";
-    public static final String COORDS = "coordinates";
+    public static final String COORDS = "coord";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
     public static final String TAGS = "tags";
