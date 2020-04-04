@@ -7,23 +7,31 @@ import spark.Request
 
 class TrailGeoRequestValidator constructor(private val gsonBeanHelper: GsonBeanHelper) : Validator<Request> {
 
+    companion object {
+        const val limitLongLat = 90
+
+        const val longitudeValueOutOfBoundErrorMessage = "Longitude value out of bound"
+        const val latitudeValueOutOfBoundErrorMessage = "Longitude value out of bound"
+        const val noRequestBodyErrorMessage = "No request found in method body"
+        const val requestMalformedErrorMessage = "The request is malformed"
+    }
 
     override fun validate(request: Request): List<String> {
         if (request.body().isBlank()) {
-            return listOf("No request found in method body")
+            return listOf(noRequestBodyErrorMessage)
         }
         return try {
             val trailGeoRequest = gsonBeanHelper.gsonBuilder!!.fromJson(request.body(), TrailsGeoRequest::class.java)
             val listOfErrorMessages = mutableListOf<String>()
-            if (trailGeoRequest.coords.longitude > 90 || trailGeoRequest.coords.longitude < -90) {
-                listOfErrorMessages.add("Longitude value out of bound")
+            if (trailGeoRequest.coords.longitude > limitLongLat || trailGeoRequest.coords.longitude < -limitLongLat) {
+                listOfErrorMessages.add(longitudeValueOutOfBoundErrorMessage)
             }
-            if (trailGeoRequest.coords.latitude > 90 || trailGeoRequest.coords.latitude < -90) {
-                listOfErrorMessages.add("Latitude value out of bound")
+            if (trailGeoRequest.coords.latitude > limitLongLat || trailGeoRequest.coords.latitude < -limitLongLat) {
+                listOfErrorMessages.add(latitudeValueOutOfBoundErrorMessage)
             }
             listOfErrorMessages
         } catch (e: JsonSyntaxException) {
-            listOf("The request is malformed")
+            listOf(requestMalformedErrorMessage)
         }
     }
 
