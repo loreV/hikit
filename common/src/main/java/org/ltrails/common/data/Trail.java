@@ -11,21 +11,17 @@ public class Trail {
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
     public static final String CODE = "code";
-    public static final String STARTPOS = "startPos";
-    public static final String FINALPOS = "finalPos";
+    public static final String START_POS = "startPos";
+    public static final String FINAL_POS = "finalPos";
     public static final String GEO = "geo";
     public static final String REPORTED_DIFFICULTY = "reportedDifficulty";
-    public static final String CALCULATED_DIFFICULTY = "calculatedDifficulty";
-    public static final String SUGGESTED_TIME_OF_YEAR = "suggestedTimeOfTheYear";
     public static final String TRACK_LENGTH = "trackLength";
     public static final String ETA = "eta";
-    public static final String CONNECTING_TRAILS = "connectingWayPoints";
+    public static final String CONNECTING_TRAILS = "wayPoints";
     public static final String POIS = "pois";
-    public static final String OFFICIAL_DIFFICULTY = "officialDifficulty";
-    public static final String AREA = "area";
-    public static final String CITY = "city";
-    public static final String COUNTY = "county";
-    public static final String POST_CODE = "postCode";
+    public static final String CLASSIFICATION = "classification";
+    public static final String POST_CODE = "postCodes";
+    public static final String COUNTRY = "country";
 
     private String name;
     private String description;
@@ -34,19 +30,17 @@ public class Trail {
     private Position finalPos;
     private JsonElement geo;
     private double reportedDifficulty;
-    private double calculatedDifficulty;
-    private List<String> suggestedTimeOfTheYear;
     private double trackLength;
     private double eta;
     private List<ConnectingWayPoint> connectingWayPoints;
     private List<Poi> pois;
-    private OfficialDifficulty officialDifficulty;
-    private final String postCode;
+    private TrailClassification trailClassification;
+    private final List<String> postCode;
+    private final String country;
 
-    public Trail(String name, String description, String code, Position startPos, Position finalPos, double reportedDifficulty,
-                 double calculatedDifficulty, List<String> suggestedTimeOfTheYear, double trackLength,
+    public Trail(String name, String description, String code, Position startPos, Position finalPos, double reportedDifficulty, double trackLength,
                  double eta, List<ConnectingWayPoint> connectingWayPoints, List<Poi> pois,
-                 OfficialDifficulty officialDifficulty, JsonElement geo, String postCode) {
+                 TrailClassification trailClassification, JsonElement geo, List<String> postCode, String country) {
         this.name = name;
         this.description = description;
         this.code = code;
@@ -54,14 +48,13 @@ public class Trail {
         this.finalPos = finalPos;
         this.geo = geo;
         this.reportedDifficulty = reportedDifficulty;
-        this.calculatedDifficulty = calculatedDifficulty;
-        this.suggestedTimeOfTheYear = suggestedTimeOfTheYear;
         this.trackLength = trackLength;
         this.eta = eta;
         this.connectingWayPoints = connectingWayPoints;
         this.pois = pois;
-        this.officialDifficulty = officialDifficulty;
+        this.trailClassification = trailClassification;
         this.postCode = postCode;
+        this.country = country;
     }
 
     public String getName() {
@@ -88,14 +81,6 @@ public class Trail {
         return reportedDifficulty;
     }
 
-    public double getCalculatedDifficulty() {
-        return calculatedDifficulty;
-    }
-
-    public List<String> getSuggestedTimeOfTheYear() {
-        return suggestedTimeOfTheYear;
-    }
-
     public double getTrackLength() {
         return trackLength;
     }
@@ -112,16 +97,20 @@ public class Trail {
         return pois;
     }
 
-    public OfficialDifficulty getOfficialDifficulty() {
-        return officialDifficulty;
+    public TrailClassification getTrailClassification() {
+        return trailClassification;
     }
 
     public Position getFinalPos() {
         return finalPos;
     }
 
-    public String getPostCode() {
+    public List<String> getPostCode() {
         return postCode;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public static final class TrailBuilder {
@@ -129,18 +118,17 @@ public class Trail {
         private String name;
         private String description;
         private String code;
-        private String postCode;
+        private List<String> postCode;
         private Position startPos;
         private Position finalPos;
         private JsonElement geo;
         private double reportedDifficulty;
-        private double calculatedDifficulty;
-        private List<String> suggestedTimeOfTheYear;
         private double trackLength;
         private double eta;
         private List<ConnectingWayPoint> connectingWayPoints;
         private List<Poi> pois;
-        private OfficialDifficulty officialDifficulty;
+        private TrailClassification trailClassification;
+        private String country;
 
 
         private TrailBuilder() {
@@ -155,7 +143,7 @@ public class Trail {
             return this;
         }
 
-        public TrailBuilder withPostCode(String postCode) {
+        public TrailBuilder withPostCode(List<String> postCode) {
             this.postCode = postCode;
             return this;
         }
@@ -186,16 +174,6 @@ public class Trail {
             return this;
         }
 
-        public TrailBuilder withCalculatedDifficulty(double calculatedDifficulty) {
-            this.calculatedDifficulty = calculatedDifficulty;
-            return this;
-        }
-
-        public TrailBuilder withSuggestedTimeOfTheYear(List<String> suggestedTimeOfTheYear) {
-            this.suggestedTimeOfTheYear = suggestedTimeOfTheYear;
-            return this;
-        }
-
         public TrailBuilder withTrackLength(double trackLength) {
             this.trackLength = trackLength;
             return this;
@@ -216,8 +194,8 @@ public class Trail {
             return this;
         }
 
-        public TrailBuilder withOfficialDifficulty(OfficialDifficulty officialDifficulty) {
-            this.officialDifficulty = officialDifficulty;
+        public TrailBuilder withClassification(TrailClassification trailClassification) {
+            this.trailClassification = trailClassification;
             return this;
         }
 
@@ -226,11 +204,16 @@ public class Trail {
             return this;
         }
 
+        public TrailBuilder withCountry(String country) {
+            this.country = country;
+            return this;
+        }
+
         public Trail build() {
             return new Trail(name, description, code, startPos, finalPos,
-                    reportedDifficulty, calculatedDifficulty, suggestedTimeOfTheYear,
-                    trackLength, eta, connectingWayPoints, pois, officialDifficulty,
-                    geo, postCode);
+                    reportedDifficulty,
+                    trackLength, eta, connectingWayPoints, pois, trailClassification,
+                    geo, postCode, country);
         }
 
     }

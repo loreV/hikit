@@ -1,4 +1,4 @@
-package org.ltrails.common.data.mapper;
+package org.ltrails.common.data;
 
 public enum UnitOfMeasurement {
     m, km

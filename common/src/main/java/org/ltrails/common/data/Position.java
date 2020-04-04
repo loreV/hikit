@@ -6,10 +6,8 @@ public class Position {
 
     public static final String ALTITUDE = "alt";
     public static final String AREA = "area";
-    public static final String COUNTY = "county";
-    public static final String CITY = "city";
     public static final String POSTCODE = "postCode";
-    public static final String COORD = "coord";
+    public static final String COORDS = "coord";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
     public static final String TAGS = "tags";
@@ -19,9 +17,6 @@ public class Position {
     private List<String> tags;
     private Coordinates coords;
     private double alt;
-    private String area;
-    private String county;
-    private String city;
     private String postCode;
 
     public Position(double alt, double lat, double longitude) {
@@ -29,16 +24,17 @@ public class Position {
         this.coords = new Coordinates(longitude, lat);
     }
 
-    public Position(String name, String description, List<String> tags, Coordinates coords,
-                    double alt, String area, String county, String city, String postCode) {
+    public Position(final String name,
+                    final String description,
+                    final List<String> tags,
+                    final Coordinates coords,
+                    final double alt,
+                    final String postCode) {
         this.name = name;
         this.description = description;
         this.tags = tags;
         this.coords = coords;
         this.alt = alt;
-        this.area = area;
-        this.county = county;
-        this.city = city;
         this.postCode = postCode;
     }
 
@@ -48,18 +44,6 @@ public class Position {
 
     public double getAlt() {
         return alt;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public String getCity() {
-        return city;
     }
 
     public String getPostCode() {
@@ -84,9 +68,6 @@ public class Position {
         private List<String> tags;
         private Coordinates coords;
         private double alt;
-        private String area;
-        private String county;
-        private String city;
         private String postCode;
 
         private PositionBuilder() {
@@ -121,28 +102,13 @@ public class Position {
             return this;
         }
 
-        public PositionBuilder withArea(String area) {
-            this.area = area;
-            return this;
-        }
-
-        public PositionBuilder withCounty(String county) {
-            this.county = county;
-            return this;
-        }
-
-        public PositionBuilder withCity(String city) {
-            this.city = city;
-            return this;
-        }
-
         public PositionBuilder withPostCode(String postCode) {
             this.postCode = postCode;
             return this;
         }
 
         public Position build() {
-            return new Position(name, description, tags, coords, alt, area, county, city, postCode);
+            return new Position(name, description, tags, coords, alt, postCode);
         }
     }
 }

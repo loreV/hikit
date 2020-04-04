@@ -8,7 +8,7 @@ import mil.nga.sf.geojson.GeoJsonObject
 import org.junit.Test
 import org.ltrails.common.data.*
 
-class TrailsPathSolutionExplorerTest {
+class TrailControllerPathSolutionExplorerTest {
 
     /**
      * Trail#  1
@@ -40,12 +40,12 @@ class TrailsPathSolutionExplorerTest {
         every { mockFinalPosition.coords } returns mockFinalCoords
         every { mockFinalPosition.postCode } returns anyPostcode
 
-        every { startingTrail.postCode } returns anyPostcode
+        every { startingTrail.postCode } returns arrayListOf(anyPostcode) // <- TODO should be only one postcode
         every { startingTrail.code } returns anyTrailCode
         every { startingTrail.startPos } returns mockStartPosition
 
         val mockTrailReference = mockkClass(TrailReference::class)
-        every { mockTrailReference.code } returns anyTrailCode
+        every { mockTrailReference.trailCode } returns anyTrailCode
         every { mockTrailReference.postcode } returns anyPostcode
 
         // Only one way to go
@@ -76,7 +76,7 @@ class TrailsPathSolutionExplorerTest {
 
 
         val mockConnectingTrail = mockkClass(Trail::class)
-        every { mockTrailDao.getTrailsByCodeAndPostcode(anyPostcode, anyTrailCode) } returns mockConnectingTrail
+        every { mockTrailDao.getTrailByCodeAndPostcodeCountry(anyPostcode, anyTrailCode) } returns mockConnectingTrail
 
         every { mockPositionHelper.isGoalOnTrail(mockConnectingWayPoint, mockConnectingTrail, mockFinalPosition) } returns true
 

@@ -18,7 +18,7 @@ import static spark.Spark.get;
 
 public class SystemController {
 
-    private final Logger LOG = getLogger(TrailsController.class.getName());
+    private final Logger LOG = getLogger(TrailController.class.getName());
 
     private static final String PREFIX = "/system";
 

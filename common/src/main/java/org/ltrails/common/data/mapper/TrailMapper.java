@@ -32,16 +32,15 @@ public class TrailMapper implements Mapper<Trail> {
                 .withName(doc.getString(Trail.NAME))
                 .withDescription(doc.getString(Trail.DESCRIPTION))
                 .withCode(doc.getString(Trail.CODE))
-                .withStartPos(getPos(doc, Trail.STARTPOS))
-                .withFinalPos(getPos(doc, Trail.FINALPOS))
+                .withStartPos(getPos(doc, Trail.START_POS))
+                .withFinalPos(getPos(doc, Trail.FINAL_POS))
                 .withGeo(geoMapper.mapToObject(doc.get(Trail.GEO, Document.class)))
                 .withReportedDifficulty(doc.getDouble(Trail.REPORTED_DIFFICULTY))
-                .withCalculatedDifficulty(doc.getDouble(Trail.CALCULATED_DIFFICULTY))
-                .withSuggestedTimeOfTheYear(doc.get(Trail.SUGGESTED_TIME_OF_YEAR, List.class))
                 .withTrackLength(doc.getDouble(Trail.TRACK_LENGTH))
                 .withEta(doc.getDouble(Trail.ETA))
-                .withOfficialDifficulty(getOfficialDifficulty(doc))
+                .withClassification(getClassification(doc))
                 .withConnectingTrails(getConnectingTrail(doc))
+                .withCountry(doc.getString(Trail.COUNTRY))
                 .withPois(getPois(doc))
                 .build();
     }
@@ -58,9 +57,8 @@ public class TrailMapper implements Mapper<Trail> {
         }
         return connectingTrails.stream().map(document -> ConnectingWayPoint.ConnectingWayPointBuilder.aConnectingWayPoint()
                 .withPosition(getPos(document, ConnectingWayPoint.POSITION))
-                .withConnectingFrom(getTrailRef(document, ConnectingWayPoint.POSITION_CONNECTING_FROM))
                 .withConnectingTo(getTrailRef(document, ConnectingWayPoint.POSITION_CONNECTING_TO))
-                .withCode(document.getString(ConnectingWayPoint.CODE)).build()).collect(Collectors.toList());
+                .build()).collect(Collectors.toList());
     }
 
     @NotNull
@@ -74,9 +72,9 @@ public class TrailMapper implements Mapper<Trail> {
         return trailReferenceMapper.mapToObject(trailRef);
     }
 
-    private OfficialDifficulty getOfficialDifficulty(Document doc) {
-        final String officialDifficulty = doc.getString(Trail.OFFICIAL_DIFFICULTY);
-        return OfficialDifficulty.valueOf(officialDifficulty);
+    private TrailClassification getClassification(Document doc) {
+        final String classification = doc.getString(Trail.CLASSIFICATION);
+        return TrailClassification.valueOf(classification);
     }
 
 }

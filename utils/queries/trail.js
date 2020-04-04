@@ -1,3 +1,6 @@
+// Create geoSpatial Index
+db.collection.createIndex( { "startPos.coord" : "2dsphere" } )
+
 // Lookup close trails
 db.core.Trail.find(
    {
@@ -11,3 +14,13 @@ db.core.Trail.find(
    }
 )
 
+
+// Lookup trails
+db.core.Trail.find({
+    country: "",
+    postCode: "",
+    $or : [
+        { "finalPos.postCode" : { $in : [ "40033", "4132" ] } },
+        { "startPos.postCode" : { $in : [ "40033", "4132" ] } }
+            ]
+})

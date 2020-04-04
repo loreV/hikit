@@ -2,34 +2,28 @@ package org.ltrails.web
 
 import com.google.inject.Inject
 import org.ltrails.common.converter.MetricConverter
-import org.ltrails.common.data.PlanningResult
-import org.ltrails.common.data.Trail
-import org.ltrails.common.data.TrailDAO
-import org.ltrails.common.data.TrailsPath
-import org.ltrails.common.data.mapper.UnitOfMeasurement
-import org.ltrails.web.request.PlanningRequest
+import org.ltrails.common.data.*
+import org.ltrails.web.request.PlanningRestRequest
 import java.util.*
 
-class TrailProcessor @Inject constructor(private val trailDAO: TrailDAO,
-                                         private val trailsPathExplorer: TrailsPathSolutionExplorer,
-                                         private val metricConverter: MetricConverter) {
+class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
+                                       private val trailsPathExplorer: TrailsPathSolutionExplorer,
+                                       private val metricConverter: MetricConverter) {
 
-    val allTrails: List<Trail> get() = trailDAO.allTrails
+    fun plan(planning: PlanningRestRequest): PlanningResult? {
 
-    fun plan(planningRequest: PlanningRequest): PlanningResult? {
-
-        val trailsWithRequestedDestination = getTrailsWithRequestedDestination(planningRequest)
+        val trailsWithRequestedDestination = getTrailsWithRequestedDestination(planning)
 
         if (trailsWithRequestedDestination.isEmpty()) {
             return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
         }
 
-        val distanceInMeters = if (planningRequest.unitOfMeasurement == UnitOfMeasurement.m)
-            metricConverter.getMetersFromKm(planningRequest.distanceFromPosition) else planningRequest.distanceFromPosition
+        val distanceInMeters = if (planning.unitOfMeasurement == UnitOfMeasurement.m)
+            metricConverter.getMetersFromKm(planning.distanceFromPosition) else planning.distanceFromPosition
 
 
-        val startingTrailsWithinRange = trailDAO.getTrailsByStartPosMetricDistance(planningRequest.startPos.coords.longitude,
-                planningRequest.startPos.coords.latitude, distanceInMeters)
+        val startingTrailsWithinRange = trailDAO.getTrailsByStartPosMetricDistance(planning.startPos.coords.longitude,
+                planning.startPos.coords.latitude, distanceInMeters)
 
         // No close trails starts
         if (startingTrailsWithinRange.size == 0) {
@@ -37,7 +31,7 @@ class TrailProcessor @Inject constructor(private val trailDAO: TrailDAO,
         }
 
         // Check only for direct trails
-        if (planningRequest.isDirectTrailsOnly) {
+        if (planning.isDirectTrailsOnly) {
             val directTrails = trailsPathExplorer.getDirectTrails(startingTrailsWithinRange, trailsWithRequestedDestination)
             val elected = getElectedArbitrarily(directTrails)
             return getPlanningResult(getTrailsPathFromTrail(elected), getOptionalWithoutElected(directTrails, elected).map { trail -> getTrailsPathFromTrail(trail) })
@@ -56,10 +50,10 @@ class TrailProcessor @Inject constructor(private val trailDAO: TrailDAO,
     }
 
 
-    private fun getTrailsWithRequestedDestination(planningRequest: PlanningRequest): Set<Trail> {
-        val trailsHavingDestinationOrTagsNameLike = trailDAO.getTrailsHavingDestinationNameLike(planningRequest.destination)
-                .union(trailDAO.getTrailsHavingDestinationTagsLike(planningRequest.destination))
-        return if (planningRequest.isSearchDescription) trailsHavingDestinationOrTagsNameLike.union(trailDAO.getTrailsHavingDescriptionLike(planningRequest.destination))
+    private fun getTrailsWithRequestedDestination(planning: PlanningRestRequest): Set<Trail> {
+        val trailsHavingDestinationOrTagsNameLike = trailDAO.getTrailsHavingDestinationNameLike(planning.destination)
+                .union(trailDAO.getTrailsHavingDestinationTagsLike(planning.destination))
+        return if (planning.isSearchDescription) trailsHavingDestinationOrTagsNameLike.union(trailDAO.getTrailsHavingDescriptionLike(planning.destination))
         else trailsHavingDestinationOrTagsNameLike
     }
 

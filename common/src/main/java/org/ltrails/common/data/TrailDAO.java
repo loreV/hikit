@@ -14,24 +14,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static com.mongodb.client.model.Filters.or;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 public class TrailDAO implements TrailsDao {
 
-    private static final String RESOLVED_START_POS_COORDINATE = Trail.STARTPOS + "." + Position.COORD;
-    private static final String RESOLVED_FINAL_POS_COORDINATE = Trail.FINALPOS + "." + Position.NAME;
-    private static final String RESOLVED_FINAL_TAGS_COORDINATE = Trail.FINALPOS + "." + Position.TAGS;
-    private static final String RESOLVED_FINAL_DESCRIPTION = Trail.FINALPOS + "." + Position.DESCRIPTION;
-    private static final String RESOLVED_AREA_IN_DESTINATION = Trail.FINALPOS + "." + Position.AREA;
-    private static final String RESOLVED_AREA_IN_START_POS = Trail.STARTPOS + "." + Position.AREA;
+    private static final String RESOLVED_START_POS_COORDINATE = Trail.START_POS + "." + Position.COORDS;
+    private static final String RESOLVED_FINAL_POS_COORDINATE = Trail.FINAL_POS + "." + Position.NAME;
+    private static final String RESOLVED_FINAL_TAGS_COORDINATE = Trail.FINAL_POS + "." + Position.TAGS;
+    private static final String RESOLVED_FINAL_DESCRIPTION = Trail.FINAL_POS + "." + Position.DESCRIPTION;
 
     private static final String RESOLVED_COORDINATES = "coordinates";
     private static final String NEAR_OPERATOR = "$near";
     private static final String $_MIN_DISTANCE_FILTER = "$minDistance";
     private static final String $_MAX_M_DISTANCE_FILTER = "$maxDistance";
     private static final String STARTING_STRING = "^%s\\.*";
+    public static final int RESULT_LIMIT = 50;
 
     private final MongoCollection<Document> collection;
     private final Mapper<Trail> dataPointMapper;
@@ -47,7 +45,7 @@ public class TrailDAO implements TrailsDao {
         return toTrailsList(collection.find(new Document()));
     }
 
-    public Trail getTrailsByCodeAndPostcode(final String postcode, final String trailCode) {
+    public Trail getTrailByCodeAndPostcodeCountry(final String postcode, final String trailCode) {
         final FindIterable<Document> documents = collection.find(new Document(Trail.POST_CODE, postcode).append(Trail.CODE, trailCode));
         return toTrailsList(documents).stream().findFirst().orElseThrow(IllegalArgumentException::new);
     }
@@ -78,13 +76,8 @@ public class TrailDAO implements TrailsDao {
         return toTrailsList(documents);
     }
 
-    public List<Trail> getTrailsInArea(@NotNull String area) {
-        final FindIterable<Document> documents = collection.find(
-                or(
-                        new Document(RESOLVED_AREA_IN_START_POS, area),
-                        new Document(RESOLVED_AREA_IN_DESTINATION, area)
-                ));
-        return toTrailsList(documents);
+    public List<Trail> executeQueryAndGetResult(final Document doc) {
+        return toTrailsList(collection.find(doc).limit(RESULT_LIMIT));
     }
 
     @NotNull
