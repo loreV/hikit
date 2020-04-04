@@ -5,20 +5,26 @@ import org.ltrails.common.data.helper.GsonBeanHelper
 import org.ltrails.web.request.TrailsGeoRequest
 import spark.Request
 
-class TrailGeoRequestValidator constructor(val gsonBeanHelper: GsonBeanHelper) : Validator<Request> {
+class TrailGeoRequestValidator constructor(private val gsonBeanHelper: GsonBeanHelper) : Validator<Request> {
 
 
     override fun validate(request: Request): List<String> {
         if (request.body().isBlank()) {
             return listOf("No request found in method body")
         }
-        // TODO: do not un-serialize this object twice
-        try {
-            gsonBeanHelper.gsonBuilder!!.fromJson(request.body(), TrailsGeoRequest::class.java)
+        return try {
+            val trailGeoRequest = gsonBeanHelper.gsonBuilder!!.fromJson(request.body(), TrailsGeoRequest::class.java)
+            val listOfErrorMessages = mutableListOf<String>()
+            if (trailGeoRequest.coords.longitude > 90 || trailGeoRequest.coords.longitude < -90) {
+                listOfErrorMessages.add("Longitude value out of bound")
+            }
+            if (trailGeoRequest.coords.latitude > 90 || trailGeoRequest.coords.latitude < -90) {
+                listOfErrorMessages.add("Latitude value out of bound")
+            }
+            listOfErrorMessages
         } catch (e: JsonSyntaxException) {
-            return listOf("The request is malformed")
+            listOf("The request is malformed")
         }
-        return emptyList()
     }
 
 

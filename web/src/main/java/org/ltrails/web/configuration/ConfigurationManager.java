@@ -52,7 +52,7 @@ public class ConfigurationManager {
     }
 
     private void startController() {
-        dataPointDAO.init();
+        dataPointDAO.initEndpoint();
         systemController.init();
     }
 }

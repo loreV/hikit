@@ -16,17 +16,16 @@ import spark.Request;
 import spark.Response;
 import spark.Spark;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static org.ltrails.common.configuration.ConfigurationProperties.API_PREFIX;
 import static org.ltrails.web.configuration.ConfigurationManager.ACCEPT_TYPE;
-import static spark.Spark.post;
 
 
 public class TrailController {
@@ -64,13 +63,13 @@ public class TrailController {
         final String country = request.queryMap().get(PARAM_COUNTRY).toString();
 
         final List<Trail> trailsByTrailCode = trailManager.getByTrailPostCodeCountry(code,
-                isEmpty((postCodes)) ? Arrays.asList(postCodes.split(",")) : Collections.emptyList(),
+                isEmpty((postCodes)) ? asList(postCodes.split(",")) : Collections.emptyList(),
                 country);
         return trailRestResponseBuilder(trailsByTrailCode);
     }
 
     private TrailRestResponse getGeo(final Request request, final Response response) {
-        List<String> errorMessages = trailGeoRequestValidator.validate(request);
+        final List<String> errorMessages = trailGeoRequestValidator.validate(request);
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
         }
@@ -104,11 +103,9 @@ public class TrailController {
                 .withStatus(Status.ERROR).build();
     }
 
-    public void init() {
-        // get all
+    public void initEndpoint() {
         Spark.get(format("%s/get", PREFIX), ACCEPT_TYPE, this::get, JsonUtil.json());
-        post(format("%s/geo", PREFIX), ACCEPT_TYPE, this::getGeo, JsonUtil.json());
-
+        Spark.post(format("%s/geo", PREFIX), ACCEPT_TYPE, this::getGeo, JsonUtil.json());
         LOG.info("Trail CONTROLLER Started");
     }
 
