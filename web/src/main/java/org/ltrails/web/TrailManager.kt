@@ -3,23 +3,23 @@ package org.ltrails.web
 import com.google.inject.Inject
 import org.bson.Document
 import org.ltrails.common.converter.MetricConverter
-import org.ltrails.common.data.*
+import org.ltrails.common.data.Coordinates
+import org.ltrails.common.data.Trail
+import org.ltrails.common.data.TrailDAO
+import org.ltrails.common.data.UnitOfMeasurement
 
-class TrailManager @Inject constructor(val trailDAO: TrailDAO, val metricConverter: MetricConverter) {
+class TrailManager @Inject constructor(val trailDAO: TrailDAO, val metricConverter: MetricConverter, val trailDAOHelper: TrailDaoHelper) {
 
     fun getByTrailPostCodeCountry(trailCode: String, postCodes: List<String>, country: String): List<Trail> {
-        val doc = Document()
+        var doc = Document()
         if (country.isNotBlank()) {
-            doc.append(Trail.COUNTRY, country)
+            doc = trailDAOHelper.appendEqualFilter(doc, Trail.COUNTRY, country)
         }
         if (trailCode.isNotBlank()) {
-            doc.append(Trail.CODE, trailCode)
+            doc = trailDAOHelper.appendEqualFilter(doc, Trail.CODE, trailCode)
         }
         if (postCodes.isNotEmpty()) {
-            doc.append("\$or", listOf(
-                    Document(Trail.START_POS + "." + Position.POSTCODE, Document("\$in", postCodes)),
-                    Document(Trail.FINAL_POS + "." + Position.POSTCODE, Document("\$in", postCodes))
-            ))
+            doc = trailDAOHelper.appendOrFilterOnStartAndFinalPost(doc, postCodes)
         }
         return trailDAO.executeQueryAndGetResult(doc)
     }
