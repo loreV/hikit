@@ -22,7 +22,7 @@ import java.util.Objects;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static org.ltrails.common.configuration.ConfigurationProperties.API_PREFIX;
 import static org.ltrails.web.configuration.ConfigurationManager.ACCEPT_TYPE;
@@ -30,12 +30,15 @@ import static org.ltrails.web.configuration.ConfigurationManager.ACCEPT_TYPE;
 
 public class TrailController {
 
+    private final Logger LOG = getLogger(TrailController.class.getName());
+
+    private static final String PREFIX = API_PREFIX + "/trails";
+
+    public static final String COMMA_ARRAY_ELEM_SEP = ",";
     public static String PARAM_TRAIL_CODE = "trailCode";
     public static String PARAM_POST_CODE = "postCode";
     public static String PARAM_COUNTRY = "country";
 
-    private final Logger LOG = getLogger(TrailController.class.getName());
-    private static final String PREFIX = API_PREFIX + "/trails";
 
     private final TrailManager trailManager;
     private final TrailRequestValidator trailRequestValidator;
@@ -53,22 +56,24 @@ public class TrailController {
         this.gsonBeanHelper = gsonBeanHelper;
     }
 
-    private TrailRestResponse get(final Request request, final Response response) {
+    public TrailRestResponse get(final Request request, final Response response) {
         final List<String> errorMessages = trailRequestValidator.validate(request);
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
         }
-        final String code = request.queryMap().get(PARAM_TRAIL_CODE).toString();
-        final String postCodes = request.queryMap().get(PARAM_POST_CODE).toString();
-        final String country = request.queryMap().get(PARAM_COUNTRY).toString();
+        final String code = request.queryMap().get(PARAM_TRAIL_CODE).value();
+        final String postCodes = request.queryMap().get(PARAM_POST_CODE).value();
+        final String country = request.queryMap().get(PARAM_COUNTRY).value();
 
-        final List<Trail> trailsByTrailCode = trailManager.getByTrailPostCodeCountry(code,
-                isEmpty((postCodes)) ? asList(postCodes.split(",")) : Collections.emptyList(),
-                country);
+        final List<Trail> trailsByTrailCode = trailManager.getByTrailPostCodeCountry(
+                isBlank(code) ? EMPTY : code,
+                !isEmpty(postCodes) ? asList(postCodes.split(COMMA_ARRAY_ELEM_SEP)) :
+                        Collections.emptyList(),
+                isBlank(country) ? EMPTY : country);
         return trailRestResponseBuilder(trailsByTrailCode);
     }
 
-    private TrailRestResponse getGeo(final Request request, final Response response) {
+    public TrailRestResponse getGeo(final Request request, final Response response) {
         final List<String> errorMessages = trailGeoRequestValidator.validate(request);
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
@@ -104,7 +109,7 @@ public class TrailController {
     }
 
     public void initEndpoint() {
-        Spark.get(format("%s/get", PREFIX), ACCEPT_TYPE, this::get, JsonUtil.json());
+        Spark.get(format("%s", PREFIX), ACCEPT_TYPE, this::get, JsonUtil.json());
         Spark.post(format("%s/geo", PREFIX), ACCEPT_TYPE, this::getGeo, JsonUtil.json());
         LOG.info("Trail CONTROLLER Started");
     }
