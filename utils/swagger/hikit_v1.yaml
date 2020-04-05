@@ -25,7 +25,7 @@ paths:
       tags:
         - "Trails"
       summary: "Retrieves trails based on given conditions"
-      description: ""
+      description: "Retrieves trails based on given conditions. At least one parameter must be specified. The result is limited to up to 50 trails."
       operationId: "Retrieves"
       produces:
         - "application/json"
@@ -236,7 +236,7 @@ definitions:
       eta:
         type: "number"
         format: "number"
-      pois:
+      POIs:
         type: "array"
         items:
           type: "object"
