@@ -109,7 +109,7 @@ public class TrailController {
     }
 
     public void initEndpoint() {
-        Spark.get(format("%s/get", PREFIX), ACCEPT_TYPE, this::get, JsonUtil.json());
+        Spark.get(format("%s", PREFIX), ACCEPT_TYPE, this::get, JsonUtil.json());
         Spark.post(format("%s/geo", PREFIX), ACCEPT_TYPE, this::getGeo, JsonUtil.json());
         LOG.info("Trail CONTROLLER Started");
     }
