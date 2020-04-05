@@ -17,6 +17,8 @@ tags:
     description: "Allows to access POI data via conveninet REST methods"
   - name: "Route"
     description: "Plan a trip based on starting and end point"
+  - name: "System"
+    description: "Service courtesy methods"
 schemes:
   - "http"
 paths:
@@ -170,6 +172,16 @@ paths:
         204:
           description: "No routes found"
           schema: {}
+  /system:
+    get:
+      tags:
+        - "System"
+      summary: "Helps troubleshooting the service liveliness"
+      responses:
+        200:
+          description: "Successful liveliness check"
+          schema:
+            $ref: "#/definitions/RESTResponse"
 definitions:
   Coords:
     type: "object"
