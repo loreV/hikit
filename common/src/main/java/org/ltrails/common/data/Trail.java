@@ -18,7 +18,7 @@ public class Trail {
     public static final String TRACK_LENGTH = "trackLength";
     public static final String ETA = "eta";
     public static final String CONNECTING_TRAILS = "wayPoints";
-    public static final String POIS = "pois";
+    public static final String POIS = "POIs";
     public static final String CLASSIFICATION = "classification";
     public static final String POST_CODE = "postCodes";
     public static final String COUNTRY = "country";
