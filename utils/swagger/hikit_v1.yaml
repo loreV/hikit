@@ -121,7 +121,7 @@ paths:
         200:
           description: "successful operation"
           schema:
-            $ref: "#/definitions/TrailResponse"
+            $ref: "#/definitions/POIResponse"
   /poi/geo:
     post:
       tags:
@@ -203,6 +203,9 @@ definitions:
         items:
           type: "object"
           $ref: "#/definitions/Trail"
+    allOf:
+      - $ref: "#/definitions/RESTResponse"
+      - type: "object"
   Trail:
     type: "object"
     properties:
@@ -336,11 +339,14 @@ definitions:
   POIResponse:
     type: "object"
     properties:
-      routes:
+      pois:
         type: "array"
         items:
           type: "object"
           $ref: "#/definitions/POI"
+    allOf:
+      - $ref: "#/definitions/RESTResponse"
+      - type: "object"
   TrailReference:
     type: "object"
     properties:
@@ -381,6 +387,9 @@ definitions:
         items:
           type: "object"
           $ref: "#/definitions/RouteSolution"
+    allOf:
+      - $ref: "#/definitions/RESTResponse"
+      - type: "object"
   RoutePoint:
     type: "object"
     properties:
@@ -443,6 +452,18 @@ definitions:
           - "E"
           - "EE"
           - "EEA"
+  RESTResponse:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        enum:
+          - "OK"
+          - "ERROR"
+      messages:
+        type: "array"
+        items:
+          type: "string"
 externalDocs:
   description: "Find out more about HiKit"
   url: "https://github.com/loreV/hikit"
