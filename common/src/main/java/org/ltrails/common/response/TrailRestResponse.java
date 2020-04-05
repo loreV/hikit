@@ -12,8 +12,12 @@ public class TrailRestResponse extends RESTResponse {
         this.trails = trails;
     }
 
+    public List<Trail> getTrails() {
+        return trails;
+    }
+
     public static final class TrailRestResponseBuilder {
-        List<Trail> trails;
+        private List<Trail> trails;
         private Status status;
         private List<String> messages;
 

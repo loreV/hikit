@@ -4,10 +4,9 @@ import org.bson.Document
 import org.ltrails.common.data.Position
 import org.ltrails.common.data.Trail
 
-object TrailDaoHelper {
+class TrailDaoHelper {
 
-    fun appendEqualFilter(doc: Document,
-                          key: String,
+    fun appendEqualFilter(key: String,
                           value: String): Document {
         return Document(key, value)
     }

@@ -8,15 +8,17 @@ import org.ltrails.common.data.Trail
 import org.ltrails.common.data.TrailDAO
 import org.ltrails.common.data.UnitOfMeasurement
 
-class TrailManager @Inject constructor(val trailDAO: TrailDAO, val metricConverter: MetricConverter, val trailDAOHelper: TrailDaoHelper) {
+class TrailManager @Inject constructor(private val trailDAO: TrailDAO,
+                                       private val metricConverter: MetricConverter,
+                                       private val trailDAOHelper: TrailDaoHelper) {
 
     fun getByTrailPostCodeCountry(trailCode: String, postCodes: List<String>, country: String): List<Trail> {
         var doc = Document()
         if (country.isNotBlank()) {
-            doc = trailDAOHelper.appendEqualFilter(doc, Trail.COUNTRY, country)
+            doc = trailDAOHelper.appendEqualFilter(Trail.COUNTRY, country)
         }
         if (trailCode.isNotBlank()) {
-            doc = trailDAOHelper.appendEqualFilter(doc, Trail.CODE, trailCode)
+            doc = trailDAOHelper.appendEqualFilter(Trail.CODE, trailCode)
         }
         if (postCodes.isNotEmpty()) {
             doc = trailDAOHelper.appendOrFilterOnStartAndFinalPost(doc, postCodes)

@@ -1,11 +1,13 @@
 package org.ltrails.web.request.validator
 
 import com.google.gson.JsonSyntaxException
+import com.google.inject.Inject
 import org.ltrails.common.data.helper.GsonBeanHelper
 import org.ltrails.web.request.TrailsGeoRequest
 import spark.Request
 
-class TrailGeoRequestValidator constructor(private val gsonBeanHelper: GsonBeanHelper) : Validator<Request> {
+
+class TrailGeoRequestValidator @Inject constructor(private val gsonBeanHelper: GsonBeanHelper) : Validator<Request> {
 
     companion object {
         const val limitLongLat = 90
