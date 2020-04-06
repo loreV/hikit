@@ -8,7 +8,6 @@ import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 import org.ltrails.common.data.mapper.Mapper;
 import org.ltrails.common.data.mapper.TrailMapper;
-import org.ltrails.common.data.mapper.TrailsDao;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.regex.Pattern;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
-public class TrailDAO implements TrailsDao {
+public class TrailDAO {
 
     private static final String RESOLVED_START_POS_COORDINATE = Trail.START_POS + "." + Position.COORDS;
     private static final String RESOLVED_FINAL_POS_COORDINATE = Trail.FINAL_POS + "." + Position.NAME;
@@ -39,10 +38,6 @@ public class TrailDAO implements TrailsDao {
                     final TrailMapper trailMapper) {
         this.collection = dataSource.getDB().getCollection(Trail.COLLECTION_NAME);
         this.dataPointMapper = trailMapper;
-    }
-
-    public List<Trail> getAllTrails() {
-        return toTrailsList(collection.find(new Document()));
     }
 
     public Trail getTrailByCodeAndPostcodeCountry(final String postcode, final String trailCode) {

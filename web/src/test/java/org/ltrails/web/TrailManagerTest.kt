@@ -11,6 +11,7 @@ import org.ltrails.common.data.Trail.CODE
 import org.ltrails.common.data.Trail.COUNTRY
 import org.ltrails.common.data.TrailDAO
 import org.ltrails.common.data.UnitOfMeasurement
+import org.ltrails.web.data.helper.TrailDAOHelper
 
 class TrailManagerTest {
 
@@ -21,14 +22,14 @@ class TrailManagerTest {
         val mockTrailsDao = mockk<TrailDAO>()
         val mockMetricConverter = mockk<MetricConverter>()
         val mockDocument = mockk<Document>()
-        val mockTrailsDaoHelper = mockk<TrailDaoHelper>()
+        val mockTrailsDaoHelper = mockk<TrailDAOHelper>()
         val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper)
 
         val anyResultList = listOf(mockk<Trail>())
 
         every { mockTrailsDaoHelper.appendOrFilterOnStartAndFinalPost(any(), anyPostcodeList) } returns mockDocument
-        every { mockTrailsDaoHelper.appendEqualFilter(COUNTRY, "Italy") } returns mockDocument
-        every { mockTrailsDaoHelper.appendEqualFilter(CODE, "100") } returns mockDocument
+        every { mockTrailsDaoHelper.appendEqualFilter(any(), COUNTRY, "Italy") } returns mockDocument
+        every { mockTrailsDaoHelper.appendEqualFilter(any(), CODE, "100") } returns mockDocument
         every { mockTrailsDao.executeQueryAndGetResult(mockDocument) } returns anyResultList
         sot.getByTrailPostCodeCountry("100", anyPostcodeList, "Italy")
     }
@@ -38,13 +39,13 @@ class TrailManagerTest {
         val mockTrailsDao = mockk<TrailDAO>()
         val mockMetricConverter = mockk<MetricConverter>()
         val mockDocument = mockk<Document>()
-        val mockTrailsDaoHelper = mockk<TrailDaoHelper>()
+        val mockTrailsDaoHelper = mockk<TrailDAOHelper>()
         val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper)
 
         val anyResultList = listOf(mockk<Trail>())
 
         every { mockTrailsDaoHelper.appendOrFilterOnStartAndFinalPost(any(), anyPostcodeList) } returns mockDocument
-        every { mockTrailsDaoHelper.appendEqualFilter(COUNTRY, "Italy") } returns mockDocument
+        every { mockTrailsDaoHelper.appendEqualFilter(any(), COUNTRY, "Italy") } returns mockDocument
         every { mockTrailsDao.executeQueryAndGetResult(mockDocument) } returns anyResultList
         sot.getByTrailPostCodeCountry("", anyPostcodeList, "Italy")
     }
@@ -54,12 +55,12 @@ class TrailManagerTest {
         val mockTrailsDao = mockk<TrailDAO>()
         val mockMetricConverter = mockk<MetricConverter>()
         val mockDocument = mockk<Document>()
-        val mockTrailsDaoHelper = mockk<TrailDaoHelper>()
+        val mockTrailsDaoHelper = mockk<TrailDAOHelper>()
         val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper)
 
         val anyResultList = listOf(mockk<Trail>())
 
-        every { mockTrailsDaoHelper.appendEqualFilter(COUNTRY, "Italy") } returns mockDocument
+        every { mockTrailsDaoHelper.appendEqualFilter(any(), COUNTRY, "Italy") } returns mockDocument
         every { mockTrailsDao.executeQueryAndGetResult(mockDocument) } returns anyResultList
         sot.getByTrailPostCodeCountry("", emptyList(), "Italy")
 
@@ -70,7 +71,7 @@ class TrailManagerTest {
         val mockTrailsDao = mockk<TrailDAO>()
         val mockMetricConverter = mockk<MetricConverter>()
         val mockCoordinates = mockk<Coordinates>()
-        val mockTrailsDaoHelper = mockk<TrailDaoHelper>()
+        val mockTrailsDaoHelper = mockk<TrailDAOHelper>()
         val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper)
 
         every { mockCoordinates.longitude } returns 0.0
