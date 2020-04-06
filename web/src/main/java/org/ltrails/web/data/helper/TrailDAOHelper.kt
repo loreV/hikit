@@ -1,15 +1,10 @@
-package org.ltrails.web
+package org.ltrails.web.data.helper
 
 import org.bson.Document
 import org.ltrails.common.data.Position
 import org.ltrails.common.data.Trail
 
-class TrailDaoHelper {
-
-    fun appendEqualFilter(key: String,
-                          value: String): Document {
-        return Document(key, value)
-    }
+class TrailDAOHelper : DAOHelper {
 
     fun appendOrFilterOnStartAndFinalPost(doc: Document, postCodes: List<String>): Document {
         return doc.append("\$or", listOf(
