@@ -12,13 +12,16 @@
         <module>common</module>
         <module>web</module>
         <module>integration-tests</module>
+        <module>distribution</module>
     </modules>
 
     <properties>
+        <!-- Build  -->
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler.version>8</maven-compiler.version>
-        <!-- Dependency versions -->
         <javaruntime.version>1.8</javaruntime.version>
+
         <spark.version>2.7.2</spark.version>
         <guice.version>4.2.1</guice.version>
         <rmq.version>5.6.0</rmq.version>
