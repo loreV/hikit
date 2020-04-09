@@ -12,6 +12,7 @@ import java.util.Collections;
 
 import static java.lang.String.format;
 import static org.apache.logging.log4j.LogManager.getLogger;
+import static org.ltrails.common.configuration.ConfigurationProperties.API_PREFIX;
 import static org.ltrails.web.configuration.ConfigurationManager.ACCEPT_TYPE;
 import static spark.Spark.get;
 
@@ -20,7 +21,7 @@ public class SystemController {
 
     private final Logger LOG = getLogger(TrailController.class.getName());
 
-    private static final String PREFIX = "/system";
+    private static final String PREFIX = API_PREFIX + "/system";
 
     @Inject
     public SystemController() {
