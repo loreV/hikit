@@ -1,4 +1,4 @@
-package org.ltrails.proc
+package org.ltrails.web.stats
 
 import kotlin.math.pow
 import kotlin.math.sqrt
