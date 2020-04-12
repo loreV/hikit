@@ -9,12 +9,14 @@ import spark.Request
 
 class PoiRequestValidatorTest {
 
+    private val anyPoiType = "any"
+
     @Test
     fun `if not specified message should provide error message`() {
         val mockRequest = mockkClass(Request::class)
         val mockPoisTypes = mockkClass(PoiTypes::class)
         every { mockRequest.queryParams() } returns HashSet()
-        every { mockPoisTypes.allPoiTypes } returns setOf("any")
+        every { mockPoisTypes.allPoiTypes } returns setOf(anyPoiType)
         val sot = PoiRequestValidator(mockPoisTypes)
         val errorMessages = sot.validate(mockRequest)
 
@@ -27,7 +29,7 @@ class PoiRequestValidatorTest {
         val mockRequest = mockkClass(Request::class)
         val someParams = HashSet<String>()
         val mockPoisTypes = mockkClass(PoiTypes::class)
-        every { mockPoisTypes.allPoiTypes } returns setOf("any")
+        every { mockPoisTypes.allPoiTypes } returns setOf(anyPoiType)
         someParams.add("a param")
         someParams.add("another param")
         every { mockRequest.queryParams() } returns someParams
@@ -44,7 +46,7 @@ class PoiRequestValidatorTest {
         val hashSet = HashSet<String>()
         hashSet.add(PoiController.PARAM_TRAIL_CODE)
         val mockPoisTypes = mockkClass(PoiTypes::class)
-        every { mockPoisTypes.allPoiTypes } returns setOf("any")
+        every { mockPoisTypes.allPoiTypes } returns setOf(anyPoiType)
         every { mockRequest.queryParams() } returns hashSet
         val sot = PoiRequestValidator(mockPoisTypes)
         val errorMessages = sot.validate(mockRequest)
