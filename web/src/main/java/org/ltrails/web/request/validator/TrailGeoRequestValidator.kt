@@ -4,19 +4,15 @@ import com.google.gson.JsonSyntaxException
 import com.google.inject.Inject
 import org.ltrails.common.data.helper.GsonBeanHelper
 import org.ltrails.web.request.TrailsGeoRequest
+import org.ltrails.web.request.validator.Validator.Companion.latitudeValueOutOfBoundErrorMessage
+import org.ltrails.web.request.validator.Validator.Companion.limitLongLat
+import org.ltrails.web.request.validator.Validator.Companion.longitudeValueOutOfBoundErrorMessage
+import org.ltrails.web.request.validator.Validator.Companion.noRequestBodyErrorMessage
+import org.ltrails.web.request.validator.Validator.Companion.requestMalformedErrorMessage
 import spark.Request
 
 
 class TrailGeoRequestValidator @Inject constructor(private val gsonBeanHelper: GsonBeanHelper) : Validator<Request> {
-
-    companion object {
-        const val limitLongLat = 90
-
-        const val longitudeValueOutOfBoundErrorMessage = "Longitude value out of bound"
-        const val latitudeValueOutOfBoundErrorMessage = "Longitude value out of bound"
-        const val noRequestBodyErrorMessage = "No request found in method body"
-        const val requestMalformedErrorMessage = "The request is malformed"
-    }
 
     override fun validate(request: Request): List<String> {
         if (request.body().isBlank()) {

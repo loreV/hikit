@@ -17,16 +17,16 @@ import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 public class TrailDAO {
+    public static final String NEAR_OPERATOR = "$near";
+    public static final String RESOLVED_COORDINATES = "coordinates";
+    static final String $_MAX_M_DISTANCE_FILTER = "$maxDistance";
+    static final String $_MIN_DISTANCE_FILTER = "$minDistance";
 
     private static final String RESOLVED_START_POS_COORDINATE = Trail.START_POS + "." + Position.COORDS;
     private static final String RESOLVED_FINAL_POS_COORDINATE = Trail.FINAL_POS + "." + Position.NAME;
     private static final String RESOLVED_FINAL_TAGS_COORDINATE = Trail.FINAL_POS + "." + Position.TAGS;
     private static final String RESOLVED_FINAL_DESCRIPTION = Trail.FINAL_POS + "." + Position.DESCRIPTION;
 
-    private static final String RESOLVED_COORDINATES = "coordinates";
-    private static final String NEAR_OPERATOR = "$near";
-    private static final String $_MIN_DISTANCE_FILTER = "$minDistance";
-    private static final String $_MAX_M_DISTANCE_FILTER = "$maxDistance";
     private static final String STARTING_STRING = "^%s\\.*";
     public static final int RESULT_LIMIT = 50;
 

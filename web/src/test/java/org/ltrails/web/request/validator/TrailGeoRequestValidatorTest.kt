@@ -36,7 +36,7 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == TrailGeoRequestValidator.latitudeValueOutOfBoundErrorMessage)
+        assert(errorMessages[0] == Validator.latitudeValueOutOfBoundErrorMessage)
     }
 
     @Test
@@ -62,7 +62,7 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == TrailGeoRequestValidator.longitudeValueOutOfBoundErrorMessage)
+        assert(errorMessages[0] == Validator.longitudeValueOutOfBoundErrorMessage)
     }
 
     @Test
@@ -88,8 +88,8 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 2)
-        assert(errorMessages.contains(TrailGeoRequestValidator.longitudeValueOutOfBoundErrorMessage))
-        assert(errorMessages.contains(TrailGeoRequestValidator.latitudeValueOutOfBoundErrorMessage))
+        assert(errorMessages.contains(Validator.longitudeValueOutOfBoundErrorMessage))
+        assert(errorMessages.contains(Validator.latitudeValueOutOfBoundErrorMessage))
     }
 
     @Test
@@ -107,7 +107,7 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages.contains(TrailGeoRequestValidator.requestMalformedErrorMessage))
+        assert(errorMessages.contains(Validator.requestMalformedErrorMessage))
 
     }
 
@@ -121,6 +121,6 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == TrailGeoRequestValidator.noRequestBodyErrorMessage)
+        assert(errorMessages[0] == Validator.noRequestBodyErrorMessage)
     }
 }

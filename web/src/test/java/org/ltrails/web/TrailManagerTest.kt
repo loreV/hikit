@@ -11,7 +11,7 @@ import org.ltrails.common.data.Trail.CODE
 import org.ltrails.common.data.Trail.COUNTRY
 import org.ltrails.common.data.TrailDAO
 import org.ltrails.common.data.UnitOfMeasurement
-import org.ltrails.web.data.helper.TrailDAOHelper
+import org.ltrails.common.data.helper.TrailDAOHelper
 
 class TrailManagerTest {
 

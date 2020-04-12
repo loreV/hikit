@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Poi {
 
+    public static final String COLLECTION_NAME = "Poi";
+
     public static final String POSITION = "position";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
@@ -50,6 +52,45 @@ public class Poi {
         this.postCode = postCode;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public List<String> getOtherNames() {
+        return otherNames;
+    }
+
+    public JsonElement getGeo() {
+        return geo;
+    }
+
+    public List<String> getResourcesLinks() {
+        return resourcesLinks;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public List<String> getTrailCodes() {
+        return trailCodes;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
 
     public static final class PoiBuilder {
         private Position position;
