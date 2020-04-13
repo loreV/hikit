@@ -4,25 +4,26 @@ import com.google.inject.Inject
 import org.bson.Document
 import org.ltrails.common.converter.MetricConverter
 import org.ltrails.common.data.*
-import org.ltrails.web.data.helper.PoiDAOHelper
+import org.ltrails.common.data.helper.PoiDAOHelper
 
 class PoiManager @Inject constructor(private val poiDao: PoiDAO,
                                      private val metricConverter: MetricConverter,
                                      private val poiDaoHelper: PoiDAOHelper) {
 
-    fun getByTrailPostCodeCountry(trailCodes: List<String>,
-                                  postCode: String,
-                                  country: String,
-                                  types: List<String>): MutableList<Trail> {
+    fun getByTrailPostCodeCountryType(trailCodes: String,
+                                      postCode: List<String>,
+                                      country: String,
+                                      types: List<String>): List<Poi> {
         var doc = Document()
         if (country.isNotBlank()) {
             doc = poiDaoHelper.appendEqualFilter(doc, Trail.COUNTRY, country)
         }
         if (trailCodes.isNotEmpty()) {
-            doc = poiDaoHelper.appendIn(doc, Poi.TRAIL_CODES, trailCodes)
+            val resolvedTrailRefField = Poi.TRAIL_REF + "." + TrailReference.TRAIL_CODE
+            doc = poiDaoHelper.appendEqualFilter(doc, resolvedTrailRefField, trailCodes)
         }
         if (postCode.isNotEmpty()) {
-            doc = poiDaoHelper.appendEqualFilter(doc, Poi.POST_CODE, postCode)
+            doc = poiDaoHelper.appendIn(doc, Poi.POST_CODE, postCode)
         }
         if (types.isNotEmpty()) {
             doc = poiDaoHelper.appendIn(doc, Poi.TYPES, types)
@@ -30,7 +31,7 @@ class PoiManager @Inject constructor(private val poiDao: PoiDAO,
         return poiDao.executeQueryAndGetResult(doc)
     }
 
-    fun getByGeo(coordinates: Coordinates, distance: Int, unitOfMeasurement: UnitOfMeasurement, types: List<String>): List<Trail> {
+    fun getByGeo(coordinates: Coordinates, distance: Int, unitOfMeasurement: UnitOfMeasurement, types: List<String>): List<Poi> {
         val meters = if (unitOfMeasurement == UnitOfMeasurement.km) metricConverter.getMetersFromKm(distance) else distance
         return poiDao.getPosByPositionAndTypes(
                 coordinates.longitude,

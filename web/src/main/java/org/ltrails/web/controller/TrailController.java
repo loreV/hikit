@@ -28,7 +28,7 @@ import static org.ltrails.common.configuration.ConfigurationProperties.API_PREFI
 import static org.ltrails.web.configuration.ConfigurationManager.ACCEPT_TYPE;
 
 
-public class TrailController {
+public class TrailController implements PublicController {
 
     private final Logger LOG = getLogger(TrailController.class.getName());
 
@@ -70,6 +70,7 @@ public class TrailController {
                 !isEmpty(postCodes) ? asList(postCodes.split(COMMA_ARRAY_ELEM_SEP)) :
                         Collections.emptyList(),
                 isBlank(country) ? EMPTY : country);
+        response.type(ACCEPT_TYPE);
         return trailRestResponseBuilder(trailsByTrailCode);
     }
 
@@ -83,6 +84,7 @@ public class TrailController {
         final List<Trail> trailsNearby = trailManager.getByGeo(trailsGeoRequest.getCoords(),
                 trailsGeoRequest.getDistance().intValue(),
                 trailsGeoRequest.getUom());
+        response.type(ACCEPT_TYPE);
         return trailRestResponseBuilder(trailsNearby);
     }
 
@@ -108,7 +110,7 @@ public class TrailController {
                 .withStatus(Status.ERROR).build();
     }
 
-    public void initEndpoint() {
+    public void init() {
         Spark.get(format("%s", PREFIX), ACCEPT_TYPE, this::get, JsonUtil.json());
         Spark.post(format("%s/geo", PREFIX), ACCEPT_TYPE, this::getGeo, JsonUtil.json());
         LOG.info("Trail CONTROLLER Started");

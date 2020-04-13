@@ -3,6 +3,7 @@ package org.ltrails.web.configuration;
 import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
 import org.ltrails.common.data.DataSource;
+import org.ltrails.web.controller.PoiController;
 import org.ltrails.web.controller.SystemController;
 import org.ltrails.web.controller.TrailController;
 
@@ -16,7 +17,6 @@ public class ConfigurationManager {
 
     private final Logger LOG = getLogger(ConfigurationManager.class.getName());
 
-    private final SystemController systemController;
     private final DataSource dataSource;
 
     private static final String PORT_PROPERTY = "web-port";
@@ -27,32 +27,37 @@ public class ConfigurationManager {
     /**
      * Controllers
      */
-    private final TrailController dataPointDAO;
+    private final TrailController trailController;
+    private final PoiController poiController;
+    private final SystemController systemController;
+
 
     @Inject
     public ConfigurationManager(final @Named(PORT_PROPERTY) String port,
-                                final TrailController trailControllerController,
+                                final TrailController trailController,
+                                final PoiController poiController,
                                 final SystemController systemController,
                                 final DataSource dataSource) {
-        this.dataPointDAO = trailControllerController;
+        this.trailController = trailController;
+        this.poiController = poiController;
         this.systemController = systemController;
         this.dataSource = dataSource;
         port(Integer.parseInt(port));
     }
 
     public void init() {
-        startController();
+        startControllers();
         testConnectionWithDB();
         LOG.info(format("Configuration completed. Listening on port %s", port()));
-
     }
 
     private void testConnectionWithDB() {
         dataSource.getClient().listDatabases();
     }
 
-    private void startController() {
-        dataPointDAO.initEndpoint();
+    private void startControllers() {
+        trailController.init();
+        poiController.init();
         systemController.init();
     }
 }

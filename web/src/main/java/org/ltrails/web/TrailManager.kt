@@ -7,7 +7,7 @@ import org.ltrails.common.data.Coordinates
 import org.ltrails.common.data.Trail
 import org.ltrails.common.data.TrailDAO
 import org.ltrails.common.data.UnitOfMeasurement
-import org.ltrails.web.data.helper.TrailDAOHelper
+import org.ltrails.common.data.helper.TrailDAOHelper
 
 class TrailManager @Inject constructor(private val trailDAO: TrailDAO,
                                        private val metricConverter: MetricConverter,

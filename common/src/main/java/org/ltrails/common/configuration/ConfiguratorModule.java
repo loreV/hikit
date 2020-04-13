@@ -21,7 +21,7 @@ public class ConfiguratorModule extends AbstractModule {
     private static final String DEFAULT_PROPERTY_FILE_NAME = "app.properties";
     private final Logger LOGGER = getLogger(ConfiguratorModule.class);
 
-    private static final String APP_NAME = "LandingTrails";
+    private static final String APP_NAME = "Hikit";
     private static final String FILE_PATH_OPTION = "p";
 
 

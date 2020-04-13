@@ -1,4 +1,4 @@
-package org.ltrails.web.data.helper
+package org.ltrails.common.data.helper
 
 import org.bson.Document
 import org.ltrails.common.data.Position
