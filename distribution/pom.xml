@@ -57,6 +57,8 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
+                            <finalName>hikit_v1</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
                                     <mainClass>org.ltrails.web.Main</mainClass>
