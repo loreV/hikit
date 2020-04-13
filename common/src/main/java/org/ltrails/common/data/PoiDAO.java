@@ -1,11 +1,13 @@
 package org.ltrails.common.data;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.ltrails.common.data.helper.PoiDAOHelper;
 import org.ltrails.common.data.mapper.Mapper;
+import org.ltrails.common.data.mapper.PoiMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +22,9 @@ public class PoiDAO {
     private final MongoCollection<Document> collection;
     private final Mapper<Poi> dataPointMapper;
 
-
+    @Inject
     public PoiDAO(final DataSource dataSource,
-                  final Mapper<Poi> dataPointMapper) {
+                  final PoiMapper dataPointMapper) {
         this.collection = dataSource.getDB().getCollection(Poi.COLLECTION_NAME);
         this.dataPointMapper = dataPointMapper;
     }

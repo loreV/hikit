@@ -14,7 +14,6 @@ public class Trail {
     public static final String START_POS = "startPos";
     public static final String FINAL_POS = "finalPos";
     public static final String GEO = "geo";
-    public static final String REPORTED_DIFFICULTY = "reportedDifficulty";
     public static final String TRACK_LENGTH = "trackLength";
     public static final String ETA = "eta";
     public static final String CONNECTING_TRAILS = "wayPoints";
@@ -29,7 +28,6 @@ public class Trail {
     private Position startPos;
     private Position finalPos;
     private JsonElement geo;
-    private double reportedDifficulty;
     private double trackLength;
     private double eta;
     private List<ConnectingWayPoint> connectingWayPoints;
@@ -38,7 +36,7 @@ public class Trail {
     private final List<String> postCode;
     private final String country;
 
-    public Trail(String name, String description, String code, Position startPos, Position finalPos, double reportedDifficulty, double trackLength,
+    public Trail(String name, String description, String code, Position startPos, Position finalPos, double trackLength,
                  double eta, List<ConnectingWayPoint> connectingWayPoints, List<Poi> pois,
                  TrailClassification trailClassification, JsonElement geo, List<String> postCode, String country) {
         this.name = name;
@@ -47,7 +45,6 @@ public class Trail {
         this.startPos = startPos;
         this.finalPos = finalPos;
         this.geo = geo;
-        this.reportedDifficulty = reportedDifficulty;
         this.trackLength = trackLength;
         this.eta = eta;
         this.connectingWayPoints = connectingWayPoints;
@@ -75,10 +72,6 @@ public class Trail {
 
     public JsonElement getGeo() {
         return geo;
-    }
-
-    public double getReportedDifficulty() {
-        return reportedDifficulty;
     }
 
     public double getTrackLength() {
@@ -169,11 +162,6 @@ public class Trail {
             return this;
         }
 
-        public TrailBuilder withReportedDifficulty(double reportedDifficulty) {
-            this.reportedDifficulty = reportedDifficulty;
-            return this;
-        }
-
         public TrailBuilder withTrackLength(double trackLength) {
             this.trackLength = trackLength;
             return this;
@@ -211,7 +199,6 @@ public class Trail {
 
         public Trail build() {
             return new Trail(name, description, code, startPos, finalPos,
-                    reportedDifficulty,
                     trackLength, eta, connectingWayPoints, pois, trailClassification,
                     geo, postCode, country);
         }

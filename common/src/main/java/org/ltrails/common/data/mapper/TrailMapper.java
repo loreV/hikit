@@ -14,16 +14,18 @@ public class TrailMapper implements Mapper<Trail> {
 
     private final PositionMapper positionMapper;
     private final TrailReferenceMapper trailReferenceMapper;
+    private final PoiMapper poiMapper;
     private final GeoMapper geoMapper;
 
     @Inject
     public TrailMapper(PositionMapper positionMapper,
                        TrailReferenceMapper trailReferenceMapper,
+                       PoiMapper poiMapper,
                        GeoMapper geoMapper) {
         this.positionMapper = positionMapper;
         this.trailReferenceMapper = trailReferenceMapper;
+        this.poiMapper = poiMapper;
         this.geoMapper = geoMapper;
-
     }
 
     @Override
@@ -35,9 +37,9 @@ public class TrailMapper implements Mapper<Trail> {
                 .withStartPos(getPos(doc, Trail.START_POS))
                 .withFinalPos(getPos(doc, Trail.FINAL_POS))
                 .withGeo(geoMapper.mapToObject(doc.get(Trail.GEO, Document.class)))
-                .withReportedDifficulty(doc.getDouble(Trail.REPORTED_DIFFICULTY))
                 .withTrackLength(doc.getDouble(Trail.TRACK_LENGTH))
                 .withEta(doc.getDouble(Trail.ETA))
+                .withPois(getPois(doc))
                 .withClassification(getClassification(doc))
                 .withConnectingTrails(getConnectingTrail(doc))
                 .withCountry(doc.getString(Trail.COUNTRY))
@@ -46,8 +48,8 @@ public class TrailMapper implements Mapper<Trail> {
     }
 
     private List<Poi> getPois(Document doc) {
-        // TODO
-        return Collections.emptyList();
+        final List<Document> list = doc.get(Trail.POIS, List.class);
+        return list.stream().map(poiMapper::mapToObject).collect(Collectors.toList());
     }
 
     private List<ConnectingWayPoint> getConnectingTrail(Document rootDoc) {

@@ -3,6 +3,7 @@ package org.ltrails.web.controller
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.Before
 import org.junit.Test
 import org.ltrails.common.data.Coordinates
 import org.ltrails.common.data.Poi
@@ -11,6 +12,7 @@ import org.ltrails.common.data.UnitOfMeasurement
 import org.ltrails.common.data.helper.GsonBeanHelper
 import org.ltrails.common.response.Status
 import org.ltrails.web.PoiManager
+import org.ltrails.web.configuration.ConfigurationManager
 import org.ltrails.web.request.PoiGeoRequest
 import org.ltrails.web.request.validator.PoiGeoRequestValidator
 import org.ltrails.web.request.validator.PoiRequestValidator
@@ -25,6 +27,12 @@ class PoiControllerTest {
     private val anyTrailNumber = "100"
     private val anyType = "monument,church"
 
+    private var mockResponse: Response = mockk()
+
+    @Before
+    fun init() {
+        every { mockResponse.type(ConfigurationManager.ACCEPT_TYPE) } returns Unit
+    }
 
     /**
      * All three params
@@ -32,7 +40,6 @@ class PoiControllerTest {
     @Test
     fun `when calling GET with all parameters should call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockQueryResponseMap = mockk<QueryParamsMap>()
         val mockQueryResponseMapTrailCode = mockk<QueryParamsMap>()
         val mockQueryResponseMapTypes = mockk<QueryParamsMap>()
@@ -73,7 +80,6 @@ class PoiControllerTest {
     @Test
     fun `when calling GET with two params should call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockQueryResponseMap = mockk<QueryParamsMap>()
         val mockQueryResponseMapTrailCode = mockk<QueryParamsMap>()
         val mockQueryResponseMapTypesCode = mockk<QueryParamsMap>()
@@ -114,7 +120,6 @@ class PoiControllerTest {
     @Test
     fun `when calling GET with one param only should call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockQueryResponseMap = mockk<QueryParamsMap>()
         val mockQueryResponseMapTrailCode = mockk<QueryParamsMap>()
         val mockQueryResponseMapPostCode = mockk<QueryParamsMap>()
@@ -155,7 +160,6 @@ class PoiControllerTest {
     @Test
     fun `when validation fail should give error and report messages`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
 
         val mockPoiManager = mockk<PoiManager>()
         val mockPoiRequestValidator = mockk<PoiRequestValidator>()
@@ -182,7 +186,6 @@ class PoiControllerTest {
     @Test
     fun `when calling POST geo correctly should call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockPoiManager = mockk<PoiManager>()
         val mockPoiRequestValidator = mockk<PoiRequestValidator>()
         val mockPoiGeoRequestValidator = mockk<PoiGeoRequestValidator>()
@@ -229,7 +232,6 @@ class PoiControllerTest {
     @Test
     fun `when calling POST geo with wrong request format should NOT call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockPoiManager = mockk<PoiManager>()
         val mockPoiRequestValidator = mockk<PoiRequestValidator>()
         val mockPoiGeoRequestValidator = mockk<PoiGeoRequestValidator>()

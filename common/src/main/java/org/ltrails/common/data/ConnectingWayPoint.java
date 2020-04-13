@@ -3,7 +3,7 @@ package org.ltrails.common.data;
 public class ConnectingWayPoint {
 
     public static String POSITION = "position";
-    public static String POSITION_CONNECTING_TO = "connectingTo";
+    public static String POSITION_CONNECTING_TO = "connectingTrail";
 
     private Position position;
     private final TrailReference connectingTo;

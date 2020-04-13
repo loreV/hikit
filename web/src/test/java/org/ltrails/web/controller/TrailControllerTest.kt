@@ -3,6 +3,7 @@ package org.ltrails.web.controller
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.Before
 import org.junit.Test
 import org.ltrails.common.data.Coordinates
 import org.ltrails.common.data.Trail
@@ -10,6 +11,7 @@ import org.ltrails.common.data.UnitOfMeasurement
 import org.ltrails.common.data.helper.GsonBeanHelper
 import org.ltrails.common.response.Status
 import org.ltrails.web.TrailManager
+import org.ltrails.web.configuration.ConfigurationManager.ACCEPT_TYPE
 import org.ltrails.web.request.TrailsGeoRequest
 import org.ltrails.web.request.validator.TrailGeoRequestValidator
 import org.ltrails.web.request.validator.TrailRequestValidator
@@ -23,6 +25,13 @@ class TrailControllerTest {
     private val anyTwoPostcodes = "0001,0002"
     private val anyTrailNumber = "100"
 
+    private var mockResponse: Response = mockk()
+
+    @Before
+    fun init() {
+        every { mockResponse.type(ACCEPT_TYPE) } returns Unit
+    }
+
 
     /**
      * All three params
@@ -30,7 +39,7 @@ class TrailControllerTest {
     @Test
     fun `when calling GET with all parameters should call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
+
         val mockQueryResponseMap = mockk<QueryParamsMap>()
         val mockQueryResponseMapTrailCode = mockk<QueryParamsMap>()
         val mockQueryResponseMapPostCode = mockk<QueryParamsMap>()
@@ -68,7 +77,6 @@ class TrailControllerTest {
     @Test
     fun `when calling GET with two params should call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockQueryResponseMap = mockk<QueryParamsMap>()
         val mockQueryResponseMapTrailCode = mockk<QueryParamsMap>()
         val mockQueryResponseMapPostCode = mockk<QueryParamsMap>()
@@ -106,7 +114,6 @@ class TrailControllerTest {
     @Test
     fun `when calling GET with one param only should call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockQueryResponseMap = mockk<QueryParamsMap>()
         val mockQueryResponseMapTrailCode = mockk<QueryParamsMap>()
         val mockQueryResponseMapPostCode = mockk<QueryParamsMap>()
@@ -171,7 +178,6 @@ class TrailControllerTest {
     @Test
     fun `when calling POST geo correctly should call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockTrailManager = mockk<TrailManager>()
         val mockTrailRequestValidator = mockk<TrailRequestValidator>()
         val mockTrailGeoRequestValidator = mockk<TrailGeoRequestValidator>()
@@ -215,7 +221,6 @@ class TrailControllerTest {
     @Test
     fun `when calling POST geo with wrong request format should NOT call manager accordingly`() {
         val mockRequest = mockk<Request>()
-        val mockResponse = mockk<Response>()
         val mockTrailManager = mockk<TrailManager>()
         val mockTrailRequestValidator = mockk<TrailRequestValidator>()
         val mockTrailGeoRequestValidator = mockk<TrailGeoRequestValidator>()

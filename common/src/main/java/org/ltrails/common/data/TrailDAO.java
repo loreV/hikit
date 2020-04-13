@@ -17,6 +17,7 @@ import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 public class TrailDAO {
+
     public static final String NEAR_OPERATOR = "$near";
     public static final String RESOLVED_COORDINATES = "coordinates";
     static final String $_MAX_M_DISTANCE_FILTER = "$maxDistance";

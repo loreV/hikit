@@ -19,7 +19,8 @@ class PoiManager @Inject constructor(private val poiDao: PoiDAO,
             doc = poiDaoHelper.appendEqualFilter(doc, Trail.COUNTRY, country)
         }
         if (trailCodes.isNotEmpty()) {
-            doc = poiDaoHelper.appendEqualFilter(doc, Poi.TRAIL_CODES, trailCodes)
+            val resolvedTrailRefField = Poi.TRAIL_REF + "." + TrailReference.TRAIL_CODE
+            doc = poiDaoHelper.appendEqualFilter(doc, resolvedTrailRefField, trailCodes)
         }
         if (postCode.isNotEmpty()) {
             doc = poiDaoHelper.appendIn(doc, Poi.POST_CODE, postCode)

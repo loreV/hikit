@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Poi {
 
-    public static final String COLLECTION_NAME = "Poi";
+    public static final String COLLECTION_NAME = "core.Poi";
 
     public static final String POSITION = "position";
     public static final String NAME = "name";
@@ -16,7 +16,7 @@ public class Poi {
     public static final String GEO = "geo";
     public static final String RESOURCES_LINKS = "resourcesLinks";
     public static final String TYPES = "types";
-    public static final String TRAIL_CODES = "trailCodes";
+    public static final String TRAIL_REF = "trails";
     public static final String POST_CODE = "postCode";
 
     private Position position;
@@ -27,7 +27,7 @@ public class Poi {
     private JsonElement geo;
     private List<String> resourcesLinks;
     private List<String> types;
-    private List<String> trailCodes;
+    private List<TrailReference> trailReferences;
     private String postCode;
 
     public Poi(Position position,
@@ -38,7 +38,7 @@ public class Poi {
                JsonElement geo,
                List<String> resourcesLinks,
                List<String> types,
-               List<String> trailCodes,
+               List<TrailReference> trailReferences,
                String postCode) {
         this.position = position;
         this.name = name;
@@ -48,7 +48,7 @@ public class Poi {
         this.geo = geo;
         this.resourcesLinks = resourcesLinks;
         this.types = types;
-        this.trailCodes = trailCodes;
+        this.trailReferences = trailReferences;
         this.postCode = postCode;
     }
 
@@ -84,8 +84,8 @@ public class Poi {
         return types;
     }
 
-    public List<String> getTrailCodes() {
-        return trailCodes;
+    public List<TrailReference> getTrailReferences() {
+        return trailReferences;
     }
 
     public String getPostCode() {
@@ -101,7 +101,7 @@ public class Poi {
         private JsonElement geo;
         private List<String> resourcesLinks;
         private List<String> types;
-        private List<String> trailCodes;
+        private List<TrailReference> trailCodes;
         private String postCode;
 
         private PoiBuilder() {
@@ -151,7 +151,7 @@ public class Poi {
             return this;
         }
 
-        public PoiBuilder withTrailCodes(List<String> trailCodes) {
+        public PoiBuilder withTrailRef(List<TrailReference> trailCodes) {
             this.trailCodes = trailCodes;
             return this;
         }

@@ -70,6 +70,7 @@ public class TrailController implements PublicController {
                 !isEmpty(postCodes) ? asList(postCodes.split(COMMA_ARRAY_ELEM_SEP)) :
                         Collections.emptyList(),
                 isBlank(country) ? EMPTY : country);
+        response.type(ACCEPT_TYPE);
         return trailRestResponseBuilder(trailsByTrailCode);
     }
 
@@ -83,6 +84,7 @@ public class TrailController implements PublicController {
         final List<Trail> trailsNearby = trailManager.getByGeo(trailsGeoRequest.getCoords(),
                 trailsGeoRequest.getDistance().intValue(),
                 trailsGeoRequest.getUom());
+        response.type(ACCEPT_TYPE);
         return trailRestResponseBuilder(trailsNearby);
     }
 

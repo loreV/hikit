@@ -32,7 +32,7 @@ public class PoiController implements PublicController {
 
     private final Logger LOG = getLogger(PoiController.class.getName());
 
-    private static final String PREFIX = API_PREFIX + "/trails";
+    private static final String PREFIX = API_PREFIX + "/poi";
 
     public static final String COMMA_ARRAY_ELEM_SEP = ",";
     public static String PARAM_TRAIL_CODE = "trailCode";
@@ -74,6 +74,7 @@ public class PoiController implements PublicController {
                 !isEmpty(types) ? asList(types.split(COMMA_ARRAY_ELEM_SEP)) :
                         Collections.emptyList()
         );
+        response.type(ACCEPT_TYPE);
         return buildPoiResponse(trailsByTrailCode);
     }
 
@@ -89,6 +90,7 @@ public class PoiController implements PublicController {
                 poiGeoRequest.getUom(),
                 poiGeoRequest.getTypes()
         );
+        response.type(ACCEPT_TYPE);
         return buildPoiResponse(trailsNearby);
     }
 
