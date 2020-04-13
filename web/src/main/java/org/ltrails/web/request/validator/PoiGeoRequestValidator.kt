@@ -4,7 +4,6 @@ import com.google.gson.JsonSyntaxException
 import com.google.inject.Inject
 import org.ltrails.common.data.helper.GsonBeanHelper
 import org.ltrails.common.data.poi.PoiTypes
-import org.ltrails.web.controller.PoiController
 import org.ltrails.web.request.PoiGeoRequest
 import spark.Request
 
@@ -25,7 +24,7 @@ class PoiGeoRequestValidator @Inject constructor(private val gsonBeanHelper: Gso
             }
 
             if (poiGeoRequest.types.isNotEmpty()) {
-                if (isNoOnePoiSupported(request.queryParamsValues(PoiController.PARAM_TYPES)))
+                if (isNoOnePoiSupported(poiGeoRequest.types))
                     return listOf(Validator.noPoiSupportedErrorMessage)
             }
 
@@ -36,7 +35,7 @@ class PoiGeoRequestValidator @Inject constructor(private val gsonBeanHelper: Gso
 
     }
 
-    private fun isNoOnePoiSupported(pois: Array<String>): Boolean {
+    private fun isNoOnePoiSupported(pois: List<String>): Boolean {
         return pois.intersect(poiTypes.allPoiTypes).isEmpty()
     }
 }
