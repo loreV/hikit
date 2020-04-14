@@ -1,6 +1,6 @@
 ![GitHub Logo](utils/assets/logo/hikit_80.png)
 # HiKit [![Build Status](https://travis-ci.com/loreV/hikit.svg?token=poHDkeMHMhAtyZHWqhvU&branch=master)](https://travis-ci.com/loreV/hikit)
-> A hike planning and discovery RESTFul service that aims to be connect natural, cultural and historical data into unique and informed experiences.
+> A hike planning and discovery RESTFul service that aims to connect natural, cultural and historical data into unique and informed routes.
 
 ## Build Setup
 
@@ -11,7 +11,7 @@
 ```bash
 $ mvn clean package -P build-package
 ```
-The executable file is found at `distribution/target/hikit_\<version\>.jar`
+The executable file is found at `distribution/target/hikit_<version>.jar`
 ### Run
  ```bash
 $ java -jar hikit_<version>.jar
