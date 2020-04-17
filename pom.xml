@@ -13,6 +13,7 @@
         <module>web</module>
         <module>integration-tests</module>
         <module>distribution</module>
+        <module>importer</module>
     </modules>
 
     <properties>
