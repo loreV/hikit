@@ -280,6 +280,8 @@ definitions:
           - "E"
           - "EE"
           - "EEA"
+      country:
+        type: "string"
   Waypoint:
     type: "object"
     properties:
