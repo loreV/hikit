@@ -43,7 +43,6 @@ public class RouteController {
 
     public void init() {
         post(format("%s/plan", PREFIX), ACCEPT_TYPE, this::plan, JsonUtil.json());
-
         LOG.info("Route CONTROLLER Started");
     }
 }

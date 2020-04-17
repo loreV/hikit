@@ -6,7 +6,9 @@ public class CoordinatesDelta {
     private double deltaDistance;
     private UnitOfMeasurement unitOfMeasurement;
 
-    public CoordinatesDelta(Coordinates coordinates, double deltaDistance, UnitOfMeasurement unitOfMeasurement) {
+    public CoordinatesDelta(final Coordinates coordinates,
+                            final double deltaDistance,
+                            final UnitOfMeasurement unitOfMeasurement) {
         this.coordinates = coordinates;
         this.deltaDistance = deltaDistance;
         this.unitOfMeasurement = unitOfMeasurement;

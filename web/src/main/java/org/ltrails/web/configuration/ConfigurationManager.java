@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
 import org.ltrails.common.data.DataSource;
 import org.ltrails.web.controller.PoiController;
+import org.ltrails.web.controller.RouteController;
 import org.ltrails.web.controller.SystemController;
 import org.ltrails.web.controller.TrailController;
 
@@ -30,6 +31,7 @@ public class ConfigurationManager {
     private final TrailController trailController;
     private final PoiController poiController;
     private final SystemController systemController;
+    private final RouteController routeController;
 
 
     @Inject
@@ -37,11 +39,13 @@ public class ConfigurationManager {
                                 final TrailController trailController,
                                 final PoiController poiController,
                                 final SystemController systemController,
+                                final RouteController routeController,
                                 final DataSource dataSource) {
         this.trailController = trailController;
         this.poiController = poiController;
         this.systemController = systemController;
         this.dataSource = dataSource;
+        this.routeController = routeController;
         port(Integer.parseInt(port));
     }
 
@@ -59,5 +63,6 @@ public class ConfigurationManager {
         trailController.init();
         poiController.init();
         systemController.init();
+        routeController.init();
     }
 }
