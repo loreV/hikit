@@ -61,7 +61,7 @@
                             <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
-                                    <mainClass>org.ltrails.web.Main</mainClass>
+                                    <mainClass>org.hikit.web.Main</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
