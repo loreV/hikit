@@ -51,7 +51,7 @@ class PoiControllerTest {
         val mockPoiGeoRequestValidator = mockk<PoiGeoRequestValidator>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        every { mockPoiRequestValidator.validate(mockRequest) } returns emptyList()
+        every { mockPoiRequestValidator.validate(mockRequest) } returns emptySet()
 
         every { mockRequest.queryMap() } returns mockQueryResponseMap
 
@@ -91,7 +91,7 @@ class PoiControllerTest {
         val mockPoiGeoRequestValidator = mockk<PoiGeoRequestValidator>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        every { mockPoiRequestValidator.validate(mockRequest) } returns emptyList()
+        every { mockPoiRequestValidator.validate(mockRequest) } returns emptySet()
 
         every { mockRequest.queryMap() } returns mockQueryResponseMap
 
@@ -131,7 +131,7 @@ class PoiControllerTest {
         val mockTrailGeoRequestValidator = mockk<PoiGeoRequestValidator>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        every { mockTrailRequestValidator.validate(mockRequest) } returns emptyList()
+        every { mockTrailRequestValidator.validate(mockRequest) } returns emptySet()
 
         every { mockRequest.queryMap() } returns mockQueryResponseMap
 
@@ -166,7 +166,7 @@ class PoiControllerTest {
         val mockPoiGeoRequestValidator = mockk<PoiGeoRequestValidator>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        val errorMessages = listOf("Error!")
+        val errorMessages = setOf("Error!")
 
         every { mockPoiRequestValidator.validate(mockRequest) } returns errorMessages
 
@@ -213,7 +213,7 @@ class PoiControllerTest {
         every { mockPoiGeoRequest.types } returns expectedTypes
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
-        every { mockPoiGeoRequestValidator.validate(mockRequest) } returns emptyList()
+        every { mockPoiGeoRequestValidator.validate(mockRequest) } returns emptySet()
         every { mockRequest.body() } returns requestBody
         every { mockGson.fromJson(requestBody, PoiGeoRequest::class.java) } returns mockPoiGeoRequest
         every { mockPoiManager.getByGeo(expectedCoordinate, 100, UnitOfMeasurement.km, expectedTypes) } returns expectedPois
@@ -238,7 +238,7 @@ class PoiControllerTest {
 
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        every { mockPoiGeoRequestValidator.validate(mockRequest) } returns listOf("error")
+        every { mockPoiGeoRequestValidator.validate(mockRequest) } returns setOf("error")
 
         val sot = PoiController(mockPoiManager, mockPoiRequestValidator, mockPoiGeoRequestValidator, mockGsonBeanHelper)
         val response = sot.getGeo(mockRequest, mockResponse)

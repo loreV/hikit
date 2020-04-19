@@ -34,13 +34,13 @@ class PoiGeoRequestValidatorTest {
         every { mockRequest.body() } returns anyRequestWNotValidLat
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLat, PoiGeoRequest::class.java) } returns
-                PoiGeoRequest(Coordinates(-100.0, 0.0), 100,
+                PoiGeoRequest(Coordinates(0.0, -100.0), 100,
                         UnitOfMeasurement.km, emptyList())
 
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.latitudeValueOutOfBoundErrorMessage)
+        assert(errorMessages.contains(CoordinatesValidator.latitudeValueOutOfBoundErrorMessage))
     }
 
     @Test
@@ -61,14 +61,14 @@ class PoiGeoRequestValidatorTest {
         every { mockRequest.body() } returns anyRequestWNotValidLon
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLon, PoiGeoRequest::class.java) } returns
-                PoiGeoRequest(Coordinates(0.0, -100.0), 100,
+                PoiGeoRequest(Coordinates(-100.0, 0.0), 100,
                         UnitOfMeasurement.km, emptyList())
 
         val sot = PoiGeoRequestValidator(mockGsonBeanHelper, mockPoisTypes)
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.longitudeValueOutOfBoundErrorMessage)
+        assert(errorMessages.contains(CoordinatesValidator.longitudeValueOutOfBoundErrorMessage))
     }
 
     @Test
@@ -96,8 +96,8 @@ class PoiGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 2)
-        assert(errorMessages.contains(Validator.longitudeValueOutOfBoundErrorMessage))
-        assert(errorMessages.contains(Validator.latitudeValueOutOfBoundErrorMessage))
+        assert(errorMessages.contains(CoordinatesValidator.longitudeValueOutOfBoundErrorMessage))
+        assert(errorMessages.contains(CoordinatesValidator.latitudeValueOutOfBoundErrorMessage))
     }
 
     @Test
@@ -131,7 +131,7 @@ class PoiGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.noRequestBodyErrorMessage)
+        assert(errorMessages.contains(Validator.noRequestBodyErrorMessage))
     }
 
     @Test
@@ -160,7 +160,7 @@ class PoiGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.noPoiSupportedErrorMessage)
+        assert(errorMessages.contains(Validator.noPoiSupportedErrorMessage))
     }
 
 

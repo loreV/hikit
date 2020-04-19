@@ -5,32 +5,32 @@ import com.google.inject.Inject
 import org.hikit.common.data.helper.GsonBeanHelper
 import org.hikit.common.data.poi.PoiTypes
 import org.hikit.web.request.PoiGeoRequest
+import org.hikit.web.request.validator.CoordinatesValidator.Companion.CoordDimension
 import spark.Request
 
 class PoiGeoRequestValidator @Inject constructor(private val gsonBeanHelper: GsonBeanHelper,
-                                                 private val poiTypes: PoiTypes) : Validator<Request> {
-    override fun validate(request: Request): List<String> {
+                                                 private val poiTypes: PoiTypes) : Validator<Request>, CoordinatesValidator {
+    override fun validate(request: Request): Set<String> {
         if (request.body().isBlank()) {
-            return listOf(Validator.noRequestBodyErrorMessage)
+            return setOf(Validator.noRequestBodyErrorMessage)
         }
         return try {
             val poiGeoRequest = gsonBeanHelper.gsonBuilder!!.fromJson(request.body(), PoiGeoRequest::class.java)
             val listOfErrorMessages = mutableListOf<String>()
-            if (poiGeoRequest.coords.longitude > Validator.limitLongLat || poiGeoRequest.coords.longitude < -Validator.limitLongLat) {
-                listOfErrorMessages.add(Validator.longitudeValueOutOfBoundErrorMessage)
-            }
-            if (poiGeoRequest.coords.latitude > Validator.limitLongLat || poiGeoRequest.coords.latitude < -Validator.limitLongLat) {
-                listOfErrorMessages.add(Validator.latitudeValueOutOfBoundErrorMessage)
-            }
+
+            val validateLongitude = validateCoordinates(poiGeoRequest.coords.longitude, CoordDimension.LONGITUDE)
+            if (validateLongitude.isNotEmpty()) listOfErrorMessages.add(validateLongitude)
+            val validateLatitude = validateCoordinates(poiGeoRequest.coords.latitude, CoordDimension.LATITUDE)
+            if (validateLatitude.isNotEmpty()) listOfErrorMessages.add(validateLatitude)
 
             if (poiGeoRequest.types.isNotEmpty()) {
                 if (isNoOnePoiSupported(poiGeoRequest.types))
-                    return listOf(Validator.noPoiSupportedErrorMessage)
+                    return setOf(Validator.noPoiSupportedErrorMessage)
             }
 
-            listOfErrorMessages
+            listOfErrorMessages.toSet()
         } catch (e: JsonSyntaxException) {
-            listOf(Validator.requestMalformedErrorMessage)
+            setOf(Validator.requestMalformedErrorMessage)
         }
 
     }

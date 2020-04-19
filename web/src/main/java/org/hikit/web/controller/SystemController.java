@@ -28,7 +28,7 @@ public class SystemController {
     }
 
     private RESTResponse test(final Request request, final Response response) {
-        return new RESTResponse(Status.OK, Collections.emptyList());
+        return new RESTResponse(Status.OK, Collections.emptySet());
     }
 
     public void init() {

@@ -10,19 +10,19 @@ class PoiRequestValidator @Inject constructor(private val poiTypes: PoiTypes) : 
     private val allParams = listOf(PoiController.PARAM_TRAIL_CODE, PoiController.PARAM_POST_CODE,
             PoiController.PARAM_COUNTRY, PoiController.PARAM_TYPES)
 
-    override fun validate(request: Request): List<String> {
+    override fun validate(request: Request): Set<String> {
         val queryParams = request.queryParams()
         val intersect = queryParams.intersect(allParams)
         if (intersect.isEmpty()) {
-            return listOf(Validator.noParamErrorMessage)
+            return setOf(Validator.noParamErrorMessage)
         }
 
         val isPoiParamSpecified = intersect.contains(PoiController.PARAM_TYPES)
         if (isPoiParamSpecified) {
             if (isNoOnePoiSupported(request.queryParamsValues(PoiController.PARAM_TYPES)))
-                return listOf(Validator.noPoiSupportedErrorMessage)
+                return setOf(Validator.noPoiSupportedErrorMessage)
         }
-        return emptyList()
+        return emptySet()
     }
 
     private fun isNoOnePoiSupported(pois: Array<String>): Boolean {

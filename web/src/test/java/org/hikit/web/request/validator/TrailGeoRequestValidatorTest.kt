@@ -14,7 +14,7 @@ import spark.Request
 class TrailGeoRequestValidatorTest {
 
     @Test
-    fun `if latitude oob then should provide error message`() {
+    fun `if longitude oob then should provide error message`() {
         val mockRequest = mockk<Request>()
         val mockGson = mockk<Gson>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
@@ -36,11 +36,11 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.latitudeValueOutOfBoundErrorMessage)
+        assert(errorMessages.contains(CoordinatesValidator.longitudeValueOutOfBoundErrorMessage))
     }
 
     @Test
-    fun `if longitude oob then should provide error message`() {
+    fun `if latitude oob then should provide error message`() {
         val mockRequest = mockk<Request>()
         val mockGson = mockk<Gson>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
@@ -62,7 +62,7 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.longitudeValueOutOfBoundErrorMessage)
+        assert(errorMessages.contains(CoordinatesValidator.latitudeValueOutOfBoundErrorMessage))
     }
 
     @Test
@@ -88,8 +88,8 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 2)
-        assert(errorMessages.contains(Validator.longitudeValueOutOfBoundErrorMessage))
-        assert(errorMessages.contains(Validator.latitudeValueOutOfBoundErrorMessage))
+        assert(errorMessages.contains(CoordinatesValidator.longitudeValueOutOfBoundErrorMessage))
+        assert(errorMessages.contains(CoordinatesValidator.latitudeValueOutOfBoundErrorMessage))
     }
 
     @Test
@@ -121,6 +121,6 @@ class TrailGeoRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.noRequestBodyErrorMessage)
+        assert(errorMessages.contains(Validator.noRequestBodyErrorMessage))
     }
 }

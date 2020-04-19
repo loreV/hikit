@@ -16,7 +16,7 @@ class TrailRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.noParamErrorMessage)
+        assert(errorMessages.contains(Validator.noParamErrorMessage))
     }
 
     @Test
@@ -30,7 +30,7 @@ class TrailRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.noParamErrorMessage)
+        assert(errorMessages.contains(Validator.noParamErrorMessage))
     }
 
     @Test

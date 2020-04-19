@@ -3,11 +3,12 @@ package org.hikit.common.response;
 import org.hikit.common.data.Poi;
 
 import java.util.List;
+import java.util.Set;
 
 public class PoiRestResponse extends RESTResponse {
     final List<Poi> pois;
 
-    public PoiRestResponse(List<Poi> pois, Status status, List<String> messages) {
+    public PoiRestResponse(List<Poi> pois, Status status, Set<String> messages) {
         super(status, messages);
         this.pois = pois;
     }
@@ -19,7 +20,7 @@ public class PoiRestResponse extends RESTResponse {
     public static final class PoiRestResponseBuilder {
         private List<Poi> pois;
         private Status status;
-        private List<String> messages;
+        private Set<String> messages;
 
         private PoiRestResponseBuilder() {
         }
@@ -38,7 +39,7 @@ public class PoiRestResponse extends RESTResponse {
             return this;
         }
 
-        public PoiRestResponseBuilder withMessages(List<String> messages) {
+        public PoiRestResponseBuilder withMessages(Set<String> messages) {
             this.messages = messages;
             return this;
         }

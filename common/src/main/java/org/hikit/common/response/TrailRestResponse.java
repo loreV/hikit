@@ -3,11 +3,12 @@ package org.hikit.common.response;
 import org.hikit.common.data.Trail;
 
 import java.util.List;
+import java.util.Set;
 
 public class TrailRestResponse extends RESTResponse {
     final List<Trail> trails;
 
-    public TrailRestResponse(List<Trail> trails, Status status, List<String> messages) {
+    public TrailRestResponse(List<Trail> trails, Status status, Set<String> messages) {
         super(status, messages);
         this.trails = trails;
     }
@@ -19,7 +20,7 @@ public class TrailRestResponse extends RESTResponse {
     public static final class TrailRestResponseBuilder {
         private List<Trail> trails;
         private Status status;
-        private List<String> messages;
+        private Set<String> messages;
 
         private TrailRestResponseBuilder() {
         }
@@ -38,7 +39,7 @@ public class TrailRestResponse extends RESTResponse {
             return this;
         }
 
-        public TrailRestResponseBuilder withMessages(List<String> messages) {
+        public TrailRestResponseBuilder withMessages(Set<String> messages) {
             this.messages = messages;
             return this;
         }

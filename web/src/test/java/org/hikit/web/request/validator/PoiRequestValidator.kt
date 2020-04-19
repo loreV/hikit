@@ -21,7 +21,7 @@ class PoiRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.noParamErrorMessage)
+        assert(errorMessages.contains(Validator.noParamErrorMessage))
     }
 
     @Test
@@ -37,7 +37,7 @@ class PoiRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.noParamErrorMessage)
+        assert(errorMessages.contains(Validator.noParamErrorMessage))
     }
 
     @Test
@@ -67,7 +67,7 @@ class PoiRequestValidatorTest {
         val errorMessages = sot.validate(mockRequest)
 
         assert(errorMessages.size == 1)
-        assert(errorMessages[0] == Validator.noPoiSupportedErrorMessage)
+        assert(errorMessages.contains(Validator.noPoiSupportedErrorMessage))
     }
 
     @Test

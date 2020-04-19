@@ -1,13 +1,13 @@
 package org.hikit.common.response;
 
-import java.util.List;
+import java.util.Set;
 
 public class RESTResponse {
 
     private Status status;
-    private List<String> messages;
+    private Set<String> messages;
 
-    public RESTResponse(Status status, List<String> messages) {
+    public RESTResponse(Status status, Set<String> messages) {
         this.status = status;
         this.messages = messages;
     }
@@ -16,7 +16,7 @@ public class RESTResponse {
         return status;
     }
 
-    public List<String> getMessages() {
+    public Set<String> getMessages() {
         return messages;
     }
 

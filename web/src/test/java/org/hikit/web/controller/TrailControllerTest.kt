@@ -50,7 +50,7 @@ class TrailControllerTest {
         val mockTrailGeoRequestValidator = mockk<TrailGeoRequestValidator>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        every { mockTrailRequestValidator.validate(mockRequest) } returns emptyList()
+        every { mockTrailRequestValidator.validate(mockRequest) } returns emptySet()
 
         every { mockRequest.queryMap() } returns mockQueryResponseMap
 
@@ -87,7 +87,7 @@ class TrailControllerTest {
         val mockTrailGeoRequestValidator = mockk<TrailGeoRequestValidator>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        every { mockTrailRequestValidator.validate(mockRequest) } returns emptyList()
+        every { mockTrailRequestValidator.validate(mockRequest) } returns emptySet()
 
         every { mockRequest.queryMap() } returns mockQueryResponseMap
 
@@ -124,7 +124,7 @@ class TrailControllerTest {
         val mockTrailGeoRequestValidator = mockk<TrailGeoRequestValidator>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        every { mockTrailRequestValidator.validate(mockRequest) } returns emptyList()
+        every { mockTrailRequestValidator.validate(mockRequest) } returns emptySet()
 
         every { mockRequest.queryMap() } returns mockQueryResponseMap
 
@@ -158,7 +158,7 @@ class TrailControllerTest {
         val mockTrailGeoRequestValidator = mockk<TrailGeoRequestValidator>()
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        val errorMessages = listOf("Error!")
+        val errorMessages = setOf("Error!")
 
         every { mockTrailRequestValidator.validate(mockRequest) } returns errorMessages
 
@@ -202,7 +202,7 @@ class TrailControllerTest {
         every { mockTrailGeoRequest.distance } returns 100
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
-        every { mockTrailGeoRequestValidator.validate(mockRequest) } returns emptyList()
+        every { mockTrailGeoRequestValidator.validate(mockRequest) } returns emptySet()
         every { mockRequest.body() } returns requestBody
         every { mockGson.fromJson(requestBody, TrailsGeoRequest::class.java) } returns mockTrailGeoRequest
         every { mockTrailManager.getByGeo(expectedCoordinate, 100, UnitOfMeasurement.km) } returns expectedTrails
@@ -227,7 +227,7 @@ class TrailControllerTest {
 
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
 
-        every { mockTrailGeoRequestValidator.validate(mockRequest) } returns listOf("error")
+        every { mockTrailGeoRequestValidator.validate(mockRequest) } returns setOf("error")
 
         val sot = TrailController(mockTrailManager, mockTrailRequestValidator, mockTrailGeoRequestValidator, mockGsonBeanHelper)
         val response = sot.getGeo(mockRequest, mockResponse)

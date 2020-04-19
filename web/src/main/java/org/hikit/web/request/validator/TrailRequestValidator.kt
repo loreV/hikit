@@ -8,14 +8,14 @@ class TrailRequestValidator : Validator<Request> {
 
     private val allParams = listOf(PARAM_TRAIL_CODE, PARAM_POST_CODE, PARAM_COUNTRY)
 
-    override fun validate(request: Request): List<String> {
+    override fun validate(request: Request): Set<String> {
         val queryParams = request.queryParams()
         val intersect = queryParams.intersect(allParams)
         if (intersect.isEmpty()) {
-            return listOf(noParamErrorMessage)
+            return setOf(noParamErrorMessage)
         }
 
-        return emptyList()
+        return emptySet()
     }
 
     override fun getParams(request: Request): List<String> {

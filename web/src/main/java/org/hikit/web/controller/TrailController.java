@@ -19,6 +19,7 @@ import spark.Spark;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -57,7 +58,7 @@ public class TrailController implements PublicController {
     }
 
     public TrailRestResponse get(final Request request, final Response response) {
-        final List<String> errorMessages = trailRequestValidator.validate(request);
+        final Set<String> errorMessages = trailRequestValidator.validate(request);
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
         }
@@ -75,7 +76,7 @@ public class TrailController implements PublicController {
     }
 
     public TrailRestResponse getGeo(final Request request, final Response response) {
-        final List<String> errorMessages = trailGeoRequestValidator.validate(request);
+        final Set<String> errorMessages = trailGeoRequestValidator.validate(request);
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
         }
@@ -94,16 +95,16 @@ public class TrailController implements PublicController {
                 TrailRestResponseBuilder.aTrailRestResponse().withTrails(trails);
         if (trails.isEmpty()) {
             return trailRestResponseBuilder
-                    .withMessages(Collections.singletonList("No trails found"))
+                    .withMessages(Collections.singleton("No trails found"))
                     .withStatus(Status.ERROR).build();
         }
         return trailRestResponseBuilder
-                .withMessages(Collections.emptyList())
+                .withMessages(Collections.emptySet())
                 .withStatus(Status.OK).build();
     }
 
     @NotNull
-    private TrailRestResponse buildErrorResponse(final List<String> errorMessages) {
+    private TrailRestResponse buildErrorResponse(final Set<String> errorMessages) {
         return TrailRestResponse.TrailRestResponseBuilder.aTrailRestResponse()
                 .withTrails(Collections.emptyList())
                 .withMessages(errorMessages)

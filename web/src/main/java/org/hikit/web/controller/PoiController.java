@@ -19,6 +19,7 @@ import spark.Spark;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -56,8 +57,9 @@ public class PoiController implements PublicController {
         this.gsonBeanHelper = gsonBeanHelper;
     }
 
+    // GET poi/
     public PoiRestResponse get(final Request request, final Response response) {
-        final List<String> errorMessages = poiRequestValidator.validate(request);
+        final Set<String> errorMessages = poiRequestValidator.validate(request);
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
         }
@@ -78,8 +80,9 @@ public class PoiController implements PublicController {
         return buildPoiResponse(trailsByTrailCode);
     }
 
+    // POST poi/geo
     public PoiRestResponse getGeo(final Request request, final Response response) {
-        final List<String> errorMessages = poiGeoRequestValidator.validate(request);
+        final Set<String> errorMessages = poiGeoRequestValidator.validate(request);
         if (!errorMessages.isEmpty()) {
             return buildErrorResponse(errorMessages);
         }
@@ -100,16 +103,16 @@ public class PoiController implements PublicController {
                 PoiRestResponseBuilder.aPoiRestResponse().withTrails(pois);
         if (pois.isEmpty()) {
             return poiRestResponseBuilder
-                    .withMessages(Collections.singletonList("No POI found"))
+                    .withMessages(Collections.singleton("No POI found"))
                     .withStatus(Status.ERROR).build();
         }
         return poiRestResponseBuilder
-                .withMessages(Collections.emptyList())
+                .withMessages(Collections.emptySet())
                 .withStatus(Status.OK).build();
     }
 
     @NotNull
-    private PoiRestResponse buildErrorResponse(final List<String> errorMessages) {
+    private PoiRestResponse buildErrorResponse(final Set<String> errorMessages) {
         return PoiRestResponse.PoiRestResponseBuilder.aPoiRestResponse()
                 .withTrails(Collections.emptyList())
                 .withMessages(errorMessages)

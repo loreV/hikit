@@ -2,7 +2,7 @@ package org.hikit.common.response;
 
 import org.hikit.common.data.PlanningResult;
 
-import java.util.List;
+import java.util.Set;
 
 public class PlanResultResponse extends RESTResponse {
 
@@ -10,7 +10,7 @@ public class PlanResultResponse extends RESTResponse {
 
     private PlanResultResponse(final PlanningResult planningResult,
                                final Status status,
-                               final List<String> messages) {
+                               final Set<String> messages) {
         super(status, messages);
         this.planningResult = planningResult;
     }
@@ -22,7 +22,7 @@ public class PlanResultResponse extends RESTResponse {
     public static final class PlanResultResponseBuilder {
         private Status status;
         private PlanningResult planningResult;
-        private List<String> messages;
+        private Set<String> messages;
 
         private PlanResultResponseBuilder() {
         }
@@ -41,7 +41,7 @@ public class PlanResultResponse extends RESTResponse {
             return this;
         }
 
-        public PlanResultResponseBuilder withMessages(List<String> messages) {
+        public PlanResultResponseBuilder withMessages(Set<String> messages) {
             this.messages = messages;
             return this;
         }
