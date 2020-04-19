@@ -3,11 +3,11 @@ package org.hikit.common.data;
 public class CoordinatesDelta {
 
     private Coordinates coordinates;
-    private double deltaDistance;
+    private int deltaDistance;
     private UnitOfMeasurement unitOfMeasurement;
 
     public CoordinatesDelta(final Coordinates coordinates,
-                            final double deltaDistance,
+                            final int deltaDistance,
                             final UnitOfMeasurement unitOfMeasurement) {
         this.coordinates = coordinates;
         this.deltaDistance = deltaDistance;
@@ -18,7 +18,7 @@ public class CoordinatesDelta {
         return coordinates;
     }
 
-    public double getDeltaDistance() {
+    public int getDeltaDistance() {
         return deltaDistance;
     }
 
@@ -29,7 +29,7 @@ public class CoordinatesDelta {
 
     public static final class CoordinatesDeltaBuilder {
         private Coordinates coordinates;
-        private double deltaDistance;
+        private int deltaDistance;
         private UnitOfMeasurement unitOfMeasurement;
 
         private CoordinatesDeltaBuilder() {
@@ -44,7 +44,7 @@ public class CoordinatesDelta {
             return this;
         }
 
-        public CoordinatesDeltaBuilder withDeltaDistance(double deltaDistance) {
+        public CoordinatesDeltaBuilder withDeltaDistance(int deltaDistance) {
             this.deltaDistance = deltaDistance;
             return this;
         }

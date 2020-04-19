@@ -3,7 +3,7 @@ package org.hikit.web
 import com.google.inject.Inject
 import org.hikit.common.converter.MetricConverter
 import org.hikit.common.data.*
-import org.hikit.web.request.PlanningRestRequest
+import org.hikit.web.request.RoutePlanRequest
 import java.util.*
 
 class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
@@ -14,31 +14,27 @@ class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
 
         val trailsWithRequestedDestination = getTrailsWithRequestedDestination(planning)
 
-        if (trailsWithRequestedDestination.isEmpty()) {
+//        if (trailsWithRequestedDestination.isEmpty()) {
 //            return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
-        }
+//        }
 
-        val distanceInMeters = if (planning.unitOfMeasurement == UnitOfMeasurement.m)
-            metricConverter.getMetersFromKm(planning.distanceFromPosition) else planning.distanceFromPosition
-
-
-        val startingTrailsWithinRange = trailDAO.getTrailsByStartPosMetricDistance(planning.startPos.coords.longitude,
-                planning.startPos.coords.latitude, distanceInMeters)
-
-        // No close trails starts
-        if (startingTrailsWithinRange.size == 0) {
-//            return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
-        }
-
-        // Check only for direct trails
-        if (planning.isDirectTrailsOnly) {
-            val directTrails = trailsPathExplorer.getDirectTrails(startingTrailsWithinRange, trailsWithRequestedDestination)
-            val elected = getElectedArbitrarily(directTrails)
-//            getPlanningResult(getTrailsPathFromTrail(elected), getOptionalWithoutElected(directTrails, elected).map { trail -> getTrailsPathFromTrail(trail) })
-        }
-
-        // Take the first found trail ending position
-        val destinationPos = trailsWithRequestedDestination.first().finalPos
+//        val startingTrailsWithinRange = trailDAO.getTrailsByStartPosMetricDistance(planRequest.startPos.coords.longitude,
+//                planRequest.startPos.coords.latitude, distanceInMeters)
+//
+//        // No close trails starts
+//        if (startingTrailsWithinRange.size == 0) {
+////            return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
+//        }
+//
+//        // Check only for direct trails
+//        if (planRequest.isDirectTrailsOnly) {
+//            val directTrails = trailsPathExplorer.getDirectTrails(startingTrailsWithinRange, trailsWithRequestedDestination)
+//            val elected = getElectedArbitrarily(directTrails)
+////            getPlanningResult(getTrailsPathFromTrail(elected), getOptionalWithoutElected(directTrails, elected).map { trail -> getTrailsPathFromTrail(trail) })
+//        }
+//
+//        // Take the first found trail ending position
+//        val destinationPos = trailsWithRequestedDestination.first().finalPos
 
 
         // TODO do this for either one trail or all of them.
@@ -49,12 +45,13 @@ class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
         return emptyList()
     }
 
+    private fun getTrailsFromStartingPosition(startPos: CoordinatesDelta): Set<Trail> {
+        TODO("Not yet implemented")
+    }
 
-    private fun getTrailsWithRequestedDestination(planning: PlanningRestRequest): Set<Trail> {
-        val trailsHavingDestinationOrTagsNameLike = trailDAO.getTrailsHavingDestinationNameLike(planning.destination)
-                .union(trailDAO.getTrailsHavingDestinationTagsLike(planning.destination))
-        return if (planning.isSearchDescription) trailsHavingDestinationOrTagsNameLike.union(trailDAO.getTrailsHavingDescriptionLike(planning.destination))
-        else trailsHavingDestinationOrTagsNameLike
+
+    private fun getTrailsWithRequestedDestination(planning: CoordinatesDelta): Set<Trail> {
+        TODO("Not yet implemented")
     }
 
 

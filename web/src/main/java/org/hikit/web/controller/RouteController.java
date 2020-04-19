@@ -8,7 +8,7 @@ import org.hikit.common.data.RouteResult;
 import org.hikit.common.response.RoutePlanResponse;
 import org.hikit.common.response.Status;
 import org.hikit.web.RouteManager;
-import org.hikit.web.request.PlanningRestRequest;
+import org.hikit.web.request.RoutePlanRequest;
 import org.hikit.web.request.validator.RouteCoordRequestValidator;
 import org.jetbrains.annotations.NotNull;
 import spark.Request;
@@ -47,7 +47,7 @@ public class RouteController {
             return buildErrorResponse(errorMessages);
         }
         return buildRouteResponse(routeManager.plan(
-                new Gson().fromJson(request.body(), PlanningRestRequest.class)));
+                new Gson().fromJson(request.body(), RoutePlanRequest.class)));
     }
 
     @NotNull
