@@ -10,9 +10,13 @@ class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
                                        private val trailsPathExplorer: TrailsPathSolutionExplorer,
                                        private val metricConverter: MetricConverter) {
 
-    fun plan(planning: PlanningRestRequest): List<RouteResult> {
+    fun plan(planRequest: RoutePlanRequest): List<RouteResult> {
 
-        val trailsWithRequestedDestination = getTrailsWithRequestedDestination(planning)
+        val distanceInMeters = if (planRequest.startPos.unitOfMeasurement == UnitOfMeasurement.km)
+            metricConverter.getMetersFromKm(planRequest.startPos.deltaDistance) else planRequest.startPos.deltaDistance
+
+        val trailsToRequestedDestination = getTrailsFromStartingPosition(planRequest.startPos)
+        val trailsWithRequestedDestination = getTrailsWithRequestedDestination(planRequest.finalPos)
 
 //        if (trailsWithRequestedDestination.isEmpty()) {
 //            return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
