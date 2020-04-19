@@ -1,4 +1,4 @@
-package org.hikit.common.response;
+package org.hikit.common.web.controller.response;
 
 import java.util.Set;
 

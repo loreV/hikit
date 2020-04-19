@@ -1,4 +1,4 @@
-package org.hikit.web.controller;
+package org.hikit.common.web.controller;
 
 public interface PublicController {
     void init();

@@ -7,7 +7,7 @@ import org.hikit.common.data.Coordinates
 import org.hikit.common.data.Trail
 import org.hikit.common.data.UnitOfMeasurement
 import org.hikit.common.data.helper.GsonBeanHelper
-import org.hikit.common.response.Status
+import org.hikit.common.web.controller.response.Status
 import org.hikit.web.TrailManager
 import org.hikit.web.configuration.ConfigurationManager.ACCEPT_TYPE
 import org.hikit.web.request.TrailsGeoRequest

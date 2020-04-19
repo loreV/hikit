@@ -8,7 +8,7 @@ import org.hikit.common.data.Poi
 import org.hikit.common.data.Trail
 import org.hikit.common.data.UnitOfMeasurement
 import org.hikit.common.data.helper.GsonBeanHelper
-import org.hikit.common.response.Status
+import org.hikit.common.web.controller.response.Status
 import org.hikit.web.PoiManager
 import org.hikit.web.configuration.ConfigurationManager
 import org.hikit.web.request.PoiGeoRequest
