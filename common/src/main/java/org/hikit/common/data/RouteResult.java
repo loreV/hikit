@@ -3,7 +3,7 @@ package org.hikit.common.data;
 import java.util.Collections;
 import java.util.List;
 
-public class PlanningResult {
+public class RouteResult {
 
     public final static String WINNING_TRAIL = "winningTrail";
     public final static String ALTERNATIVES = "alternativeTrails";
@@ -11,7 +11,7 @@ public class PlanningResult {
     private TrailsPath winningTrailsResult;
     private List<TrailsPath> optionalAlternatives;
 
-    public PlanningResult(TrailsPath winningTrailsResult, List<TrailsPath> optionalAlternatives) {
+    public RouteResult(TrailsPath winningTrailsResult, List<TrailsPath> optionalAlternatives) {
         this.winningTrailsResult = winningTrailsResult;
         this.optionalAlternatives = optionalAlternatives;
     }
@@ -46,12 +46,12 @@ public class PlanningResult {
             return this;
         }
 
-        public PlanningResult build() {
-            return new PlanningResult(winningTrailsResult, optionalAlternatives);
+        public RouteResult build() {
+            return new RouteResult(winningTrailsResult, optionalAlternatives);
         }
 
-        public PlanningResult buildEmpty() {
-            return new PlanningResult(TrailsPath.TrailsPathBuilder.aTrailsPath().build(),
+        public RouteResult buildEmpty() {
+            return new RouteResult(TrailsPath.TrailsPathBuilder.aTrailsPath().build(),
                     Collections.emptyList());
         }
     }

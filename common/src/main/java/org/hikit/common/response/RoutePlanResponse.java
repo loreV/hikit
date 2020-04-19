@@ -1,27 +1,28 @@
 package org.hikit.common.response;
 
-import org.hikit.common.data.PlanningResult;
+import org.hikit.common.data.RouteResult;
 
+import java.util.List;
 import java.util.Set;
 
-public class PlanResultResponse extends RESTResponse {
+public class RoutePlanResponse extends RESTResponse {
 
-    private PlanningResult planningResult;
+    private List<RouteResult> routeResults;
 
-    private PlanResultResponse(final PlanningResult planningResult,
-                               final Status status,
-                               final Set<String> messages) {
+    private RoutePlanResponse(final List<RouteResult> routeResults,
+                              final Status status,
+                              final Set<String> messages) {
         super(status, messages);
-        this.planningResult = planningResult;
+        this.routeResults = routeResults;
     }
 
-    public PlanningResult getPlanningResult() {
-        return planningResult;
+    public List<RouteResult> getPlanningResult() {
+        return routeResults;
     }
 
     public static final class PlanResultResponseBuilder {
         private Status status;
-        private PlanningResult planningResult;
+        private List<RouteResult> routeResult;
         private Set<String> messages;
 
         private PlanResultResponseBuilder() {
@@ -36,8 +37,8 @@ public class PlanResultResponse extends RESTResponse {
             return this;
         }
 
-        public PlanResultResponseBuilder withPlanningResult(PlanningResult planningResult) {
-            this.planningResult = planningResult;
+        public PlanResultResponseBuilder withPlanningResults(List<RouteResult> routeResult) {
+            this.routeResult = routeResult;
             return this;
         }
 
@@ -46,8 +47,8 @@ public class PlanResultResponse extends RESTResponse {
             return this;
         }
 
-        public PlanResultResponse build() {
-            return new PlanResultResponse(planningResult, status, messages);
+        public RoutePlanResponse build() {
+            return new RoutePlanResponse(routeResult, status, messages);
         }
     }
 }

@@ -4,9 +4,8 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
 import org.hikit.common.JsonUtil;
-import org.hikit.common.data.Poi;
-import org.hikit.common.response.PlanResultResponse;
-import org.hikit.common.response.PoiRestResponse;
+import org.hikit.common.data.RouteResult;
+import org.hikit.common.response.RoutePlanResponse;
 import org.hikit.common.response.Status;
 import org.hikit.web.RouteManager;
 import org.hikit.web.request.PlanningRestRequest;
@@ -41,35 +40,35 @@ public class RouteController {
         this.routeCoordValidator = routeCoordRequestValidator;
     }
 
-    private PlanResultResponse plan(Request request, Response response) {
-        Set<String> errorMessages = routeCoordValidator.validate(request);
-
+    private RoutePlanResponse plan(Request request, Response response) {
         response.type(ACCEPT_TYPE);
-        return PlanResultResponse.PlanResultResponseBuilder.aPlanResultResponse()
-                .withStatus(Status.OK)
-                .withMessages(Collections.emptySet())
-                .withPlanningResult(routeManager.plan(
-                        new Gson().fromJson(request.body(), PlanningRestRequest.class))).build();
+        Set<String> errorMessages = routeCoordValidator.validate(request);
+        if (!errorMessages.isEmpty()) {
+            return buildErrorResponse(errorMessages);
+        }
+        return buildRouteResponse(routeManager.plan(
+                new Gson().fromJson(request.body(), PlanningRestRequest.class)));
     }
 
     @NotNull
-    private PoiRestResponse buildPoiResponse(final List<Poi> pois) {
-        final PoiRestResponse.PoiRestResponseBuilder poiRestResponseBuilder = PoiRestResponse.
-                PoiRestResponseBuilder.aPoiRestResponse().withTrails(pois);
-        if (pois.isEmpty()) {
-            return poiRestResponseBuilder
-                    .withMessages(Collections.singleton("No POI found"))
+    private RoutePlanResponse buildRouteResponse(final List<RouteResult> routes) {
+        RoutePlanResponse.PlanResultResponseBuilder routeResultBuilder =
+                RoutePlanResponse.PlanResultResponseBuilder.aPlanResultResponse()
+                        .withPlanningResults(routes);
+        if (routes.isEmpty()) {
+            return routeResultBuilder
+                    .withMessages(Collections.singleton("No routes found"))
                     .withStatus(Status.ERROR).build();
         }
-        return poiRestResponseBuilder
+        return routeResultBuilder
                 .withMessages(Collections.emptySet())
                 .withStatus(Status.OK).build();
     }
 
     @NotNull
-    private PoiRestResponse buildErrorResponse(final Set<String> errorMessages) {
-        return PoiRestResponse.PoiRestResponseBuilder.aPoiRestResponse()
-                .withTrails(Collections.emptyList())
+    private RoutePlanResponse buildErrorResponse(final Set<String> errorMessages) {
+        return RoutePlanResponse.PlanResultResponseBuilder.aPlanResultResponse()
+                .withPlanningResults(Collections.emptyList())
                 .withMessages(errorMessages)
                 .withStatus(Status.ERROR).build();
     }

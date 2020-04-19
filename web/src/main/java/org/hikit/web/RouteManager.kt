@@ -10,12 +10,12 @@ class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
                                        private val trailsPathExplorer: TrailsPathSolutionExplorer,
                                        private val metricConverter: MetricConverter) {
 
-    fun plan(planning: PlanningRestRequest): PlanningResult? {
+    fun plan(planning: PlanningRestRequest): List<RouteResult> {
 
         val trailsWithRequestedDestination = getTrailsWithRequestedDestination(planning)
 
         if (trailsWithRequestedDestination.isEmpty()) {
-            return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
+//            return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
         }
 
         val distanceInMeters = if (planning.unitOfMeasurement == UnitOfMeasurement.m)
@@ -27,14 +27,14 @@ class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
 
         // No close trails starts
         if (startingTrailsWithinRange.size == 0) {
-            return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
+//            return PlanningResult.PlanningResultBuilder.aPlanningResult().buildEmpty()
         }
 
         // Check only for direct trails
         if (planning.isDirectTrailsOnly) {
             val directTrails = trailsPathExplorer.getDirectTrails(startingTrailsWithinRange, trailsWithRequestedDestination)
             val elected = getElectedArbitrarily(directTrails)
-            return getPlanningResult(getTrailsPathFromTrail(elected), getOptionalWithoutElected(directTrails, elected).map { trail -> getTrailsPathFromTrail(trail) })
+//            getPlanningResult(getTrailsPathFromTrail(elected), getOptionalWithoutElected(directTrails, elected).map { trail -> getTrailsPathFromTrail(trail) })
         }
 
         // Take the first found trail ending position
@@ -46,7 +46,7 @@ class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
 //                destinationPos)
 
 
-        return null
+        return emptyList()
     }
 
 
@@ -58,8 +58,8 @@ class RouteManager @Inject constructor(private val trailDAO: TrailDAO,
     }
 
 
-    private fun getPlanningResult(elected: TrailsPath, alternatives: List<TrailsPath>): PlanningResult =
-            PlanningResult.PlanningResultBuilder.aPlanningResult()
+    private fun getPlanningResult(elected: TrailsPath, alternatives: List<TrailsPath>): RouteResult =
+            RouteResult.PlanningResultBuilder.aPlanningResult()
                     .withWinningTrailsResult(elected)
                     .withOptionalAlternatives(alternatives).build()
 
