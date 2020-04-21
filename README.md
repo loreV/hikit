@@ -1,4 +1,4 @@
-![GitHub Logo](utils/assets/logo/hikit_80.png)
+![GitHub Logo](importer/src/main/resources/public/assets/logo/hikit_80.png)
 # HiKit [![Build Status](https://travis-ci.com/loreV/hikit.svg?token=poHDkeMHMhAtyZHWqhvU&branch=master)](https://travis-ci.com/loreV/hikit)
 > A hike planning and discovery RESTFul service that aims to connect natural, cultural and historical data into unique and informed routes.
 
