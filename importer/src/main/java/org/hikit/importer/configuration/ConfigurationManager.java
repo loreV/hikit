@@ -7,6 +7,7 @@ import org.hikit.importer.controller.ImporterController;
 import spark.Spark;
 
 import javax.inject.Named;
+import java.io.File;
 
 import static java.lang.String.format;
 import static org.apache.logging.log4j.LogManager.getLogger;
@@ -14,12 +15,14 @@ import static spark.Spark.port;
 
 public class ConfigurationManager {
 
+    public static final String TMP_FOLDER = "tmp";
+    public static final String LOCAL_IP_ADDRESS = "127.0.0.1";
     private final Logger LOG = getLogger(ConfigurationManager.class.getName());
 
     private final DataSource dataSource;
 
     private static final String PORT_PROPERTY = "web-port";
-    public static final String ACCEPT_TYPE = "application/json";
+    public static final File UPLOAD_DIR = new File(TMP_FOLDER);
 
     /**
      * Controllers
@@ -33,9 +36,18 @@ public class ConfigurationManager {
                                 final DataSource dataSource) {
         this.importerController = importerController;
         this.dataSource = dataSource;
+        UPLOAD_DIR.mkdir();
+        webServerSetup(port);
+
+    }
+
+    private void webServerSetup(final String port) {
+        Spark.ipAddress(LOCAL_IP_ADDRESS);
         Spark.staticFiles.location("/public"); // Static files
+        Spark.staticFiles.externalLocation(TMP_FOLDER); // Static files
         port(Integer.parseInt(port));
     }
+
 
     public void init() {
         startControllers();

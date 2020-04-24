@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
 </head>
-<body id="app">
+<body>
 
 
 <nav class="navbar is-fixed-top is-transparent" role="navigation" aria-label="main navigation">
@@ -75,7 +75,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="column is-5">
+                <div class="column is-5" id="importer">
                     <form>
                         <h1 class="title">General info</h1>
                         <div class="field">
@@ -109,14 +109,22 @@
                         <button class="button is-primary is-light">Add connecting-waypoint</button>
                     </div>
 
-                    <div id="components-demo">
-                        <button-counter></button-counter>
+                    <div>
+                        <h1 class="title">Start Pos</h1>
+                        <position-input idpassed="startPos"></position-input>
                     </div>
+
+                    <div>
+                        <h1 class="title">Final Pos</h1>
+                        <position-input idPassed="endPos"></position-input>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 </body>
-<script src="./js/importer.js"></script>
+<script src="./js/component/positionInputComponent.js"></script>
+<script src="./js/main.js"></script>
 </html>
