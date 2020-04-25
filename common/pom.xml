@@ -29,6 +29,12 @@
             <version>${kotlin.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.jenetics</groupId>
+            <artifactId>jpx</artifactId>
+            <version>${jpx.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

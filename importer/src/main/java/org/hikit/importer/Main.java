@@ -7,6 +7,7 @@ import org.hikit.common.configuration.ConfiguratorModule;
 import org.hikit.importer.configuration.ConfigurationManager;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
+import static org.hikit.common.configuration.ConfigurationProperties.VERSION;
 
 public class Main {
 
@@ -14,7 +15,7 @@ public class Main {
             " | |__ (_| | _(_| |_ \n" +
             " | '_ \\| | |/ | | __|\n" +
             " | | | | |   <| | |_ \n" +
-            " |_| |_|_|_|\\_|_|\\__| importer v1\n" +
+            " |_| |_|_|_|\\_|_|\\__| importer v " + VERSION + "\n" +
             "                     ";
 
     public static void main(String[] args) {

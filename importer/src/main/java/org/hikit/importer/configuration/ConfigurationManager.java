@@ -17,6 +17,8 @@ public class ConfigurationManager {
 
     public static final String TMP_FOLDER = "tmp";
     public static final String LOCAL_IP_ADDRESS = "127.0.0.1";
+    public static final String ALTITUDE_SERVICE_PROPERTY = "altitude-service-port";
+
     private final Logger LOG = getLogger(ConfigurationManager.class.getName());
 
     private final DataSource dataSource;
@@ -36,8 +38,8 @@ public class ConfigurationManager {
                                 final DataSource dataSource) {
         this.importerController = importerController;
         this.dataSource = dataSource;
-        UPLOAD_DIR.mkdir();
         webServerSetup(port);
+        UPLOAD_DIR.mkdir();
 
     }
 
@@ -62,4 +64,5 @@ public class ConfigurationManager {
     private void startControllers() {
         importerController.init();
     }
+
 }

@@ -36,6 +36,7 @@
         <mockk.version>1.9.3</mockk.version>
         <rest-assured.version>4.3.0</rest-assured.version>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
+        <jpx.version>1.7.0</jpx.version>
     </properties>
 
     <dependencies>
@@ -73,6 +74,11 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jenetics</groupId>
+            <artifactId>jpx</artifactId>
+            <version>${jpx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
