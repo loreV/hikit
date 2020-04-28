@@ -47,6 +47,8 @@ public class TrailMapper implements Mapper<Trail> {
                 .build();
     }
 
+    // TODO = map coordinates with altitude
+
     private List<Poi> getPois(Document doc) {
         final List<Document> list = doc.get(Trail.POIS, List.class);
         return list.stream().map(poiMapper::mapToObject).collect(Collectors.toList());

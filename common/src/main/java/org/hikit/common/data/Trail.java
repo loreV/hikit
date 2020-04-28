@@ -21,12 +21,14 @@ public class Trail {
     public static final String CLASSIFICATION = "classification";
     public static final String POST_CODE = "postCodes";
     public static final String COUNTRY = "country";
+    public static final String COORDINATES_WITH_ALTITUDE = "coordinates";
 
     private String name;
     private String description;
     private String code;
     private Position startPos;
     private Position finalPos;
+    private List<CoordinatesWithAltitude> coordinates;
     private JsonElement geo;
     private double trackLength;
     private double eta;
@@ -38,7 +40,8 @@ public class Trail {
 
     public Trail(String name, String description, String code, Position startPos, Position finalPos, double trackLength,
                  double eta, List<ConnectingWayPoint> connectingWayPoints, List<Poi> pois,
-                 TrailClassification trailClassification, JsonElement geo, List<String> postCode, String country) {
+                 TrailClassification trailClassification, JsonElement geo, List<String> postCode, String country,
+                 List<CoordinatesWithAltitude> coordinates) {
         this.name = name;
         this.description = description;
         this.code = code;
@@ -52,6 +55,7 @@ public class Trail {
         this.trailClassification = trailClassification;
         this.postCode = postCode;
         this.country = country;
+        this.coordinates = coordinates;
     }
 
     public String getName() {
@@ -106,6 +110,10 @@ public class Trail {
         return country;
     }
 
+    public List<CoordinatesWithAltitude> getCoordinates() {
+        return coordinates;
+    }
+
     public static final class TrailBuilder {
 
         private String name;
@@ -122,6 +130,7 @@ public class Trail {
         private List<Poi> pois;
         private TrailClassification trailClassification;
         private String country;
+        private List<CoordinatesWithAltitude> coordinates;
 
 
         private TrailBuilder() {
@@ -197,10 +206,16 @@ public class Trail {
             return this;
         }
 
+        public TrailBuilder withCoordinates(List<CoordinatesWithAltitude> coordinates) {
+            this.coordinates = coordinates;
+            return this;
+        }
+
+
         public Trail build() {
             return new Trail(name, description, code, startPos, finalPos,
                     trackLength, eta, connectingWayPoints, pois, trailClassification,
-                    geo, postCode, country);
+                    geo, postCode, country, coordinates);
         }
 
     }
