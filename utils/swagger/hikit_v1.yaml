@@ -14,7 +14,7 @@ tags:
   - name: "Trails"
     description: "Allows to access trails data via convenient REST methods"
   - name: "POI"
-    description: "Allows to access POI data via conveninet REST methods"
+    description: "Allows to access POI data via convenient REST methods"
   - name: "Route"
     description: "Plan a trip based on starting and end point"
   - name: "System"
@@ -176,7 +176,7 @@ paths:
     get:
       tags:
         - "System"
-      summary: "Helps troubleshooting the service liveliness"
+      summary: "Checks service liveliness"
       responses:
         200:
           description: "Successful liveliness check"
@@ -190,6 +190,18 @@ definitions:
         type: "number"
         format: "double"
       longitude:
+        type: "number"
+        format: "double"
+  CoordsWithAltitude:
+    type: "object"
+    properties:
+      latitude:
+        type: "number"
+        format: "double"
+      longitude:
+        type: "number"
+        format: "double"
+      altitude:
         type: "number"
         format: "double"
   GeoTrailRequest:
@@ -241,10 +253,12 @@ definitions:
       description:
         type: "string"
         format: "string"
-      geo:
-        description: "A geoJson object"
-        type: "object"
-        format: "json"
+      coordinates:
+        description: "A list of points"
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/CoordsWithAltitude"
       trackLength:
         type: "number"
         format: "number"
@@ -390,10 +404,7 @@ definitions:
           format: "string"
       coordinates:
         type: "object"
-        $ref: "#/definitions/Coords"
-      alt:
-        type: "number"
-        format: "number"
+        $ref: "#/definitions/CoordsWithAltitude"
       postCode:
         type: "string"
         format: "string"
