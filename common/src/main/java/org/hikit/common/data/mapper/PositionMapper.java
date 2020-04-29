@@ -4,21 +4,33 @@ import com.google.inject.Inject;
 import org.bson.Document;
 import org.hikit.common.data.Position;
 
+import java.util.List;
+
 public class PositionMapper implements Mapper<Position> {
 
-    final CoordinatesMapper coordinatesMapper;
+    final CoordinatesAltitudeMapper coordinatesMapper;
 
     @Inject
-    public PositionMapper(CoordinatesMapper coordinatesMapper) {
+    public PositionMapper(CoordinatesAltitudeMapper coordinatesMapper) {
         this.coordinatesMapper = coordinatesMapper;
     }
 
     @Override
     public Position mapToObject(Document document) {
         return Position.PositionBuilder.aPosition()
+                .withName(document.getString(Position.NAME))
                 .withCoords(coordinatesMapper.mapToObject(document.get(Position.COORDS, Document.class)))
-                .withAlt(document.getDouble(Position.ALTITUDE))
                 .withPostCode(document.getString(Position.POSTCODE))
+                .withDescription(document.getString(Position.DESCRIPTION))
+                .withTags(document.get(Position.TAGS, List.class))
                 .build();
+    }
+
+    @Override
+    public Document mapToDocument(Position object) {
+        return new Document(Position.COORDS, coordinatesMapper.mapToDocument(object.getCoords()))
+                .append(Position.TAGS, object.getTags())
+                .append(Position.DESCRIPTION, object.getDescription())
+                .append(Position.POSTCODE, object.getPostCode()).append(Position.NAME, object.getName());
     }
 }

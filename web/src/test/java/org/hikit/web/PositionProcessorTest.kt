@@ -3,7 +3,7 @@ package org.hikit.web
 import io.mockk.every
 import io.mockk.mockkClass
 import mil.nga.sf.geojson.FeatureConverter
-import org.hikit.common.data.Coordinates
+import org.hikit.common.data.CoordinatesWithAltitude
 import org.hikit.common.data.Position
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
@@ -20,19 +20,21 @@ class PositionHelperTest {
 
         // Start pos
         val mockStartPosition = mockkClass(Position::class)
-        val mockCoords = mockkClass(Coordinates::class)
+        val mockCoords = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockStartPosition.coords } returns mockCoords
         every { mockCoords.latitude } returns 44.491423646640975
         every { mockCoords.longitude } returns 11.245107650756836
+        every { mockCoords.altitude } returns 0.0
 
         // Destination
         val mockConnectingPosition = mockkClass(Position::class)
-        val mockCoordsConnecting = mockkClass(Coordinates::class)
+        val mockCoordsConnecting = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockConnectingPosition.coords } returns mockCoordsConnecting
         every { mockCoordsConnecting.latitude } returns 44.4890050991292
         every { mockCoordsConnecting.longitude } returns 11.251587867736815
+        every { mockCoords.altitude } returns 0.0
 
         val distanceBetweenPointsOnTrail = PositionHelper().getDistanceBetweenPointsOnTrailInM(toGeoJsonObject, mockStartPosition, mockConnectingPosition)
         assertEquals(580.78, distanceBetweenPointsOnTrail, 1.0)
@@ -44,19 +46,21 @@ class PositionHelperTest {
 
         // Start pos
         val mockStartPosition = mockkClass(Position::class)
-        val mockCoords = mockkClass(Coordinates::class)
+        val mockCoords = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockStartPosition.coords } returns mockCoords
         every { mockCoords.latitude } returns 44.49154610207528
         every { mockCoords.longitude } returns 11.244678497314451
+        every { mockCoords.altitude } returns 0.0
 
         // Destination
         val mockConnectingPosition = mockkClass(Position::class)
-        val mockCoordsConnecting = mockkClass(Coordinates::class)
+        val mockCoordsConnecting = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockConnectingPosition.coords } returns mockCoordsConnecting
         every { mockCoordsConnecting.latitude } returns 44.48432079153089
         every { mockCoordsConnecting.longitude } returns 11.259291172027588
+        every { mockCoords.altitude } returns 0.0
 
         val distanceBetweenPointsOnTrail = PositionHelper().getDistanceBetweenPointsOnTrailInM(toGeoJsonObject, mockStartPosition, mockConnectingPosition)
         assertEquals(1425.30, distanceBetweenPointsOnTrail, 1.0)
@@ -68,18 +72,20 @@ class PositionHelperTest {
 
         // Start pos
         val mockStartPosition = mockkClass(Position::class)
-        val mockCoords = mockkClass(Coordinates::class)
+        val mockCoords = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockStartPosition.coords } returns mockCoords
         every { mockCoords.latitude } returns 44.48923471237884
         every { mockCoords.longitude } returns 11.251072883605957
+        every { mockCoords.altitude } returns 0.0
         // Destination
         val mockConnectingPosition = mockkClass(Position::class)
-        val mockCoordsConnecting = mockkClass(Coordinates::class)
+        val mockCoordsConnecting = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockConnectingPosition.coords } returns mockCoordsConnecting
         every { mockCoordsConnecting.latitude } returns 44.48432079153089
         every { mockCoordsConnecting.longitude } returns 11.259291172027588
+        every { mockCoords.altitude } returns 0.0
 
         val distanceBetweenPointsOnTrail = PositionHelper().getDistanceBetweenPointsOnTrailInM(toGeoJsonObject, mockStartPosition, mockConnectingPosition)
         assertEquals(856.00, distanceBetweenPointsOnTrail, 1.0)
@@ -91,18 +97,20 @@ class PositionHelperTest {
 
         // Start pos
         val mockStartPosition = mockkClass(Position::class)
-        val mockCoords = mockkClass(Coordinates::class)
+        val mockCoords = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockStartPosition.coords } returns mockCoords
         every { mockCoords.latitude } returns 44.48432079153089 // Same as connecting point
         every { mockCoords.longitude } returns 11.259291172027588 // Same as connecting point
+        every { mockCoords.altitude } returns 0.0
         // Destination
         val mockConnectingPosition = mockkClass(Position::class)
-        val mockCoordsConnecting = mockkClass(Coordinates::class)
+        val mockCoordsConnecting = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockConnectingPosition.coords } returns mockCoordsConnecting
         every { mockCoordsConnecting.latitude } returns 44.48432079153089
         every { mockCoordsConnecting.longitude } returns 11.259291172027588
+        every { mockCoords.altitude } returns 0.0
 
         val distanceBetweenPointsOnTrail = PositionHelper().getDistanceBetweenPointsOnTrailInM(toGeoJsonObject, mockStartPosition, mockConnectingPosition)
         assertEquals(0.0, distanceBetweenPointsOnTrail, 1.0)
@@ -114,18 +122,20 @@ class PositionHelperTest {
 
         // Start pos
         val mockStartPosition = mockkClass(Position::class)
-        val mockCoords = mockkClass(Coordinates::class)
+        val mockCoords = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockStartPosition.coords } returns mockCoords
         every { mockCoords.latitude } returns 44.4843207915308 // Not existing!
         every { mockCoords.longitude } returns 11.25929117202758 // Not existing!
+        every { mockCoords.altitude } returns 0.0
         // Destination
         val anyMock = mockkClass(Position::class)
-        val anyCoord = mockkClass(Coordinates::class)
+        val anyCoord = mockkClass(CoordinatesWithAltitude::class)
 
         every { anyMock.coords } returns anyCoord
         every { anyCoord.latitude } returns 44.48432079153089
         every { anyCoord.longitude } returns 11.259291172027588
+        every { mockCoords.altitude } returns 0.0
 
         try {
             PositionHelper().getDistanceBetweenPointsOnTrailInM(toGeoJsonObject, mockStartPosition, anyMock)

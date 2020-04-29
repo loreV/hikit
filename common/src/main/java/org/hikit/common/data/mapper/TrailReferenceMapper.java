@@ -11,4 +11,10 @@ public class TrailReferenceMapper implements Mapper<TrailReference> {
                 .withCode(document.getString(TrailReference.TRAIL_CODE))
                 .build();
     }
+
+    @Override
+    public Document mapToDocument(TrailReference object) {
+        return new Document(TrailReference.POSTCODE, object.getPostcode())
+                .append(TrailReference.TRAIL_CODE, object.getTrailCode());
+    }
 }

@@ -13,7 +13,6 @@ public class Poi {
     public static final String DESCRIPTION = "description";
     public static final String TAGS = "tags";
     public static final String OTHER_NAMES = "otherNames";
-    public static final String GEO = "geo";
     public static final String RESOURCES_LINKS = "resourcesLinks";
     public static final String TYPES = "types";
     public static final String TRAIL_REF = "trails";

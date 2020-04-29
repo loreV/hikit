@@ -1,7 +1,5 @@
 package org.hikit.common.data;
 
-import com.google.gson.JsonElement;
-
 import java.util.List;
 
 public class Trail {
@@ -13,7 +11,6 @@ public class Trail {
     public static final String CODE = "code";
     public static final String START_POS = "startPos";
     public static final String FINAL_POS = "finalPos";
-    public static final String GEO = "geo";
     public static final String TRACK_LENGTH = "trackLength";
     public static final String ETA = "eta";
     public static final String CONNECTING_TRAILS = "wayPoints";
@@ -29,7 +26,6 @@ public class Trail {
     private Position startPos;
     private Position finalPos;
     private List<CoordinatesWithAltitude> coordinates;
-    private JsonElement geo;
     private double trackLength;
     private double eta;
     private List<ConnectingWayPoint> connectingWayPoints;
@@ -40,14 +36,13 @@ public class Trail {
 
     public Trail(String name, String description, String code, Position startPos, Position finalPos, double trackLength,
                  double eta, List<ConnectingWayPoint> connectingWayPoints, List<Poi> pois,
-                 TrailClassification trailClassification, JsonElement geo, List<String> postCode, String country,
+                 TrailClassification trailClassification, List<String> postCode, String country,
                  List<CoordinatesWithAltitude> coordinates) {
         this.name = name;
         this.description = description;
         this.code = code;
         this.startPos = startPos;
         this.finalPos = finalPos;
-        this.geo = geo;
         this.trackLength = trackLength;
         this.eta = eta;
         this.connectingWayPoints = connectingWayPoints;
@@ -74,10 +69,6 @@ public class Trail {
         return startPos;
     }
 
-    public JsonElement getGeo() {
-        return geo;
-    }
-
     public double getTrackLength() {
         return trackLength;
     }
@@ -102,7 +93,7 @@ public class Trail {
         return finalPos;
     }
 
-    public List<String> getPostCode() {
+    public List<String> getPostCodes() {
         return postCode;
     }
 
@@ -122,8 +113,6 @@ public class Trail {
         private List<String> postCode;
         private Position startPos;
         private Position finalPos;
-        private JsonElement geo;
-        private double reportedDifficulty;
         private double trackLength;
         private double eta;
         private List<ConnectingWayPoint> connectingWayPoints;
@@ -145,7 +134,7 @@ public class Trail {
             return this;
         }
 
-        public TrailBuilder withPostCode(List<String> postCode) {
+        public TrailBuilder withPostCodes(List<String> postCode) {
             this.postCode = postCode;
             return this;
         }
@@ -163,11 +152,6 @@ public class Trail {
 
         public TrailBuilder withStartPos(Position startPos) {
             this.startPos = startPos;
-            return this;
-        }
-
-        public TrailBuilder withGeo(JsonElement geo) {
-            this.geo = geo;
             return this;
         }
 
@@ -215,7 +199,7 @@ public class Trail {
         public Trail build() {
             return new Trail(name, description, code, startPos, finalPos,
                     trackLength, eta, connectingWayPoints, pois, trailClassification,
-                    geo, postCode, country, coordinates);
+                    postCode, country, coordinates);
         }
 
     }

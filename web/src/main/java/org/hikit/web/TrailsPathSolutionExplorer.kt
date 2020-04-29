@@ -69,7 +69,7 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
     }
 
     private fun calculateDistanceBetweenParentAndSuccessor(previousPositionNode: PositionNode, it: ConnectingWayPoint): Double {
-        val trailPostcode = previousPositionNode.trail.postCode.get(0) // TODO
+        val trailPostcode = previousPositionNode.trail.postCodes.get(0) // TODO
         val trailCode = previousPositionNode.trail.code
         geoTrailCache.addElementUnlessExists(trailPostcode, trailCode, previousPositionNode.trail)
         val trailGeoObject: GeoJsonObject = geoTrailCache.getElement(trailPostcode, trailCode)

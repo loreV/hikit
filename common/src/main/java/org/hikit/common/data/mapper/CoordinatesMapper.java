@@ -12,4 +12,10 @@ public class CoordinatesMapper implements Mapper<Coordinates> {
                 .withLatitude(document.getDouble(Coordinates.LAT))
                 .build();
     }
+
+    @Override
+    public Document mapToDocument(Coordinates object) {
+        return new Document(Coordinates.LAT, object.getLatitude())
+                .append(Coordinates.LONG, object.getLongitude());
+    }
 }

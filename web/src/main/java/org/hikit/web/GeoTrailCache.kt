@@ -1,6 +1,5 @@
 package org.hikit.web
 
-import mil.nga.sf.geojson.FeatureConverter
 import mil.nga.sf.geojson.GeoJsonObject
 import org.hikit.common.data.Trail
 
@@ -10,7 +9,7 @@ class GeoTrailCache {
     fun addElementUnlessExists(postCode: String, trailCode: String, trail: Trail) {
         val pair = Pair(postCode, trailCode)
         if (trailMap.containsKey(pair)) {
-            trailMap[pair] = FeatureConverter.toGeoJsonObject(trail.geo)
+//            trailMap[pair] = FeatureConverter.toGeoJsonObject()
         }
     }
 

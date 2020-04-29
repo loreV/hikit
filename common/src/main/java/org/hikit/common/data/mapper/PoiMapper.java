@@ -28,7 +28,7 @@ public class PoiMapper implements Mapper<Poi> {
         return Poi.PoiBuilder.aPoi()
                 .withName(document.getString(Poi.NAME))
                 .withDescription(document.getString(Poi.DESCRIPTION))
-                .withGeo(geoMapper.mapToObject(document.get(Poi.GEO, Document.class)))
+                .withGeo(geoMapper.mapToObject(document.get(GeoMapper.GEO, Document.class)))
                 .withPosition(positionMapper.mapToObject(document.get(Poi.POSITION, Document.class)))
                 .withOtherNames(document.get(Poi.OTHER_NAMES, List.class))
                 .withTags(document.get(Poi.TAGS, List.class))
@@ -37,6 +37,21 @@ public class PoiMapper implements Mapper<Poi> {
                 .withTrailRef(getTrailsRef(document, Poi.TRAIL_REF))
                 .withPostCode(document.getString(Poi.POST_CODE))
                 .build();
+    }
+
+    @Override
+    public Document mapToDocument(Poi object) {
+        return new Document(Poi.NAME, object.getName())
+                .append(Poi.POSITION, positionMapper.mapToDocument(object.getPosition()))
+                .append(Poi.DESCRIPTION, object.getDescription())
+                .append(Poi.OTHER_NAMES, object.getOtherNames())
+                .append(Poi.POST_CODE, object.getPostCode())
+                .append(GeoMapper.GEO, object.getGeo())
+                .append(Poi.RESOURCES_LINKS, object.getResourcesLinks())
+                .append(Poi.TAGS, object.getTags())
+                .append(Poi.TRAIL_REF, object.getTrailReferences().stream()
+                        .map(trailReferenceMapper::mapToDocument).collect(Collectors.toList()))
+                .append(Poi.TYPES, object.getTypes());
     }
 
     private List<TrailReference> getTrailsRef(final Document doc, final String fieldName) {

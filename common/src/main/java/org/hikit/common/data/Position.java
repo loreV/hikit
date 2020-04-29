@@ -14,35 +14,27 @@ public class Position {
     private String name;
     private String description;
     private List<String> tags;
-    private Coordinates coords;
-    private double alt;
+    private CoordinatesWithAltitude coords;
     private String postCode;
 
     public Position(double alt, double lat, double longitude) {
-        this.alt = alt;
-        this.coords = new Coordinates(longitude, lat);
+        this.coords = new CoordinatesWithAltitude(longitude, lat, alt);
     }
 
     public Position(final String name,
                     final String description,
                     final List<String> tags,
-                    final Coordinates coords,
-                    final double alt,
+                    final CoordinatesWithAltitude coords,
                     final String postCode) {
         this.name = name;
         this.description = description;
         this.tags = tags;
         this.coords = coords;
-        this.alt = alt;
         this.postCode = postCode;
     }
 
-    public Coordinates getCoords() {
+    public CoordinatesWithAltitude getCoords() {
         return coords;
-    }
-
-    public double getAlt() {
-        return alt;
     }
 
     public String getPostCode() {
@@ -65,8 +57,7 @@ public class Position {
         private String name;
         private String description;
         private List<String> tags;
-        private Coordinates coords;
-        private double alt;
+        private CoordinatesWithAltitude coords;
         private String postCode;
 
         private PositionBuilder() {
@@ -91,13 +82,8 @@ public class Position {
             return this;
         }
 
-        public PositionBuilder withCoords(Coordinates coords) {
+        public PositionBuilder withCoords(CoordinatesWithAltitude coords) {
             this.coords = coords;
-            return this;
-        }
-
-        public PositionBuilder withAlt(double alt) {
-            this.alt = alt;
             return this;
         }
 
@@ -107,7 +93,7 @@ public class Position {
         }
 
         public Position build() {
-            return new Position(name, description, tags, coords, alt, postCode);
+            return new Position(name, description, tags, coords, postCode);
         }
     }
 }

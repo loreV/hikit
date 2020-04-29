@@ -27,20 +27,20 @@ class TrailControllerPathSolutionExplorerTest {
         val anyTrailCode = "anyTrailCode"
 
         val mockStartPosition = mockkClass(Position::class)
-        val mockStartCoords = mockkClass(Coordinates::class)
+        val mockStartCoords = mockkClass(CoordinatesWithAltitude::class)
         every { mockStartCoords.latitude } returns 44.491423646640975
         every { mockStartCoords.longitude } returns 11.245107650756836
         every { mockStartPosition.coords } returns mockStartCoords
 
         val mockFinalPosition = mockkClass(Position::class)
-        val mockFinalCoords = mockkClass(Coordinates::class)
+        val mockFinalCoords = mockkClass(CoordinatesWithAltitude::class)
 
         every { mockFinalCoords.latitude } returns 44.4890050991292
         every { mockFinalCoords.longitude } returns 11.251587867736815
         every { mockFinalPosition.coords } returns mockFinalCoords
         every { mockFinalPosition.postCode } returns anyPostcode
 
-        every { startingTrail.postCode } returns arrayListOf(anyPostcode) // <- TODO should be only one postcode
+        every { startingTrail.postCodes } returns arrayListOf(anyPostcode) // <- TODO should be only one postcode
         every { startingTrail.code } returns anyTrailCode
         every { startingTrail.startPos } returns mockStartPosition
 

@@ -7,6 +7,8 @@ import org.hikit.common.data.helper.GsonBeanHelper;
 
 public class GeoMapper implements Mapper<JsonElement> {
 
+    public static final String GEO = "geo";
+
     private final GsonBeanHelper gsonBeanHelper;
 
     @Inject
@@ -18,4 +20,11 @@ public class GeoMapper implements Mapper<JsonElement> {
     public JsonElement mapToObject(Document document) {
         return (gsonBeanHelper.getGsonBuilder()).toJsonTree(document);
     }
+
+    @Override
+    public Document mapToDocument(JsonElement object) {
+        return new Document(GEO, object.toString());
+    }
+
+
 }

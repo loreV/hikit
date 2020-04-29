@@ -33,6 +33,16 @@ public class TrailsPathMapper implements Mapper<TrailsPath> {
                 .build();
     }
 
+    @Override
+    public Document mapToDocument(TrailsPath object) {
+        return new Document(TrailsPath.TRAILS, object.getTrails().stream().map(trailMapper::mapToDocument).collect(Collectors.toList()))
+                .append(TrailsPath.CONNECTING_POSITIONS, object.getConnectingPositions().stream().map(positionMapper::mapToDocument).collect(Collectors.toList()))
+                .append(TrailsPath.ETA, object.getEta())
+                .append(TrailsPath.DISTANCE, object.getDistance())
+                .append(TrailsPath.TOTAL_ELEVATION_DOWN, object.getTotalElevationDown())
+                .append(TrailsPath.TOTAL_ELEVATION_UP, object.getTotalElevationUp());
+    }
+
     private List<Position> getConnectingPosition(Document document) {
         List<Document> list = document.get(TrailsPath.CONNECTING_POSITIONS, List.class);
         return list.stream().map(doc -> positionMapper.mapToObject(doc)).collect(Collectors.toList());

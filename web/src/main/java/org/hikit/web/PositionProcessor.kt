@@ -10,7 +10,7 @@ object PositionProcessor {
     fun distanceBetweenPoint(position: Position, toPoint: Position) =
             distance(position.coords.latitude, toPoint.coords.latitude,
                     position.coords.longitude, toPoint.coords.longitude,
-                    position.alt, toPoint.alt)
+                    position.coords.altitude, toPoint.coords.altitude)
 
     fun getRadialDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {  // generally used geo measurement function
         val dLat = lat2 * PI / 180 - lat1 * PI / 180
