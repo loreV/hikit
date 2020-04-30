@@ -7,8 +7,8 @@ import org.hikit.importer.model.TrailPreparationModel
 import org.hikit.importer.service.AltitudeServiceHelper
 import java.nio.file.Path
 
-class GpxManager @Inject constructor(val gpxHelper: GpxHelper,
-                                     val altitudeService: AltitudeServiceHelper) {
+class GpxManager @Inject constructor(private val gpxHelper: GpxHelper,
+                                     private val altitudeService: AltitudeServiceHelper) {
 
     private val emptyDefaultString = ""
 
