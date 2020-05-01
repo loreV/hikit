@@ -1,14 +1,14 @@
 var poiComponent = Vue.component('poi-component', {
     props: {
-        index: String
+        id: String
       },
       data: {
       },
       methods: {
       },
     template: `
-<div :poi_index="index">
-    <p>Hi n {{index}}</p>
+<div :poi_index="id">
+    <p>Hi n {{id}}</p>
 </div>
 `
 });

@@ -3,7 +3,7 @@ package org.hikit.importer.configuration;
 import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
 import org.hikit.common.data.DataSource;
-import org.hikit.importer.controller.ImporterController;
+import org.hikit.importer.controller.TrailController;
 import spark.Spark;
 
 import javax.inject.Named;
@@ -29,14 +29,14 @@ public class ConfigurationManager {
     /**
      * Controllers
      */
-    private final ImporterController importerController;
+    private final TrailController trailController;
 
 
     @Inject
     public ConfigurationManager(final @Named(PORT_PROPERTY) String port,
-                                final ImporterController importerController,
+                                final TrailController trailController,
                                 final DataSource dataSource) {
-        this.importerController = importerController;
+        this.trailController = trailController;
         this.dataSource = dataSource;
         webServerSetup(port);
         UPLOAD_DIR.mkdir();
@@ -62,7 +62,7 @@ public class ConfigurationManager {
     }
 
     private void startControllers() {
-        importerController.init();
+        trailController.init();
     }
 
 }

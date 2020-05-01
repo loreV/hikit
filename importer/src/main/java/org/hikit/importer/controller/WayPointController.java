@@ -25,9 +25,9 @@ import static org.hikit.importer.configuration.ConfigurationManager.TMP_FOLDER;
 import static org.hikit.importer.configuration.ConfigurationManager.UPLOAD_DIR;
 import static spark.Spark.post;
 
-public class ImporterController implements PublicController {
+public class WayPointController implements PublicController {
 
-    private final static Logger LOGGER = Logger.getLogger(ImporterController.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(WayPointController.class.getName());
     private final static String PREFIX = API_PREFIX + "/trail";
 
     public static final String MULTI_PART_JETTY_CONFIG = "org.eclipse.jetty.multipartConfig";
@@ -38,13 +38,13 @@ public class ImporterController implements PublicController {
     private final TrailImporterManager trailImporterManager;
 
     @Inject
-    public ImporterController(final GpxManager gpxManager,
+    public WayPointController(final GpxManager gpxManager,
                               final TrailImporterManager trailImporterManager) {
         this.gpxManager = gpxManager;
         this.trailImporterManager = trailImporterManager;
     }
 
-    // import/gpx
+    // trai/gpx
     private TrailPreparationModel readGpxFile(final Request request,
                                               final Response response) throws IOException {
         final Path tempFile = Files.createTempFile(UPLOAD_DIR.toPath(), "", "");
@@ -58,14 +58,15 @@ public class ImporterController implements PublicController {
         return gpxManager.getTrailPreparationFromGpx(tempFile);
     }
 
+    // trail/import
     private TrailPreparationModel importTrail(final Request request,
                                               final Response response) throws IOException {
         throw new NotImplementedException();
     }
 
-
     public void init() {
         post(format("%s/gpx", PREFIX), this::readGpxFile, JsonUtil.json());
         post(format("%s/import", PREFIX), this::readGpxFile, JsonUtil.json());
     }
+
 }
