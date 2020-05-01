@@ -9,8 +9,6 @@ Vue.component('importer', {
             var data = response.data;
             this.points = response.data.position;
 
-
-            
             document.querySelector("#startPos .control input[name=longitude]").value = data.firstPos.longitude
             document.querySelector("#startPos .control input[name=latitude]").value = data.firstPos.longitude
             document.querySelector("#startPos .control input[name=altitude]").value = data.firstPos.altitude
@@ -23,7 +21,8 @@ Vue.component('importer', {
     components: {
         'positionComponent': positionInputComponent,
         'uploadComponent': uploadInputComponent,
-        'mapComponent': mapComponentPreview
+        'mapComponent': mapComponentPreview,
+        'wayPointAdderComponent': wayPointAdderComponent
     },
     template: `<section id="home" class="hero is-medium">
     <div class="hero-body" id="importer">
@@ -34,7 +33,6 @@ Vue.component('importer', {
                 </div>
                 <div class="column is-5">
                     <h1 class="title">Import Trail</h1>
-                    <form>
                         <div class="field">
                             <label class="label">Trail code</label>
                             <div class="control">
@@ -50,17 +48,20 @@ Vue.component('importer', {
                             <div class="control">
                                 <div class="select">
                                     <select>
-                                        <option>Select dropdown</option>
-                                        <option>With options</option>
+                                        <option default="true">T</option>
+                                        <option>E</option>
+                                        <option>EE</option>
+                                        <option>EEA</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <textarea class="textarea" placeholder="e.g. Any short description"></textarea> </form>
-                    <div>
-                        <h1 class="title">Connections</h1>
-                        <button class="button is-primary is-light">Add connecting-waypoint</button>
-                    </div>
+                        <textarea class="textarea" placeholder="e.g. Any short description"></textarea>
+                        <div class="field">
+                            <label class="label">Postcodes</label>
+                            <div class="control">
+                            <input class="input" type="text" placeholder="Text input"> </div>
+                        </div>
                     <div>
                         <h1 class="title">Start Pos</h1>
                         <position-input classifier="startPos"></position-input>
@@ -69,7 +70,10 @@ Vue.component('importer', {
                         <h1 class="title">Final Pos</h1>
                         <position-input classifier="lastPos"></position-input>
                     </div>
+                    <way-point-adder></way-point-adder>
+                    <poi-point-adder></poi-point-adder>
                 </div>
+
                 <div class="column is-5">
                     <map-preview :points="points"></map-preview>
                 </div>
