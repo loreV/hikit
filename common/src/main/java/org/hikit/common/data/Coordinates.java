@@ -1,26 +1,29 @@
 package org.hikit.common.data;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Coordinates {
 
-    public static final String LONG = "longitude";
-    public static final String LAT = "latitude";
+    public static final int LONG_INDEX = 0;
+    public static final int LAT_INDEX = 1;
+    private List<Double> values;
 
-    private double longitude;
-    private double latitude;
-
-    public Coordinates(double longitude, double latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+    public Coordinates(List<Double> values) {
+        this.values = values;
     }
 
     public double getLongitude() {
-        return longitude;
+        return values.get(LONG_INDEX);
     }
 
     public double getLatitude() {
-        return latitude;
+        return values.get(LAT_INDEX);
     }
 
+    public List<Double> getValues() {
+        return values;
+    }
 
     public static final class CoordinateBuilder {
         private double longitude;
@@ -44,7 +47,7 @@ public class Coordinates {
         }
 
         public Coordinates build() {
-            return new Coordinates(longitude, latitude);
+            return new Coordinates(Arrays.asList(longitude, latitude));
         }
     }
 }

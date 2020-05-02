@@ -194,7 +194,7 @@ class TrailControllerTest {
         val mockGson = mockk<Gson>()
         val mockTrailGeoRequest = mockk<TrailsGeoRequest>()
 
-        val expectedCoordinate = Coordinates(50.0, 50.0)
+        val expectedCoordinate = Coordinates(listOf(50.0, 50.0))
         val expectedTrails = listOf(mockk<Trail>())
 
         every { mockTrailGeoRequest.coords } returns expectedCoordinate

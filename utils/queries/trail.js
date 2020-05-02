@@ -10,7 +10,6 @@ db.core.Trail.find(
             $minDistance: 2,
             $maxDistance: 5000
           }
-       }
    }
 )
 

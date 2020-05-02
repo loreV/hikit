@@ -19,7 +19,7 @@ public class PositionMapper implements Mapper<Position> {
     public Position mapToObject(Document document) {
         return Position.PositionBuilder.aPosition()
                 .withName(document.getString(Position.NAME))
-                .withCoords(coordinatesMapper.mapToObject(document.get(Position.COORDS, Document.class)))
+                .withCoords(coordinatesMapper.mapToObject(document.get(Position.LOCATION, Document.class)))
                 .withPostCode(document.getString(Position.POSTCODE))
                 .withDescription(document.getString(Position.DESCRIPTION))
                 .withTags(document.get(Position.TAGS, List.class))
@@ -28,7 +28,7 @@ public class PositionMapper implements Mapper<Position> {
 
     @Override
     public Document mapToDocument(Position object) {
-        return new Document(Position.COORDS, coordinatesMapper.mapToDocument(object.getCoords()))
+        return new Document(Position.LOCATION, coordinatesMapper.mapToDocument(object.getCoords()))
                 .append(Position.TAGS, object.getTags())
                 .append(Position.DESCRIPTION, object.getDescription())
                 .append(Position.POSTCODE, object.getPostCode()).append(Position.NAME, object.getName());

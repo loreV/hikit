@@ -18,6 +18,7 @@ import static org.hikit.common.data.TrailDAO.*;
 public class PoiDAO {
 
     private final static int RESULT_LIMIT = 50;
+    public static final String RESOLVED_LOCATION = Poi.POSITION + ".location";
 
     private final MongoCollection<Document> collection;
     private final Mapper<Poi> dataPointMapper;
@@ -37,11 +38,13 @@ public class PoiDAO {
                                               final double latitude,
                                               final int meters,
                                               final List<String> types) {
-        final Document filterByNear = new Document(Poi.POSITION,
+        final Document filterByNear = new Document(RESOLVED_LOCATION,
                 new Document(NEAR_OPERATOR,
-                        new Document(RESOLVED_COORDINATES, Arrays.asList(longitude, latitude)))
-                        .append($_MIN_DISTANCE_FILTER, 0).append($_MAX_M_DISTANCE_FILTER, meters))
-                .append(PoiDAOHelper.IN_OPERATOR, types);
+                        new Document("coordinates", Arrays.asList(longitude, latitude)))
+                        .append($_MIN_DISTANCE_FILTER, 0).append($_MAX_M_DISTANCE_FILTER, meters));
+        if (!types.isEmpty()) {
+            filterByNear.append(PoiDAOHelper.IN_OPERATOR, types);
+        }
         return toPoiList(collection.find(filterByNear));
     }
 

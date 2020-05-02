@@ -18,7 +18,7 @@ public class Trail {
     public static final String CLASSIFICATION = "classification";
     public static final String POST_CODE = "postCodes";
     public static final String COUNTRY = "country";
-    public static final String COORDINATES_WITH_ALTITUDE = "coordinates";
+    public static final String GEO_POINTS = "geoPoints";
 
     private String name;
     private String description;

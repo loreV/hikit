@@ -4,21 +4,25 @@ import org.bson.Document;
 import org.hikit.common.data.Coordinates;
 import org.hikit.common.data.CoordinatesWithAltitude;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CoordinatesAltitudeMapper implements Mapper<CoordinatesWithAltitude> {
 
+    public static final String POINT_GEO_JSON = "Point";
+    public static final int ALTITUDE_INDEX = 2;
 
     @Override
-    public CoordinatesWithAltitude mapToObject(Document document) {
+    public CoordinatesWithAltitude mapToObject(final Document document) {
+        final List<Double> list = document.get(CoordinatesWithAltitude.COORDINATES, List.class);
         return CoordinatesWithAltitude.CoordinatesWithAltitudeBuilder.aCoordinatesWithAltitude()
-                .withLatitude(document.getDouble(Coordinates.LAT))
-                .withLongitude(document.getDouble(Coordinates.LONG))
-                .withAltitude(document.getDouble(CoordinatesWithAltitude.ALTITUDE)).build();
+                .withLongitude(list.get(Coordinates.LONG_INDEX)).withLatitude(list.get(Coordinates.LAT_INDEX)).withAltitude(list.get(ALTITUDE_INDEX)).build();
     }
 
     @Override
-    public Document mapToDocument(CoordinatesWithAltitude object) {
-        return new Document(Coordinates.LAT, object.getLatitude())
-                .append(Coordinates.LONG, object.getLongitude())
-                .append(CoordinatesWithAltitude.ALTITUDE, object.getAltitude());
+    public Document mapToDocument(final CoordinatesWithAltitude object) {
+        return new Document(CoordinatesWithAltitude.GEO_TYPE, POINT_GEO_JSON)
+                .append(CoordinatesWithAltitude.COORDINATES,
+                        Arrays.asList(object.getLongitude(), object.getLatitude(), object.getAltitude()));
     }
 }

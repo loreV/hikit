@@ -4,9 +4,8 @@ import java.util.List;
 
 public class Position {
 
-    public static final String ALTITUDE = "alt";
     public static final String POSTCODE = "postCode";
-    public static final String COORDS = "coordinates";
+    public static final String LOCATION = "location";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
     public static final String TAGS = "tags";

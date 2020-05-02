@@ -34,7 +34,7 @@ class PoiGeoRequestValidatorTest {
         every { mockRequest.body() } returns anyRequestWNotValidLat
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLat, PoiGeoRequest::class.java) } returns
-                PoiGeoRequest(Coordinates(0.0, -100.0), 100,
+                PoiGeoRequest(Coordinates(listOf(0.0, -100.0)), 100,
                         UnitOfMeasurement.km, emptyList())
 
         val errorMessages = sot.validate(mockRequest)
@@ -61,7 +61,7 @@ class PoiGeoRequestValidatorTest {
         every { mockRequest.body() } returns anyRequestWNotValidLon
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLon, PoiGeoRequest::class.java) } returns
-                PoiGeoRequest(Coordinates(-100.0, 0.0), 100,
+                PoiGeoRequest(Coordinates(listOf(-100.0, 0.0)), 100,
                         UnitOfMeasurement.km, emptyList())
 
         val sot = PoiGeoRequestValidator(mockGsonBeanHelper, mockPoisTypes)
@@ -89,7 +89,7 @@ class PoiGeoRequestValidatorTest {
         every { mockRequest.body() } returns anyRequestWNotValidLatLong
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLatLong, PoiGeoRequest::class.java) } returns
-                PoiGeoRequest(Coordinates(100.0, -100.0), 100,
+                PoiGeoRequest(Coordinates(listOf(100.0, -100.0)), 100,
                         UnitOfMeasurement.km, emptyList())
 
         val sot = PoiGeoRequestValidator(mockGsonBeanHelper, mockPoisTypes)
@@ -154,7 +154,7 @@ class PoiGeoRequestValidatorTest {
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockPoisTypes.allPoiTypes } returns setOf("castle")
         every { mockGson.fromJson(anyRequestWNotValidLat, PoiGeoRequest::class.java) } returns
-                PoiGeoRequest(Coordinates(90.0, 0.0), 100,
+                PoiGeoRequest(Coordinates(listOf(90.0, 0.0)), 100,
                         UnitOfMeasurement.km, listOf("notExistingPoi"))
 
         val errorMessages = sot.validate(mockRequest)

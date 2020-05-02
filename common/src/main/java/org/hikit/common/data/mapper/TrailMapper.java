@@ -13,19 +13,16 @@ import static java.util.stream.Collectors.toList;
 public class TrailMapper implements Mapper<Trail> {
 
     private final PositionMapper positionMapper;
-    private final TrailReferenceMapper trailReferenceMapper;
     private final PoiMapper poiMapper;
     private final CoordinatesAltitudeMapper coordinatesAltitudeMapper;
     private final ConnectingWayPointMapper connectingWayPointMapper;
 
     @Inject
     public TrailMapper(PositionMapper positionMapper,
-                       TrailReferenceMapper trailReferenceMapper,
                        PoiMapper poiMapper,
                        CoordinatesAltitudeMapper coordinatesAltitudeMapper,
                        ConnectingWayPointMapper connectingWayPointMapper) {
         this.positionMapper = positionMapper;
-        this.trailReferenceMapper = trailReferenceMapper;
         this.poiMapper = poiMapper;
         this.coordinatesAltitudeMapper = coordinatesAltitudeMapper;
         this.connectingWayPointMapper = connectingWayPointMapper;
@@ -64,11 +61,11 @@ public class TrailMapper implements Mapper<Trail> {
                 .append(Trail.CLASSIFICATION, object.getTrailClassification().toString())
                 .append(Trail.CONNECTING_TRAILS, object.getConnectingWayPoints().stream().map(connectingWayPointMapper::mapToDocument).collect(toList()))
                 .append(Trail.COUNTRY, object.getCountry())
-                .append(Trail.COORDINATES_WITH_ALTITUDE, object.getCoordinates().stream().map(coordinatesAltitudeMapper::mapToDocument).collect(toList()));
+                .append(Trail.GEO_POINTS, object.getCoordinates().stream().map(coordinatesAltitudeMapper::mapToDocument).collect(toList()));
     }
 
     private List<CoordinatesWithAltitude> getCoordinatesWithAltitude(Document doc) {
-        final List<Document> list = doc.get(Trail.COORDINATES_WITH_ALTITUDE, List.class);
+        final List<Document> list = doc.get(Trail.GEO_POINTS, List.class);
         return list.stream().map(coordinatesAltitudeMapper::mapToObject).collect(toList());
     }
 

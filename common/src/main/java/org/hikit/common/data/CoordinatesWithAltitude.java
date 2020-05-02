@@ -1,17 +1,18 @@
 package org.hikit.common.data;
 
+import java.util.Arrays;
+
 public class CoordinatesWithAltitude extends Coordinates {
 
-    public final static String ALTITUDE = "altitude";
-    public final static String LONGITUDE = "longitude";
-    public final static String LATITUDE = "latitude";
+    public final static String GEO_TYPE = "Point";
+    public final static String COORDINATES = "coordinates";
 
     private double altitude;
 
     public CoordinatesWithAltitude(final double longitude,
                                    final double latitude,
                                    final double altitude) {
-        super(longitude, latitude);
+        super(Arrays.asList(longitude, latitude));
         this.altitude = altitude;
     }
 

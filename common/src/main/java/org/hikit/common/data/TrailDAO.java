@@ -23,7 +23,7 @@ public class TrailDAO {
     static final String $_MAX_M_DISTANCE_FILTER = "$maxDistance";
     static final String $_MIN_DISTANCE_FILTER = "$minDistance";
 
-    private static final String RESOLVED_START_POS_COORDINATE = Trail.START_POS + "." + Position.COORDS;
+    private static final String RESOLVED_START_POS_COORDINATE = Trail.START_POS + "." + Position.LOCATION;
     private static final String RESOLVED_FINAL_POS_COORDINATE = Trail.FINAL_POS + "." + Position.NAME;
     private static final String RESOLVED_FINAL_TAGS_COORDINATE = Trail.FINAL_POS + "." + Position.TAGS;
     private static final String RESOLVED_FINAL_DESCRIPTION = Trail.FINAL_POS + "." + Position.DESCRIPTION;

@@ -203,7 +203,7 @@ class PoiControllerTest {
         val mockGson = mockk<Gson>()
         val mockPoiGeoRequest = mockk<PoiGeoRequest>()
 
-        val expectedCoordinate = Coordinates(50.0, 50.0)
+        val expectedCoordinate = Coordinates(listOf(50.0, 50.0))
         val expectedPois = listOf(mockk<Poi>())
         val expectedTypes = listOf("monument", "fountain")
 

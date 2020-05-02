@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "An open API aimed at providing tools for hike planning and discovery."
+  description: "An open API aimed at providing tools for hikes planning and discovery."
   version: "1.0.0"
   title: "HiKit v1"
   contact:
@@ -186,21 +186,17 @@ definitions:
   Coords:
     type: "object"
     properties:
-      latitude:
-        type: "number"
-        format: "double"
-      longitude:
-        type: "number"
-        format: "double"
+      values:
+        type: "Array"
+        size: 2
+        description: "Long, Lat in 'double' format"
   CoordsWithAltitude:
     type: "object"
     properties:
-      latitude:
-        type: "number"
-        format: "double"
-      longitude:
-        type: "number"
-        format: "double"
+      values:
+        type: "Array"
+        size: 2
+        description: "Long, Lat in 'double' format"
       altitude:
         type: "number"
         format: "double"
@@ -209,7 +205,6 @@ definitions:
     properties:
       coords:
         type: "object"
-        format: "int64"
         $ref: "#/definitions/Coords"
       distance:
         type: "integer"
@@ -347,13 +342,16 @@ definitions:
           format: "string"
       postCode:
         type: "string"
-      geo:
-        type: "object"
+      geoPoints:
+        type: "Array"
+        items:
+          type: "object"
+          description: "GeoJSON points in WGS84 reference system"
   GeoPOIRequest:
     type: "object"
     properties:
       coords:
-        type: "object"
+        type: "Array"
         format: "int64"
         $ref: "#/definitions/Coords"
       distance:

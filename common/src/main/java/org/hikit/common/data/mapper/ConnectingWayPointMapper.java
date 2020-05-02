@@ -1,5 +1,6 @@
 package org.hikit.common.data.mapper;
 
+import com.google.inject.Inject;
 import org.bson.Document;
 import org.hikit.common.data.ConnectingWayPoint;
 
@@ -8,6 +9,7 @@ public class ConnectingWayPointMapper implements Mapper<ConnectingWayPoint> {
     private final PositionMapper positionMapper;
     private final TrailReferenceMapper trailReferenceMapper;
 
+    @Inject
     public ConnectingWayPointMapper(PositionMapper positionMapper,
                                     TrailReferenceMapper trailReferenceMapper) {
         this.positionMapper = positionMapper;

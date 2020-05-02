@@ -31,7 +31,7 @@ class TrailGeoRequestValidatorTest {
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLat, TrailsGeoRequest::class.java) } returns
-                TrailsGeoRequest(Coordinates(-100.0, 0.0), 100, UnitOfMeasurement.km)
+                TrailsGeoRequest(Coordinates(listOf(-100.0, 0.0)), 100, UnitOfMeasurement.km)
 
         val errorMessages = sot.validate(mockRequest)
 
@@ -56,7 +56,7 @@ class TrailGeoRequestValidatorTest {
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLon, TrailsGeoRequest::class.java) } returns
-                TrailsGeoRequest(Coordinates(0.0, -100.0), 100, UnitOfMeasurement.km)
+                TrailsGeoRequest(Coordinates(listOf(0.0, -100.0)), 100, UnitOfMeasurement.km)
 
         val sot = TrailGeoRequestValidator(mockGsonBeanHelper)
         val errorMessages = sot.validate(mockRequest)
@@ -82,7 +82,7 @@ class TrailGeoRequestValidatorTest {
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLatLong, TrailsGeoRequest::class.java) } returns
-                TrailsGeoRequest(Coordinates(100.0, -100.0), 100, UnitOfMeasurement.km)
+                TrailsGeoRequest(Coordinates(listOf(100.0, -100.0)), 100, UnitOfMeasurement.km)
 
         val sot = TrailGeoRequestValidator(mockGsonBeanHelper)
         val errorMessages = sot.validate(mockRequest)
