@@ -4,9 +4,11 @@ import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
 import org.hikit.common.JsonUtil;
 import org.hikit.common.data.Trail;
+import org.hikit.common.data.TrailDistance;
 import org.hikit.common.data.helper.GsonBeanHelper;
 import org.hikit.common.web.controller.PublicController;
 import org.hikit.common.web.controller.response.Status;
+import org.hikit.common.web.controller.response.TrailDistanceResponse;
 import org.hikit.common.web.controller.response.TrailRestResponse;
 import org.hikit.web.TrailManager;
 import org.hikit.web.request.TrailsGeoRequest;
@@ -32,6 +34,7 @@ import static org.hikit.web.configuration.ConfigurationManager.ACCEPT_TYPE;
 
 public class TrailController implements PublicController {
 
+    public static final String NO_TRAILS_FOUND_MESSAGE = "No trails found";
     private final Logger LOG = getLogger(TrailController.class.getName());
 
     private static final String PREFIX = API_PREFIX + "/trails";
@@ -76,18 +79,34 @@ public class TrailController implements PublicController {
         return trailRestResponseBuilder(trailsByTrailCode);
     }
 
-    public TrailRestResponse getGeo(final Request request, final Response response) {
+    public TrailDistanceResponse getGeo(final Request request, final Response response) {
         final Set<String> errorMessages = trailGeoRequestValidator.validate(request);
         if (!errorMessages.isEmpty()) {
-            return buildErrorResponse(errorMessages);
+            return buildErrorDistanceResponse(errorMessages);
         }
         final TrailsGeoRequest trailsGeoRequest = Objects.requireNonNull(gsonBeanHelper.getGsonBuilder())
                 .fromJson(request.body(), TrailsGeoRequest.class);
-        final List<Trail> trailsNearby = trailManager.getByGeo(trailsGeoRequest.getCoords(),
+        final List<TrailDistance> trailsNearby = trailManager.getByGeo(trailsGeoRequest.getCoords(),
                 trailsGeoRequest.getDistance().intValue(),
-                trailsGeoRequest.getUom());
+                trailsGeoRequest.getUom(),
+                trailsGeoRequest.getIsAnyHikePoint(),
+                trailsGeoRequest.getLimit());
         response.type(ACCEPT_TYPE);
-        return trailRestResponseBuilder(trailsNearby);
+        return trailRestDistanceResponseBuilder(trailsNearby);
+    }
+
+    @NotNull
+    private TrailDistanceResponse trailRestDistanceResponseBuilder(final List<TrailDistance> trails) {
+        final TrailDistanceResponse.TrailDistanceResponseBuilder trailRestResponseBuilder = TrailDistanceResponse.
+                TrailDistanceResponseBuilder.aTrailDistanceResponse().withTrails(trails);
+        if (trails.isEmpty()) {
+            return trailRestResponseBuilder
+                    .withMessages(Collections.singleton(NO_TRAILS_FOUND_MESSAGE))
+                    .withStatus(Status.ERROR).build();
+        }
+        return trailRestResponseBuilder
+                .withMessages(Collections.emptySet())
+                .withStatus(Status.OK).build();
     }
 
     @NotNull
@@ -96,12 +115,20 @@ public class TrailController implements PublicController {
                 TrailRestResponseBuilder.aTrailRestResponse().withTrails(trails);
         if (trails.isEmpty()) {
             return trailRestResponseBuilder
-                    .withMessages(Collections.singleton("No trails found"))
+                    .withMessages(Collections.singleton(NO_TRAILS_FOUND_MESSAGE))
                     .withStatus(Status.ERROR).build();
         }
         return trailRestResponseBuilder
                 .withMessages(Collections.emptySet())
                 .withStatus(Status.OK).build();
+    }
+
+    @NotNull
+    private TrailDistanceResponse buildErrorDistanceResponse(final Set<String> errorMessages) {
+        return TrailDistanceResponse.TrailDistanceResponseBuilder.aTrailDistanceResponse()
+                .withTrails(Collections.emptyList())
+                .withMessages(errorMessages)
+                .withStatus(Status.ERROR).build();
     }
 
     @NotNull

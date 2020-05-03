@@ -61,9 +61,9 @@ class TrailControllerPathSolutionExplorerTest {
 
         mockkObject(PositionProcessor)
         // Starting
-        every { PositionProcessor.distanceBetweenPoint(mockStartPosition, mockFinalPosition) } returns 20.0
+        every { PositionProcessor.distanceBetweenPoints(mockStartPosition, mockFinalPosition) } returns 20.0
         // With the following trail
-        every { PositionProcessor.distanceBetweenPoint(mockFinalPosition, mockFinalPosition) } returns 0.0
+        every { PositionProcessor.distanceBetweenPoints(mockFinalPosition, mockFinalPosition) } returns 0.0
 
         every {
             mockPositionHelper.getDistanceBetweenPointsOnTrailInM(mockGeoTrail,
@@ -78,7 +78,7 @@ class TrailControllerPathSolutionExplorerTest {
         val mockConnectingTrail = mockkClass(Trail::class)
         every { mockTrailDao.getTrailByCodeAndPostcodeCountry(anyPostcode, anyTrailCode) } returns mockConnectingTrail
 
-        every { mockPositionHelper.isGoalOnTrail(mockConnectingWayPoint, mockConnectingTrail, mockFinalPosition) } returns true
+        every { mockPositionHelper.isGoalOnTrail(mockConnectingWayPoint, mockFinalPosition) } returns true
 
         // Calls
         val trailsPathSolutionExplorer = TrailsPathSolutionExplorer(mockTrailDao, mockPositionHelper, mockCache)

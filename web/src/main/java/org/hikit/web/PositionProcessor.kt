@@ -1,5 +1,6 @@
 package org.hikit.web
 
+import org.hikit.common.data.CoordinatesWithAltitude
 import org.hikit.common.data.Position
 import kotlin.math.*
 
@@ -7,10 +8,15 @@ object PositionProcessor {
 
     private const val earthRadius = 6378.137 // Radius of earth in KM
 
-    fun distanceBetweenPoint(position: Position, toPoint: Position) =
+    fun distanceBetweenPoints(position: Position, toPoint: Position): Double =
             distance(position.coords.latitude, toPoint.coords.latitude,
                     position.coords.longitude, toPoint.coords.longitude,
                     position.coords.altitude, toPoint.coords.altitude)
+
+    fun distanceBetweenPoints(position: CoordinatesWithAltitude, toPoint: CoordinatesWithAltitude): Double =
+            distance(position.latitude, toPoint.latitude,
+                    position.longitude, toPoint.longitude,
+                    position.altitude, toPoint.altitude)
 
     fun getRadialDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {  // generally used geo measurement function
         val dLat = lat2 * PI / 180 - lat1 * PI / 180
@@ -24,7 +30,7 @@ object PositionProcessor {
     }
 
     fun distance(lat1: Double, lat2: Double, lon1: Double,
-                 lon2: Double, el1: Double, el2: Double): Double {
+                 lon2: Double, alt1: Double, alt2: Double): Double {
         val latDistance = Math.toRadians(lat2 - lat1)
         val lonDistance = Math.toRadians(lon2 - lon1)
         val a = (sin(latDistance / 2) * sin(latDistance / 2)
@@ -32,7 +38,7 @@ object PositionProcessor {
                 * sin(lonDistance / 2) * sin(lonDistance / 2)))
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         var distance = earthRadius * c * 1000 // convert to meters
-        val height = el1 - el2
+        val height = alt1 - alt2
         distance = distance.pow(2.0) + height.pow(2.0)
         return sqrt(distance)
     }

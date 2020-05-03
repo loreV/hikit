@@ -1,0 +1,203 @@
+{
+  "info": {
+    "_postman_id": "3ed41545-ee7c-42dc-8bd7-1552e687c6e1",
+    "name": "Hikit Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Trails",
+      "item": [
+        {
+          "name": "GEO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coords\": {\n  \t\"values\": [0, 0]\n  },\n  \"distance\": 100,\n  \"uom\": \"km\",\n  \"isAnyHikePoint\" : true,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{host}}:{{port}}/api/{{version}}/trails/geo",
+              "protocol": "http",
+              "host": [
+                "{{host}}"
+              ],
+              "port": "{{port}}",
+              "path": [
+                "api",
+                "{{version}}",
+                "trails",
+                "geo"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get By Trail,Postcode and Country",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{host}}:{{port}}/api/{{version}}/trails?trailCode=string&postCode=string",
+              "protocol": "http",
+              "host": [
+                "{{host}}"
+              ],
+              "port": "{{port}}",
+              "path": [
+                "api",
+                "{{version}}",
+                "trails"
+              ],
+              "query": [
+                {
+                  "key": "trailCode",
+                  "value": "string"
+                },
+                {
+                  "key": "country",
+                  "value": "Italy",
+                  "disabled": true
+                },
+                {
+                  "key": "postCode",
+                  "value": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "9173d77f-fb56-47f1-a809-e2e64608515b",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "bd375084-9f86-46c4-b6e4-9bd750164c8f",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ],
+      "protocolProfileBehavior": {}
+    },
+    {
+      "name": "POI",
+      "item": [
+        {
+          "name": "GEO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coords\": {\"values\": [0.0, 0.0] },\n  \"distance\": 100,\n  \"uom\": \"km\",\n  \"types\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{host}}:{{port}}/api/{{version}}/poi/geo",
+              "protocol": "http",
+              "host": [
+                "{{host}}"
+              ],
+              "port": "{{port}}",
+              "path": [
+                "api",
+                "{{version}}",
+                "poi",
+                "geo"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get By Trail,Postcode and Country and Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{host}}:{{port}}/api/{{version}}/trails?trailCode=string&postCode=string",
+              "protocol": "http",
+              "host": [
+                "{{host}}"
+              ],
+              "port": "{{port}}",
+              "path": [
+                "api",
+                "{{version}}",
+                "trails"
+              ],
+              "query": [
+                {
+                  "key": "trailCode",
+                  "value": "string"
+                },
+                {
+                  "key": "country",
+                  "value": "Italy",
+                  "disabled": true
+                },
+                {
+                  "key": "postCode",
+                  "value": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "protocolProfileBehavior": {}
+    },
+    {
+      "name": "Test system",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
+}

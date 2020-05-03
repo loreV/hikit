@@ -3,8 +3,8 @@ package org.hikit.importer
 import com.google.inject.Inject
 import org.hikit.common.data.CoordinatesWithAltitude
 import org.hikit.common.helper.GpxHelper
+import org.hikit.common.service.AltitudeServiceHelper
 import org.hikit.importer.model.TrailPreparationModel
-import org.hikit.importer.service.AltitudeServiceHelper
 import java.nio.file.Path
 
 class GpxManager @Inject constructor(private val gpxHelper: GpxHelper,

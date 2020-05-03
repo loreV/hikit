@@ -1,14 +1,14 @@
-package org.hikit.importer.service
+package org.hikit.common.service
 
+import org.hikit.common.configuration.ConfigurationProperties
+import org.hikit.common.configuration.ConfigurationProperties.LOCAL_IP_ADDRESS
 import org.hikit.common.data.helper.GsonBeanHelper
-import org.hikit.importer.configuration.ConfigurationManager
-import org.hikit.importer.configuration.ConfigurationManager.LOCAL_IP_ADDRESS
-import org.hikit.importer.model.AltitudeApiResponse
+import org.hikit.common.service.response.AltitudeApiResponse
 import java.net.URL
 import javax.inject.Inject
 import javax.inject.Named
 
-class AltitudeServiceHelper @Inject constructor(@Named(ConfigurationManager.ALTITUDE_SERVICE_PROPERTY) altitudeServicePort: String,
+class AltitudeServiceHelper @Inject constructor(@Named(ConfigurationProperties.ALTITUDE_SERVICE_PROPERTY) altitudeServicePort: String,
                                                 private val gsonBeanHelper: GsonBeanHelper) {
 
     private val pathToServiceApi: String = "$LOCAL_IP_ADDRESS:$altitudeServicePort/api/v1/lookup"

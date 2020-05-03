@@ -13,6 +13,8 @@ import spark.Request
 
 class TrailGeoRequestValidatorTest {
 
+    private val anyLimit: Int = 10
+
     @Test
     fun `if longitude oob then should provide error message`() {
         val mockRequest = mockk<Request>()
@@ -31,7 +33,8 @@ class TrailGeoRequestValidatorTest {
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLat, TrailsGeoRequest::class.java) } returns
-                TrailsGeoRequest(Coordinates(listOf(-100.0, 0.0)), 100, UnitOfMeasurement.km)
+                TrailsGeoRequest(Coordinates(listOf(-100.0, 0.0)), 100,
+                        UnitOfMeasurement.km, false, anyLimit)
 
         val errorMessages = sot.validate(mockRequest)
 
@@ -56,7 +59,8 @@ class TrailGeoRequestValidatorTest {
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLon, TrailsGeoRequest::class.java) } returns
-                TrailsGeoRequest(Coordinates(listOf(0.0, -100.0)), 100, UnitOfMeasurement.km)
+                TrailsGeoRequest(Coordinates(listOf(0.0, -100.0)), 100,
+                        UnitOfMeasurement.km, false, anyLimit)
 
         val sot = TrailGeoRequestValidator(mockGsonBeanHelper)
         val errorMessages = sot.validate(mockRequest)
@@ -82,7 +86,8 @@ class TrailGeoRequestValidatorTest {
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLatLong, TrailsGeoRequest::class.java) } returns
-                TrailsGeoRequest(Coordinates(listOf(100.0, -100.0)), 100, UnitOfMeasurement.km)
+                TrailsGeoRequest(Coordinates(listOf(100.0, -100.0)), 100,
+                        UnitOfMeasurement.km, false, anyLimit)
 
         val sot = TrailGeoRequestValidator(mockGsonBeanHelper)
         val errorMessages = sot.validate(mockRequest)

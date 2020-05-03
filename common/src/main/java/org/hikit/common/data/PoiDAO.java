@@ -39,7 +39,7 @@ public class PoiDAO {
                                               final int meters,
                                               final List<String> types) {
         final Document filterByNear = new Document(RESOLVED_LOCATION,
-                new Document(NEAR_OPERATOR,
+                new Document($_NEAR_OPERATOR,
                         new Document("coordinates", Arrays.asList(longitude, latitude)))
                         .append($_MIN_DISTANCE_FILTER, 0).append($_MAX_M_DISTANCE_FILTER, meters));
         if (!types.isEmpty()) {

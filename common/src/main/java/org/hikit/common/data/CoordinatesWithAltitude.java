@@ -20,6 +20,10 @@ public class CoordinatesWithAltitude extends Coordinates {
         return altitude;
     }
 
+    public double distanceTo(CoordinatesWithAltitude coordinatesWithAltitude) {
+        return 0;
+    }
+
 
     public static final class CoordinatesWithAltitudeBuilder {
         private double altitude;

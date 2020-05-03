@@ -5,6 +5,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.hikit.common.data.Coordinates
 import org.hikit.common.data.Trail
+import org.hikit.common.data.TrailDistance
 import org.hikit.common.data.UnitOfMeasurement
 import org.hikit.common.data.helper.GsonBeanHelper
 import org.hikit.common.web.controller.response.Status
@@ -21,6 +22,7 @@ import spark.Response
 
 class TrailControllerTest {
 
+    private val anyLimit: Int = 10
     private val italyParam = "Italy"
     private val anyTwoPostcodes = "0001,0002"
     private val anyTrailNumber = "100"
@@ -195,7 +197,7 @@ class TrailControllerTest {
         val mockTrailGeoRequest = mockk<TrailsGeoRequest>()
 
         val expectedCoordinate = Coordinates(listOf(50.0, 50.0))
-        val expectedTrails = listOf(mockk<Trail>())
+        val expectedTrails = listOf(mockk<TrailDistance>())
 
         every { mockTrailGeoRequest.coords } returns expectedCoordinate
         every { mockTrailGeoRequest.uom } returns UnitOfMeasurement.km
@@ -205,7 +207,7 @@ class TrailControllerTest {
         every { mockTrailGeoRequestValidator.validate(mockRequest) } returns emptySet()
         every { mockRequest.body() } returns requestBody
         every { mockGson.fromJson(requestBody, TrailsGeoRequest::class.java) } returns mockTrailGeoRequest
-        every { mockTrailManager.getByGeo(expectedCoordinate, 100, UnitOfMeasurement.km) } returns expectedTrails
+        every { mockTrailManager.getByGeo(expectedCoordinate, 100, UnitOfMeasurement.km, false, anyLimit) } returns expectedTrails
 
         val sot = TrailController(mockTrailManager, mockTrailRequestValidator, mockTrailGeoRequestValidator, mockGsonBeanHelper)
         val response = sot.getGeo(mockRequest, mockResponse)

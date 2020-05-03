@@ -11,10 +11,12 @@ import org.hikit.common.data.Trail.COUNTRY
 import org.hikit.common.data.TrailDAO
 import org.hikit.common.data.UnitOfMeasurement
 import org.hikit.common.data.helper.TrailDAOHelper
+import org.hikit.common.service.AltitudeServiceHelper
 import org.junit.Test
 
 class TrailManagerTest {
 
+    private val anyLimit = 10
     private val anyPostcodeList = listOf("00001", "00002")
 
     @Test
@@ -23,7 +25,8 @@ class TrailManagerTest {
         val mockMetricConverter = mockk<MetricConverter>()
         val mockDocument = mockk<Document>()
         val mockTrailsDaoHelper = mockk<TrailDAOHelper>()
-        val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper)
+        val mockAltitudeServiceHelper = mockk<AltitudeServiceHelper>()
+        val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper, mockAltitudeServiceHelper)
 
         val anyResultList = listOf(mockk<Trail>())
 
@@ -40,7 +43,8 @@ class TrailManagerTest {
         val mockMetricConverter = mockk<MetricConverter>()
         val mockDocument = mockk<Document>()
         val mockTrailsDaoHelper = mockk<TrailDAOHelper>()
-        val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper)
+        val mockAltitudeServiceHelper = mockk<AltitudeServiceHelper>()
+        val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper, mockAltitudeServiceHelper)
 
         val anyResultList = listOf(mockk<Trail>())
 
@@ -56,7 +60,8 @@ class TrailManagerTest {
         val mockMetricConverter = mockk<MetricConverter>()
         val mockDocument = mockk<Document>()
         val mockTrailsDaoHelper = mockk<TrailDAOHelper>()
-        val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper)
+        val mockAltitudeServiceHelper = mockk<AltitudeServiceHelper>()
+        val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper, mockAltitudeServiceHelper)
 
         val anyResultList = listOf(mockk<Trail>())
 
@@ -72,13 +77,15 @@ class TrailManagerTest {
         val mockMetricConverter = mockk<MetricConverter>()
         val mockCoordinates = mockk<Coordinates>()
         val mockTrailsDaoHelper = mockk<TrailDAOHelper>()
-        val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper)
+        val mockAltitudeServiceHelper = mockk<AltitudeServiceHelper>()
+
+        val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper, mockAltitudeServiceHelper)
 
         every { mockCoordinates.longitude } returns 0.0
         every { mockCoordinates.latitude } returns 0.0
         every { mockMetricConverter.getMetersFromKm(50) } returns 50_000
-        every { mockTrailsDao.getTrailsByStartPosMetricDistance(0.0, 0.0, 50_000) } returns emptyList()
+        every { mockTrailsDao.getTrailsByStartPosMetricDistance(0.0, 0.0, 50_000, 5) } returns emptyList()
 
-        sot.getByGeo(mockCoordinates, 50, UnitOfMeasurement.km)
+        sot.getByGeo(mockCoordinates, 50, UnitOfMeasurement.km, false, anyLimit)
     }
 }

@@ -5,7 +5,6 @@ import mil.nga.sf.geojson.FeatureConverter
 import mil.nga.sf.geojson.GeoJsonObject
 import org.hikit.common.data.ConnectingWayPoint
 import org.hikit.common.data.Position
-import org.hikit.common.data.Trail
 
 class PositionHelper {
 
@@ -25,14 +24,14 @@ class PositionHelper {
         var distance = 0.0
         for (i in indexStartingPos..indexFinalPos) {
             if (i == indexStartingPos) continue
-            distance += PositionProcessor.distanceBetweenPoint(points[i - 1], points[i])
+            distance += PositionProcessor.distanceBetweenPoints(points[i - 1], points[i])
         }
         return distance
     }
 
     // TODO improve this to take into account more details
-    fun isGoalOnTrail(trail1: ConnectingWayPoint, trail: Trail, destination: Position): Boolean {
-        return isDestinationWithinHalfKm(trail1.position, destination)
+    fun isGoalOnTrail(wayPoint: ConnectingWayPoint, destination: Position): Boolean {
+        return isDestinationWithinHalfKm(wayPoint.position, destination)
     }
 
     private fun getPositionIndex(positions: List<Position>, position: Position): Int {

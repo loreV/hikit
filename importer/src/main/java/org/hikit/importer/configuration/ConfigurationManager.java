@@ -11,13 +11,12 @@ import java.io.File;
 
 import static java.lang.String.format;
 import static org.apache.logging.log4j.LogManager.getLogger;
+import static org.hikit.common.configuration.ConfigurationProperties.LOCAL_IP_ADDRESS;
 import static spark.Spark.port;
 
 public class ConfigurationManager {
 
     public static final String TMP_FOLDER = "tmp";
-    public static final String LOCAL_IP_ADDRESS = "127.0.0.1";
-    public static final String ALTITUDE_SERVICE_PROPERTY = "altitude-service-port";
 
     private final Logger LOG = getLogger(ConfigurationManager.class.getName());
 

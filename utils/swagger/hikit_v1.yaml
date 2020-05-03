@@ -214,6 +214,11 @@ definitions:
         enum:
           - "m"
           - "km"
+      isAnyHikePoint:
+        type: "boolean"
+        description: "Instruct the system to retrieve the closest point in whole trail"
+      limit:
+        type: "integer"
   TrailResponse:
     type: "object"
     properties:
@@ -221,10 +226,21 @@ definitions:
         type: "array"
         items:
           type: "object"
-          $ref: "#/definitions/Trail"
+          $ref: "#/definitions/TrailDistance"
     allOf:
       - $ref: "#/definitions/RESTResponse"
       - type: "object"
+  TrailDistance:
+    type: "object"
+    properties:
+      distance:
+        type: "integer"
+      trail:
+        type: "object"
+        $ref: "#/definitions/Trail"
+      coordinates:
+        type: "object"
+        $ref: "#/definitions/CoordsWithAltitude"
   Trail:
     type: "object"
     properties:

@@ -61,7 +61,7 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
 
                 val newSolution = OrderedSolution(successor)
                 // Check if goal -> final Pos
-                if (positionHelper.isGoalOnTrail(it, trail, destination))
+                if (positionHelper.isGoalOnTrail(it, destination))
                     closedList.add(newSolution) else openList.add(newSolution)
             }
         }
@@ -83,5 +83,5 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
             trailDao.getTrailByCodeAndPostcodeCountry(connectingWayPoint.connectingTo.postcode, connectingWayPoint.connectingTo.trailCode)
 
 
-    private fun getManhattanDistanceFromTrailsPoints(position: Position, positionTo: Position) = PositionProcessor.distanceBetweenPoint(position, positionTo)
+    private fun getManhattanDistanceFromTrailsPoints(position: Position, positionTo: Position) = PositionProcessor.distanceBetweenPoints(position, positionTo)
 }
