@@ -81,10 +81,12 @@ class TrailManagerTest {
 
         val sot = TrailManager(mockTrailsDao, mockMetricConverter, mockTrailsDaoHelper, mockAltitudeServiceHelper)
 
-        every { mockCoordinates.longitude } returns 0.0
-        every { mockCoordinates.latitude } returns 0.0
+        val expectedLatitudeAndLongitude = 0.0
+        every { mockCoordinates.longitude } returns expectedLatitudeAndLongitude
+        every { mockCoordinates.latitude } returns expectedLatitudeAndLongitude
         every { mockMetricConverter.getMetersFromKm(50) } returns 50_000
-        every { mockTrailsDao.getTrailsByStartPosMetricDistance(0.0, 0.0, 50_000, 5) } returns emptyList()
+        every { mockTrailsDao.getTrailsByStartPosMetricDistance(expectedLatitudeAndLongitude, expectedLatitudeAndLongitude, 50_000, anyLimit) } returns emptyList()
+        every { mockAltitudeServiceHelper.getAltitudeByLongLat(expectedLatitudeAndLongitude, expectedLatitudeAndLongitude) } returns 5.0
 
         sot.getByGeo(mockCoordinates, 50, UnitOfMeasurement.km, false, anyLimit)
     }

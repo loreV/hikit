@@ -190,6 +190,8 @@ class TrailControllerTest {
                 "  },\n" +
                 "  \"distance\": 100,\n" +
                 "  \"uom\": \"km\"\n" +
+                "  \"isAnyHikePoint\": \"false\"\n" +
+                "  \"limit\": \"10\"\n" +
                 "}"
 
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
@@ -202,6 +204,8 @@ class TrailControllerTest {
         every { mockTrailGeoRequest.coords } returns expectedCoordinate
         every { mockTrailGeoRequest.uom } returns UnitOfMeasurement.km
         every { mockTrailGeoRequest.distance } returns 100
+        every { mockTrailGeoRequest.isAnyHikePoint } returns false
+        every { mockTrailGeoRequest.limit } returns 10
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockTrailGeoRequestValidator.validate(mockRequest) } returns emptySet()

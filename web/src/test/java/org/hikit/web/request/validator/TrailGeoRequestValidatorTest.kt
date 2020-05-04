@@ -28,6 +28,8 @@ class TrailGeoRequestValidatorTest {
                 "  },\n" +
                 "  \"distance\": 100,\n" +
                 "  \"uom\": \"km\"\n" +
+                "  \"isAnyHikePoint\": \"false\"\n" +
+                "  \"limit\": \"10\"\n" +
                 "}"
         every { mockRequest.body() } returns anyRequestWNotValidLat
 
@@ -54,6 +56,8 @@ class TrailGeoRequestValidatorTest {
                 "  },\n" +
                 "  \"distance\": 100,\n" +
                 "  \"uom\": \"km\"\n" +
+                "  \"isAnyHikePoint\": \"false\"\n" +
+                "  \"limit\": \"10\"\n" +
                 "}"
         every { mockRequest.body() } returns anyRequestWNotValidLon
 
@@ -81,6 +85,8 @@ class TrailGeoRequestValidatorTest {
                 "  },\n" +
                 "  \"distance\": 100,\n" +
                 "  \"uom\": \"km\"\n" +
+                "  \"isAnyHikePoint\": \"false\"\n" +
+                "  \"limit\": \"10\"\n" +
                 "}"
         every { mockRequest.body() } returns anyRequestWNotValidLatLong
 
