@@ -3,6 +3,7 @@ package org.hikit.web.request.validator
 import io.mockk.every
 import io.mockk.mockkClass
 import org.hikit.common.data.poi.PoiTypes
+import org.hikit.common.data.validator.Validator
 import org.hikit.web.controller.PoiController
 import org.junit.Test
 import spark.Request

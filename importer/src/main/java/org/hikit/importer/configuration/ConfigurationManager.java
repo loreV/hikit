@@ -23,6 +23,7 @@ public class ConfigurationManager {
     private final DataSource dataSource;
 
     private static final String PORT_PROPERTY = "web-port";
+    private static final String SERVICE_PORT_PROPERTY = "service-web-port";
     public static final File UPLOAD_DIR = new File(TMP_FOLDER);
 
     /**

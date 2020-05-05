@@ -6,14 +6,22 @@ interface CoordinatesValidator {
             LATITUDE, LONGITUDE
         }
 
-        const val limitLongLat = 90
+        const val limitLat = 90
+        const val limitLong = 180
         const val longitudeValueOutOfBoundErrorMessage = "Longitude value out of bound"
         const val latitudeValueOutOfBoundErrorMessage = "Latitude value out of bound"
     }
 
     fun validateCoordinates(value: Double, dim: CoordDimension): String {
-        if (value > limitLongLat || value < -limitLongLat) {
-            return if (dim == CoordDimension.LATITUDE) latitudeValueOutOfBoundErrorMessage else longitudeValueOutOfBoundErrorMessage
+        if (dim == CoordDimension.LONGITUDE) {
+            if (value > limitLong || value < -limitLong) {
+                return longitudeValueOutOfBoundErrorMessage
+            }
+            return ""
+        }
+
+        if (value > limitLat || value < -limitLat) {
+            return latitudeValueOutOfBoundErrorMessage
         }
         return ""
     }

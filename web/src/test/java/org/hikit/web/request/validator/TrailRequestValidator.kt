@@ -2,6 +2,7 @@ package org.hikit.web.request.validator
 
 import io.mockk.every
 import io.mockk.mockkClass
+import org.hikit.common.data.validator.Validator
 import org.hikit.web.controller.TrailController
 import org.junit.Test
 import spark.Request

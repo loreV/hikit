@@ -8,4 +8,6 @@ public class ConfigurationProperties {
     // Common properties TODO
     public static final String ALTITUDE_SERVICE_PROPERTY = "altitude-service-port";
     public static final String LOCAL_IP_ADDRESS = "127.0.0.1";
+
+    public static final String ACCEPT_TYPE = "application/json";
 }

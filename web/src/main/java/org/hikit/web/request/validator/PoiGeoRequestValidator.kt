@@ -4,6 +4,7 @@ import com.google.gson.JsonSyntaxException
 import com.google.inject.Inject
 import org.hikit.common.data.helper.GsonBeanHelper
 import org.hikit.common.data.poi.PoiTypes
+import org.hikit.common.data.validator.Validator
 import org.hikit.web.request.PoiGeoRequest
 import org.hikit.web.request.validator.CoordinatesValidator.Companion.CoordDimension
 import spark.Request

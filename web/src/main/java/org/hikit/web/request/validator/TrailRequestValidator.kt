@@ -1,7 +1,8 @@
 package org.hikit.web.request.validator
 
+import org.hikit.common.data.validator.Validator
+import org.hikit.common.data.validator.Validator.Companion.noParamErrorMessage
 import org.hikit.web.controller.TrailController.*
-import org.hikit.web.request.validator.Validator.Companion.noParamErrorMessage
 import spark.Request
 
 class TrailRequestValidator : Validator<Request> {

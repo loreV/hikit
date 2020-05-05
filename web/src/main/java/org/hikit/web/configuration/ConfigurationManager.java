@@ -23,7 +23,6 @@ public class ConfigurationManager {
     private static final String PORT_PROPERTY = "web-port";
     public static final String ALTITUDE_SERVICE_PROPERTY = "altitude-service-port";
 
-    public static final String ACCEPT_TYPE = "application/json";
 
 
     /**

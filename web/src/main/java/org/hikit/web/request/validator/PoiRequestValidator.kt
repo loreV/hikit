@@ -2,6 +2,7 @@ package org.hikit.web.request.validator
 
 import com.google.inject.Inject
 import org.hikit.common.data.poi.PoiTypes
+import org.hikit.common.data.validator.Validator
 import org.hikit.web.controller.PoiController
 import spark.Request
 

@@ -106,4 +106,7 @@ public class TrailDAO {
         return Lists.newArrayList(documents).stream().map(dataPointMapper::mapToObject).collect(toList());
     }
 
+    public void createTrail(Trail trailRequest) {
+
+    }
 }

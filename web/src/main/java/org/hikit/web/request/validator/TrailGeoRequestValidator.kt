@@ -3,9 +3,10 @@ package org.hikit.web.request.validator
 import com.google.gson.JsonSyntaxException
 import com.google.inject.Inject
 import org.hikit.common.data.helper.GsonBeanHelper
+import org.hikit.common.data.validator.Validator
+import org.hikit.common.data.validator.Validator.Companion.noRequestBodyErrorMessage
+import org.hikit.common.data.validator.Validator.Companion.requestMalformedErrorMessage
 import org.hikit.web.request.TrailsGeoRequest
-import org.hikit.web.request.validator.Validator.Companion.noRequestBodyErrorMessage
-import org.hikit.web.request.validator.Validator.Companion.requestMalformedErrorMessage
 import spark.Request
 
 
