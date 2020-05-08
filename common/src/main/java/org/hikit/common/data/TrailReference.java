@@ -4,13 +4,18 @@ public class TrailReference {
 
     public static String TRAIL_CODE = "trailCode";
     public static String POSTCODE = "postCode";
+    public static String COUNTRY = "country";
 
     private String trailCode;
     private String postcode;
+    private String country;
 
-    public TrailReference(String trailCode, String postcode) {
+    public TrailReference(final String trailCode,
+                          final String postcode,
+                          final String country) {
         this.trailCode = trailCode;
         this.postcode = postcode;
+        this.country = country;
     }
 
     public String getTrailCode() {
@@ -21,10 +26,14 @@ public class TrailReference {
         return postcode;
     }
 
+    public String getCountry() {
+        return country;
+    }
 
     public static final class TrailReferenceBuilder {
         private String code;
         private String postcode;
+        private String country;
 
         private TrailReferenceBuilder() {
         }
@@ -43,8 +52,13 @@ public class TrailReference {
             return this;
         }
 
+        public TrailReferenceBuilder withCountry(String country) {
+            this.country = country;
+            return this;
+        }
+
         public TrailReference build() {
-            return new TrailReference(code, postcode);
+            return new TrailReference(code, postcode, country);
         }
     }
 }

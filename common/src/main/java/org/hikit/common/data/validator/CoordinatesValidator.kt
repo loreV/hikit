@@ -1,4 +1,4 @@
-package org.hikit.web.request.validator
+package org.hikit.common.data.validator
 
 interface CoordinatesValidator {
     companion object {

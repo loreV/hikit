@@ -9,12 +9,14 @@ public class TrailReferenceMapper implements Mapper<TrailReference> {
         return TrailReference.TrailReferenceBuilder.aTrailReference()
                 .withPostCode(document.getString(TrailReference.POSTCODE))
                 .withCode(document.getString(TrailReference.TRAIL_CODE))
+                .withCountry(document.getString(TrailReference.COUNTRY))
                 .build();
     }
 
     @Override
     public Document mapToDocument(TrailReference object) {
         return new Document(TrailReference.POSTCODE, object.getPostcode())
+                .append(TrailReference.COUNTRY, object.getCountry())
                 .append(TrailReference.TRAIL_CODE, object.getTrailCode());
     }
 }

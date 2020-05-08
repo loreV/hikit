@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
 import org.hikit.common.data.mapper.Mapper;
 import org.hikit.common.data.mapper.TrailMapper;
@@ -12,9 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 public class TrailDAO {
@@ -34,12 +33,10 @@ public class TrailDAO {
     public static final String UNIQUE_DOCS_FIELD = "uniqueDocs";
 
     private static final String RESOLVED_START_POS_COORDINATE = Trail.START_POS + "." + Position.LOCATION;
-    private static final String RESOLVED_FINAL_POS_COORDINATE = Trail.FINAL_POS + "." + Position.NAME;
-    private static final String RESOLVED_FINAL_TAGS_COORDINATE = Trail.FINAL_POS + "." + Position.TAGS;
-    private static final String RESOLVED_FINAL_DESCRIPTION = Trail.FINAL_POS + "." + Position.DESCRIPTION;
+    private static final String RESOLVED_START_POS_POSTCODE = Trail.START_POS + "." + Position.POSTCODE;
 
-    private static final String STARTING_STRING = "^%s\\.*";
     public static final int RESULT_LIMIT = 50;
+    public static final int RESULT_LIMIT_ONE = 1;
 
     private final MongoCollection<Document> collection;
     private final Mapper<Trail> dataPointMapper;
@@ -51,28 +48,21 @@ public class TrailDAO {
         this.dataPointMapper = trailMapper;
     }
 
-    public Trail getTrailByCodeAndPostcodeCountry(final String postcode, final String trailCode) {
-        final FindIterable<Document> documents = collection.find(new Document(Trail.POST_CODE, postcode).append(Trail.CODE, trailCode));
+    public Trail getTrailByCodeAndPostcodeCountry(final String postcode,
+                                                  final String trailCode,
+                                                  final String country) {
+        final FindIterable<Document> documents = collection.find(
+                new Document(Trail.COUNTRY, country)
+                        .append(Trail.CODE, trailCode)
+                        .append(RESOLVED_START_POS_POSTCODE, postcode))
+                .limit(RESULT_LIMIT_ONE);
         return toTrailsList(documents).stream().findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
-    public List<Trail> getTrailsHavingDestinationNameLike(final String destination) {
-        final FindIterable<Document> documents = collection.find(new Document(RESOLVED_FINAL_POS_COORDINATE,
-                Pattern.compile(format(STARTING_STRING, destination), Pattern.CASE_INSENSITIVE)));
-        return toTrailsList(documents);
-    }
-
-    public List<Trail> getTrailsHavingDestinationTagsLike(final String destination) {
-        final FindIterable<Document> documents = collection.find(new Document(RESOLVED_FINAL_TAGS_COORDINATE, format(STARTING_STRING, destination)));
-        return toTrailsList(documents);
-    }
-
-    public List<Trail> getTrailsHavingDescriptionLike(final String destination) {
-        final FindIterable<Document> documents = collection.find(new Document(RESOLVED_FINAL_DESCRIPTION, format(STARTING_STRING, destination)));
-        return toTrailsList(documents);
-    }
-
-    public List<Trail> getTrailsByStartPosMetricDistance(double longitude, double latitude, int meters, int limit) {
+    public List<Trail> getTrailsByStartPosMetricDistance(final double longitude,
+                                                         final double latitude,
+                                                         final int meters,
+                                                         final int limit) {
         final FindIterable<Document> documents = collection.find(
                 new Document(RESOLVED_START_POS_COORDINATE,
                         new Document($_NEAR_OPERATOR,
@@ -106,7 +96,11 @@ public class TrailDAO {
         return Lists.newArrayList(documents).stream().map(dataPointMapper::mapToObject).collect(toList());
     }
 
-    public void createTrail(Trail trailRequest) {
-
+    public void upsertTrail(final Trail trailRequest) {
+        final Document trail = dataPointMapper.mapToDocument(trailRequest);
+        collection.updateOne(new Document(Trail.CODE, trailRequest.getCode())
+                        .append(Trail.COUNTRY, trailRequest.getCountry())
+                        .append(RESOLVED_START_POS_POSTCODE, trailRequest.getStartPos().getPostCode()),
+                trail, new UpdateOptions().upsert(true));
     }
 }

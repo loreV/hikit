@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import org.hikit.common.JsonUtil;
 import org.hikit.common.data.Trail;
 import org.hikit.common.data.TrailDAO;
+import org.hikit.common.data.helper.GsonBeanHelper;
 import org.hikit.common.web.controller.PublicController;
 import org.hikit.common.web.controller.response.RESTResponse;
 import org.hikit.common.web.controller.response.Status;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -43,16 +45,19 @@ public class TrailController implements PublicController {
     public static final int BAD_REQUEST_STATUS_CODE = 400;
 
     private final GpxManager gpxManager;
+    private final GsonBeanHelper gsonBeanHelper;
     private final TrailImporterManager trailImporterManager;
     private final TrailCreationValidator trailValidator;
     private final TrailDAO trailDAO;
 
     @Inject
     public TrailController(final GpxManager gpxManager,
+                           final GsonBeanHelper gsonBeanHelper,
                            final TrailImporterManager trailImporterManager,
                            final TrailCreationValidator trailValidator,
                            final TrailDAO trailDAO) {
         this.gpxManager = gpxManager;
+        this.gsonBeanHelper = gsonBeanHelper;
         this.trailImporterManager = trailImporterManager;
         this.trailValidator = trailValidator;
         this.trailDAO = trailDAO;
@@ -75,15 +80,15 @@ public class TrailController implements PublicController {
 
     // trail/import
     private RESTResponse importTrail(final Request request,
-                                     final Response response) throws IOException {
+                                     final Response response) {
         response.type(ACCEPT_TYPE);
+        final Set<String> errors = trailValidator.validate(request);
         final Trail trailRequest = convertRequestToTrail(request);
-        final Set<String> errors = trailValidator.validate(trailRequest);
         final TrailRestResponse.TrailRestResponseBuilder trailRestResponseBuilder = TrailRestResponse.
                 TrailRestResponseBuilder.aTrailRestResponse().withMessages(errors);
 
         if (errors.isEmpty()) {
-            trailDAO.createTrail(trailRequest);
+            trailDAO.upsertTrail(trailRequest);
             return trailRestResponseBuilder.withStatus(Status.OK).build();
         }
 
@@ -92,8 +97,9 @@ public class TrailController implements PublicController {
     }
 
     private Trail convertRequestToTrail(final Request request) {
-        // TODO
-        return null;
+        final String requestBody = request.body();
+        return Objects.requireNonNull(gsonBeanHelper.getGsonBuilder())
+                .fromJson(requestBody, Trail.class);
     }
 
 
