@@ -402,6 +402,9 @@ definitions:
       postCode:
         type: "string"
         format: "string"
+      country:
+        type: "string"
+        format: "string"
   Position:
     type: "object"
     properties:
