@@ -6,6 +6,7 @@ import io.mockk.mockk
 import org.hikit.common.data.Coordinates
 import org.hikit.common.data.CoordinatesDelta
 import org.hikit.common.data.helper.GsonBeanHelper
+import org.hikit.common.data.validator.CoordinatesValidator
 import org.hikit.common.data.validator.Validator
 import org.hikit.web.request.RoutePlanRequest
 import org.junit.Test

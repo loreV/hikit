@@ -9,6 +9,7 @@ import org.hikit.common.data.Coordinates
 import org.hikit.common.data.UnitOfMeasurement
 import org.hikit.common.data.helper.GsonBeanHelper
 import org.hikit.common.data.poi.PoiTypes
+import org.hikit.common.data.validator.CoordinatesValidator
 import org.hikit.common.data.validator.Validator
 import org.hikit.web.controller.PoiController
 import org.hikit.web.request.PoiGeoRequest

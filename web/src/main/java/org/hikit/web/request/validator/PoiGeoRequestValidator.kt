@@ -4,9 +4,10 @@ import com.google.gson.JsonSyntaxException
 import com.google.inject.Inject
 import org.hikit.common.data.helper.GsonBeanHelper
 import org.hikit.common.data.poi.PoiTypes
+import org.hikit.common.data.validator.CoordinatesValidator
+import org.hikit.common.data.validator.CoordinatesValidator.Companion.CoordDimension
 import org.hikit.common.data.validator.Validator
 import org.hikit.web.request.PoiGeoRequest
-import org.hikit.web.request.validator.CoordinatesValidator.Companion.CoordDimension
 import spark.Request
 
 class PoiGeoRequestValidator @Inject constructor(private val gsonBeanHelper: GsonBeanHelper,
@@ -17,7 +18,7 @@ class PoiGeoRequestValidator @Inject constructor(private val gsonBeanHelper: Gso
         }
         return try {
             val poiGeoRequest = gsonBeanHelper.gsonBuilder!!.fromJson(request.body(), PoiGeoRequest::class.java)
-            val listOfErrorMessages = mutableListOf<String>()
+            val listOfErrorMessages = mutableSetOf<String>()
 
             val validateLongitude = validateCoordinates(poiGeoRequest.coords.longitude, CoordDimension.LONGITUDE)
             if (validateLongitude.isNotEmpty()) listOfErrorMessages.add(validateLongitude)

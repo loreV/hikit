@@ -3,7 +3,7 @@ db.core.Poi.drop();
 
 // Add sample Poi
 db.core.Poi.insertOne(
-    { "position": { "name": "string", "description": "string", "tags": [ "string" ], "coords": { "altitude": 0.0, "values": [ 0.0, 0.0 ] }, "postCode": "string" }, "name": "string", "description": "string", "tags": [ "string" ], "otherNames": [ "string" ], "geo": {}, "resourcesLinks": [ "string" ], "types": [ "string" ], "trailReferences": [ { "trailCode": "string", "postcode": "string" } ], "postCode": "string" }
+    { "position": { "name": "string", "description": "string", "tags": [ "string" ], "coords": { "altitude": 0.0, "values": [ 0.0, 0.0 ] }, "postCode": "string" }, "name": "string", "description": "string", "tags": [ "string" ], "otherNames": [ "string" ], "geo": {}, "resourcesLinks": [ "string" ], "types": [ "string" ], "trailReferences": [ { "trailCode": "string", "postcode": "string", "country": "italy" } ], "postCode": "string" }
 );
 
 // Add sample Trail

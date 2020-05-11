@@ -3,6 +3,7 @@ package org.hikit.web.request.validator
 import com.google.gson.JsonSyntaxException
 import com.google.inject.Inject
 import org.hikit.common.data.helper.GsonBeanHelper
+import org.hikit.common.data.validator.CoordinatesValidator
 import org.hikit.common.data.validator.Validator
 import org.hikit.web.request.RoutePlanRequest
 import spark.Request
