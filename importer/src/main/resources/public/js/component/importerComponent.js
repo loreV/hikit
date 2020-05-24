@@ -1,6 +1,6 @@
 Vue.component('importer', {
     data() {
-        return { 
+        return {
             points: []
         }
     },
@@ -16,6 +16,9 @@ Vue.component('importer', {
             document.querySelector("#lastPos .control input[name=longitude]").value = data.lastPos.longitude
             document.querySelector("#lastPos .control input[name=latitude]").value = data.lastPos.longitude
             document.querySelector("#lastPos .control input[name=altitude]").value = data.lastPos.altitude
+        },
+        addConnections(response) {
+
         }
     },
     components: {
@@ -28,10 +31,10 @@ Vue.component('importer', {
     <div class="hero-body" id="importer">
         <div class="container">
             <div class="columns">
-                <div class="column is-2">
-                    <upload-input v-on:uploadResponse="onUpload"></upload-input>
-                </div>
-                <div class="column is-5">
+                <div class="column is-4">
+                    <div class="divide">
+                    <upload-input v-on:uploadResponse="onUpload" v-on:connectionResponse="addConnections"></upload-input>
+                    </div>
                     <h1 class="title">Import Trail</h1>
                         <div class="field">
                             <label class="label">Trail code</label>
@@ -72,6 +75,11 @@ Vue.component('importer', {
                     </div>
                     <way-point-adder></way-point-adder>
                     <poi-point-adder></poi-point-adder>
+
+                    <div class="buttons">
+                        <button class="button is-primary">Upload</button>
+                        <button class="button is-link">Cancel</button>
+                    </div>
                 </div>
 
                 <div class="column is-5">

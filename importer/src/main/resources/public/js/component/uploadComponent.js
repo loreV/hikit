@@ -5,11 +5,17 @@ var uploadInputComponent = Vue.component('upload-input', {
       var customFormData = new FormData();
       const form = document.querySelector("#uploader")
       customFormData.append("gpxFile", form.files[0]);
-      axios.post(BASE_API_ADDRESS + "/api/v1/trail/gpx", customFormData, {
+      axios.post(BASE_IMPORTER_ADDRESS + "/api/v1/trails/gpx", customFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then(response => (this.$emit('uploadResponse', response)))
+
+      axios.post(BASE_API_ADDRESS_SERVICE + "/api/v1/trails/", customFormData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(response => (this.$emit('uploadConnectionResponse', response)))
     }
   },
   template: `

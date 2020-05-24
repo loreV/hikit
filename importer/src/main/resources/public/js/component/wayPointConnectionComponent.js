@@ -8,7 +8,7 @@ var wayPointComponent = Vue.component('way-point-connection', {
       },
     template: `
 <div :waypoint="id">
-    <h1>Connection n{{ id }}</h1>
+    <h1>Connection n.{{ id }}</h1>
     <position-input></position-input>
     <div class="field">
         <label class="label">TrailCode</label>

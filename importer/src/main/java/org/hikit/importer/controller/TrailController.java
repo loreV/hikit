@@ -37,7 +37,7 @@ import static spark.Spark.post;
 public class TrailController implements PublicController {
 
     private final static Logger LOGGER = Logger.getLogger(TrailController.class.getName());
-    private final static String PREFIX = API_PREFIX + "/trail";
+    private final static String PREFIX = API_PREFIX + "/trails";
 
     public static final String MULTI_PART_JETTY_CONFIG = "org.eclipse.jetty.multipartConfig";
     public static final String FILE_INPUT_NAME = "gpxFile";
