@@ -80,7 +80,7 @@ class TrailsPathSolutionExplorer @Inject constructor(private val trailDao: Trail
             startingTrailsWithinRange.intersect(trailsWithRequestedDestination).toList()
 
     private fun getSuccessorTrailFromMemory(connectingWayPoint: ConnectingWayPoint) =
-            trailDao.getTrailByCodeAndPostcodeCountry(connectingWayPoint.connectingTo.postcode, connectingWayPoint.connectingTo.trailCode)
+            trailDao.getTrailByCodeAndPostcodeCountry(connectingWayPoint.connectingTo.postcode, connectingWayPoint.connectingTo.trailCode, "")
 
 
     private fun getManhattanDistanceFromTrailsPoints(position: Position, positionTo: Position) = PositionProcessor.distanceBetweenPoints(position, positionTo)

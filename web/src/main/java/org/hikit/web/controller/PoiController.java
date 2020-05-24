@@ -26,8 +26,8 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.apache.logging.log4j.LogManager.getLogger;
+import static org.hikit.common.configuration.ConfigurationProperties.ACCEPT_TYPE;
 import static org.hikit.common.configuration.ConfigurationProperties.API_PREFIX;
-import static org.hikit.web.configuration.ConfigurationManager.ACCEPT_TYPE;
 
 
 public class PoiController implements PublicController {

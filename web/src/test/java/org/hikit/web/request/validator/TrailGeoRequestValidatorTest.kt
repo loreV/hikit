@@ -25,8 +25,8 @@ class TrailGeoRequestValidatorTest {
         val sot = TrailGeoRequestValidator(mockGsonBeanHelper)
         val anyRequestWNotValidLat = "{\n" +
                 "  \"coords\": {\n" +
-                "    \"latitude\": -100,\n" +
-                "    \"longitude\": 0\n" +
+                "    \"latitude\": 50,\n" +
+                "    \"longitude\": 181\n" +
                 "  },\n" +
                 "  \"distance\": 100,\n" +
                 "  \"uom\": \"km\"\n" +
@@ -37,7 +37,7 @@ class TrailGeoRequestValidatorTest {
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLat, TrailsGeoRequest::class.java) } returns
-                TrailsGeoRequest(Coordinates(listOf(-100.0, 0.0)), 100,
+                TrailsGeoRequest(Coordinates(listOf(181.0, 50.0)), 100,
                         UnitOfMeasurement.km, false, anyLimit)
 
         val errorMessages = sot.validate(mockRequest)
@@ -53,8 +53,8 @@ class TrailGeoRequestValidatorTest {
         val mockGsonBeanHelper = mockk<GsonBeanHelper>()
         val anyRequestWNotValidLon = "{\n" +
                 "  \"coords\": {\n" +
-                "    \"latitude\": 0,\n" +
-                "    \"longitude\": -100\n" +
+                "    \"latitude\": -100,\n" +
+                "    \"longitude\": 0\n" +
                 "  },\n" +
                 "  \"distance\": 100,\n" +
                 "  \"uom\": \"km\"\n" +
@@ -83,7 +83,7 @@ class TrailGeoRequestValidatorTest {
         val anyRequestWNotValidLatLong = "{\n" +
                 "  \"coords\": {\n" +
                 "    \"latitude\": 100,\n" +
-                "    \"longitude\": -100\n" +
+                "    \"longitude\": -200\n" +
                 "  },\n" +
                 "  \"distance\": 100,\n" +
                 "  \"uom\": \"km\"\n" +
@@ -94,7 +94,7 @@ class TrailGeoRequestValidatorTest {
 
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLatLong, TrailsGeoRequest::class.java) } returns
-                TrailsGeoRequest(Coordinates(listOf(100.0, -100.0)), 100,
+                TrailsGeoRequest(Coordinates(listOf(-200.0, 100.0)), 100,
                         UnitOfMeasurement.km, false, anyLimit)
 
         val sot = TrailGeoRequestValidator(mockGsonBeanHelper)

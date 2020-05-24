@@ -63,7 +63,7 @@ class PoiGeoRequestValidatorTest {
         every { mockRequest.body() } returns anyRequestWNotValidLon
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLon, PoiGeoRequest::class.java) } returns
-                PoiGeoRequest(Coordinates(listOf(-100.0, 0.0)), 100,
+                PoiGeoRequest(Coordinates(listOf(-200.0, 0.0)), 100,
                         UnitOfMeasurement.km, emptyList())
 
         val sot = PoiGeoRequestValidator(mockGsonBeanHelper, mockPoisTypes)
@@ -91,7 +91,7 @@ class PoiGeoRequestValidatorTest {
         every { mockRequest.body() } returns anyRequestWNotValidLatLong
         every { mockGsonBeanHelper.gsonBuilder } returns mockGson
         every { mockGson.fromJson(anyRequestWNotValidLatLong, PoiGeoRequest::class.java) } returns
-                PoiGeoRequest(Coordinates(listOf(100.0, -100.0)), 100,
+                PoiGeoRequest(Coordinates(listOf(200.0, -100.0)), 100,
                         UnitOfMeasurement.km, emptyList())
 
         val sot = PoiGeoRequestValidator(mockGsonBeanHelper, mockPoisTypes)

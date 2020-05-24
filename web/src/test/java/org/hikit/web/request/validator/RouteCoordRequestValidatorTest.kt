@@ -77,7 +77,7 @@ class RouteCoordRequestValidatorTest {
                 "  \"finalPos\": {\n" +
                 "    \"coordinates\": {\n" +
                 "      \"latitude\": 0,\n" +
-                "      \"longitude\": -100\n" +
+                "      \"longitude\": -200\n" +
                 "    },\n" +
                 "    \"deltaDistance\": 0,\n" +
                 "    \"uom\": \"m\"\n" +
@@ -89,7 +89,7 @@ class RouteCoordRequestValidatorTest {
         every { mockRoutePlannRequest.startPos } returns mockCoordinatesDelta
         every { mockRoutePlannRequest.finalPos } returns mockCoordinatesDelta // equal for shortening tests
         every { mockCoordinatesDelta.coordinates } returns mockCoordinates
-        every { mockCoordinates.longitude } returns -100.00
+        every { mockCoordinates.longitude } returns -200.00
         every { mockCoordinates.latitude } returns 0.0
 
         val sot = RouteCoordRequestValidator(mockGsonBeanHelper)

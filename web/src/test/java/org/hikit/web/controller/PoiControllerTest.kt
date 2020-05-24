@@ -3,6 +3,7 @@ package org.hikit.web.controller
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk
+import org.hikit.common.configuration.ConfigurationProperties.ACCEPT_TYPE
 import org.hikit.common.data.Coordinates
 import org.hikit.common.data.Poi
 import org.hikit.common.data.Trail
@@ -31,7 +32,7 @@ class PoiControllerTest {
 
     @Before
     fun init() {
-        every { mockResponse.type(ConfigurationManager.ACCEPT_TYPE) } returns Unit
+        every { mockResponse.type(ACCEPT_TYPE) } returns Unit
     }
 
     /**

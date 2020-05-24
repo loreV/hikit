@@ -20,8 +20,8 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static org.apache.logging.log4j.LogManager.getLogger;
+import static org.hikit.common.configuration.ConfigurationProperties.ACCEPT_TYPE;
 import static org.hikit.common.configuration.ConfigurationProperties.API_PREFIX;
-import static org.hikit.web.configuration.ConfigurationManager.ACCEPT_TYPE;
 import static spark.Spark.post;
 
 public class RouteController {

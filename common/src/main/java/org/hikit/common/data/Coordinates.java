@@ -7,9 +7,12 @@ public class Coordinates {
 
     public static final int LONG_INDEX = 0;
     public static final int LAT_INDEX = 1;
-    private List<Double> values;
+    private final List<Double> values;
 
-    public Coordinates(List<Double> values) {
+    public Coordinates(final List<Double> values) {
+        if(values.size() > 2){
+            throw new IllegalArgumentException("No more than a two parameters list is expected");
+        }
         this.values = values;
     }
 

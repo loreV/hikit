@@ -14,6 +14,7 @@ import java.util.Collections;
 
 import static java.lang.String.format;
 import static org.apache.logging.log4j.LogManager.getLogger;
+import static org.hikit.common.configuration.ConfigurationProperties.ACCEPT_TYPE;
 import static org.hikit.common.configuration.ConfigurationProperties.API_PREFIX;
 
 
@@ -32,7 +33,7 @@ public class SystemController {
     }
 
     public void init() {
-        Spark.get(format("%s/", PREFIX), ConfigurationManager.ACCEPT_TYPE, this::test, JsonUtil.json());
+        Spark.get(format("%s/", PREFIX), ACCEPT_TYPE, this::test, JsonUtil.json());
         LOG.info("System CONTROLLER Started");
     }
 

@@ -3,6 +3,7 @@ package org.hikit.web.controller
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk
+import org.hikit.common.configuration.ConfigurationProperties.ACCEPT_TYPE
 import org.hikit.common.data.Coordinates
 import org.hikit.common.data.Trail
 import org.hikit.common.data.TrailDistance
@@ -10,7 +11,6 @@ import org.hikit.common.data.UnitOfMeasurement
 import org.hikit.common.data.helper.GsonBeanHelper
 import org.hikit.common.web.controller.response.Status
 import org.hikit.web.TrailManager
-import org.hikit.web.configuration.ConfigurationManager.ACCEPT_TYPE
 import org.hikit.web.request.TrailsGeoRequest
 import org.hikit.web.request.validator.TrailGeoRequestValidator
 import org.hikit.web.request.validator.TrailRequestValidator
