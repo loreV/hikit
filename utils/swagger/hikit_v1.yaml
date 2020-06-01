@@ -187,15 +187,19 @@ definitions:
     type: "object"
     properties:
       values:
-        type: "Array"
-        size: 2
+        type: "array"
+        items:
+          type: "number"
+          format: "Long, Lat in 'double' format"
         description: "Long, Lat in 'double' format"
   CoordsWithAltitude:
     type: "object"
     properties:
       values:
-        type: "Array"
-        size: 2
+        type: "array"
+        items:
+          type: "number"
+          format: "Long, Lat in 'double' format"
         description: "Long, Lat in 'double' format"
       altitude:
         type: "number"
@@ -359,7 +363,7 @@ definitions:
       postCode:
         type: "string"
       geoPoints:
-        type: "Array"
+        type: "array"
         items:
           type: "object"
           description: "GeoJSON points in WGS84 reference system"
@@ -367,7 +371,7 @@ definitions:
     type: "object"
     properties:
       coords:
-        type: "Array"
+        type: "array"
         format: "int64"
         $ref: "#/definitions/Coords"
       distance:
