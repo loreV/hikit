@@ -5,6 +5,7 @@ import io.mockk.mockkClass
 import io.mockk.mockkObject
 import junit.framework.Assert.assertEquals
 import mil.nga.sf.geojson.GeoJsonObject
+import org.hikit.common.PositionProcessor
 import org.hikit.common.data.*
 import org.junit.Ignore
 import org.junit.Test

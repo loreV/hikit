@@ -9,12 +9,12 @@ Vue.component('importer', {
             var data = response.data;
             this.points = response.data.position;
 
-            document.querySelector("#startPos .control input[name=longitude]").value = data.firstPos.longitude
-            document.querySelector("#startPos .control input[name=latitude]").value = data.firstPos.longitude
+            document.querySelector("#startPos .control input[name=longitude]").value = data.firstPos.values[0]
+            document.querySelector("#startPos .control input[name=latitude]").value = data.firstPos.values[1]
             document.querySelector("#startPos .control input[name=altitude]").value = data.firstPos.altitude
 
-            document.querySelector("#lastPos .control input[name=longitude]").value = data.lastPos.longitude
-            document.querySelector("#lastPos .control input[name=latitude]").value = data.lastPos.longitude
+            document.querySelector("#lastPos .control input[name=longitude]").value = data.lastPos.values[0]
+            document.querySelector("#lastPos .control input[name=latitude]").value = data.lastPos.values[1]
             document.querySelector("#lastPos .control input[name=altitude]").value = data.lastPos.altitude
         },
         addConnections(response) {

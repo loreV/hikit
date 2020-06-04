@@ -10,7 +10,7 @@ import org.hikit.common.data.TrailDistance
 import org.hikit.common.data.UnitOfMeasurement
 import org.hikit.common.data.helper.GsonBeanHelper
 import org.hikit.common.web.controller.response.Status
-import org.hikit.web.TrailManager
+import org.hikit.common.TrailManager
 import org.hikit.web.request.TrailsGeoRequest
 import org.hikit.web.request.validator.TrailGeoRequestValidator
 import org.hikit.web.request.validator.TrailRequestValidator

@@ -1,4 +1,4 @@
-package org.hikit.web
+package org.hikit.common
 
 import org.hikit.common.data.CoordinatesWithAltitude
 import org.hikit.common.data.Position

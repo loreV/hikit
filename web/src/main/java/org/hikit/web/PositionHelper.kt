@@ -3,6 +3,7 @@ package org.hikit.web
 import mil.nga.sf.LineString
 import mil.nga.sf.geojson.FeatureConverter
 import mil.nga.sf.geojson.GeoJsonObject
+import org.hikit.common.PositionProcessor
 import org.hikit.common.data.ConnectingWayPoint
 import org.hikit.common.data.Position
 

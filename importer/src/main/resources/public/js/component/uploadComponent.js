@@ -9,12 +9,12 @@ var uploadInputComponent = Vue.component('upload-input', {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      }).then(response => (this.$emit('uploadResponse', response)))
-//      axios.post(BASE_API_ADDRESS_SERVICE + "/api/v1/trails", customFormData, {
-//        headers: {
-//          'Content-Type': 'application/json'
-//        }
-//      }).then(response => (this.$emit('uploadConnectionResponse', response)))
+      }).then(response => (this.$emit('uploadResponse', response)));
+     axios.post(BASE_IMPORTER_ADDRESS + "/api/v1/trails/connections", customFormData, {
+       headers: {
+         'Content-Type': 'application/json'
+       }
+     }).then(response => (this.$emit('uploadConnectionResponse', response)));
     }
   },
   template: `

@@ -8,7 +8,7 @@ var positionInputComponent = Vue.component('position-input', {
   },
   template:
     `<div :id="classifier">
-    <div class="field ">
+    <div class="field">
         <label class="label ">Name(Optional)</label>
         <div class="control ">
             <input class="input " type="text " name="name "> </div>
@@ -33,10 +33,13 @@ var positionInputComponent = Vue.component('position-input', {
     <div class="field">
         <label class="label">Longitude</label>
         <div class="control">
-            <input class="input" type="number" placeholder="Text input" name="longitude">
+            <input class="input" type="text" placeholder="Text input" name="longitude">
         </div>
     </div>
+    <div class="field">
+    <label class="label">Description</label>
     <textarea class="textarea" placeholder="e.g. Any short description" name="description"></textarea>
+    </div>
     <div class="field">
         <label class="label">tags (divided by commas)</label>
         <div class="control">

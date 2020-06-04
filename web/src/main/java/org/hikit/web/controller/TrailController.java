@@ -10,7 +10,7 @@ import org.hikit.common.web.controller.PublicController;
 import org.hikit.common.web.controller.response.Status;
 import org.hikit.common.web.controller.response.TrailDistanceResponse;
 import org.hikit.common.web.controller.response.TrailRestResponse;
-import org.hikit.web.TrailManager;
+import org.hikit.common.TrailManager;
 import org.hikit.web.request.TrailsGeoRequest;
 import org.hikit.web.request.validator.TrailGeoRequestValidator;
 import org.hikit.web.request.validator.TrailRequestValidator;

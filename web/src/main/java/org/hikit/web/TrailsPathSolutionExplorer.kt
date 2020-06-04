@@ -2,6 +2,7 @@ package org.hikit.web
 
 import com.google.inject.Inject
 import mil.nga.sf.geojson.GeoJsonObject
+import org.hikit.common.PositionProcessor
 import org.hikit.common.data.ConnectingWayPoint
 import org.hikit.common.data.Position
 import org.hikit.common.data.Trail

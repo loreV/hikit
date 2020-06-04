@@ -3,6 +3,7 @@ package org.hikit.web
 import io.mockk.every
 import io.mockk.mockk
 import org.bson.Document
+import org.hikit.common.TrailManager
 import org.hikit.common.converter.MetricConverter
 import org.hikit.common.data.Coordinates
 import org.hikit.common.data.Trail
